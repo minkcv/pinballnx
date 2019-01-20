@@ -11,6 +11,7 @@ set(BUILD_SWITCH OFF CACHE BOOL "Build with Nintendo Switch support")
 
 # add libcross2d library
 add_subdirectory(libcross2d)
+add_subdirectory(Box2D)
 
 # required for cmake toolchain setup
 project(cross2d-examples)

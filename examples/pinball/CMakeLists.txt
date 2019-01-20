@@ -26,7 +26,7 @@ add_executable(${PROJECT_NAME}.elf ${SOURCES})
 target_include_directories(${PROJECT_NAME}.elf PRIVATE ${INCLUDES})
 target_compile_options(${PROJECT_NAME}.elf PRIVATE ${CUSTOM_CFLAGS})
 target_compile_options(${PROJECT_NAME}.elf PRIVATE $<$<COMPILE_LANGUAGE:CXX>:-std=c++14 -fexceptions>)
-target_link_libraries(${PROJECT_NAME}.elf cross2d ${CUSTOM_LDFLAGS})
+target_link_libraries(${PROJECT_NAME}.elf cross2d Box2D ${CUSTOM_LDFLAGS})
 
 
 #############
