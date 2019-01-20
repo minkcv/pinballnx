@@ -6,7 +6,7 @@
     sudo dkp-pacman -S switch-dev switch-bzip2 switch-freetype switch-glad switch-glm switch-libdrm_nouveau switch-libpng switch-mesa switch-pkg-config switch-sdl2 switch-zlib  
 #### Then
 Clone this repo.
-Clone the (box2d repo)[https://github.com/erincatto/Box2D] and place the Box2D foler in the examples/pinball/source/ folder
+Clone the [box2d repo](https://github.com/erincatto/Box2D) and place the Box2D foler in the examples/pinball/source/ folder
 Make a cmake-build folder in the root of the pinballnx repo. Change directory into the cmake-build folder.
 
     export DEVKITPRO=/opt/devkitpro  
@@ -22,7 +22,7 @@ Make a cmake-build folder in the root of the pinballnx repo. Change directory in
 
 #### Then
 Clone this repo.
-Clone the (box2d repo)[https://github.com/erincatto/Box2D] and place the Box2D foler in the examples/pinball/source/ folder
+Clone the [box2d repo](https://github.com/erincatto/Box2D) and place the Box2D foler in the examples/pinball/source/ folder
 Make a cmake-build folder in the root of the pinballnx repo. Change directory into the cmake-build folder.
 
     cmake -DBUILD_LINUX=1 ../
