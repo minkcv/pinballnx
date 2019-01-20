@@ -1,4 +1,4 @@
-
+#include <Box2D/Box2D.h>
 #include <random>
 #include "cross2d/c2d.h"
 
@@ -13,6 +13,9 @@ int main(int argc, char **argv) {
     // set key repeat to 1 sec
     renderer->getInput()->setRepeatEnable(true);
     renderer->getInput()->setRepeatDelay(1000);
+
+    // Test box2d
+    b2Vec2 gravity(-10.0f, 0.0f);
 
     // main loop
     while (true) {
