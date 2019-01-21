@@ -20,6 +20,11 @@ int main(int argc, char **argv) {
     renderer->getInput()->setRepeatEnable(true);
     renderer->getInput()->setRepeatDelay(1000);
 
+    auto* text = new C2DText("Hello World");
+    text->setPosition(1280 - 172, 0);
+    text->setRotation(90);
+    renderer->add(text);
+
     // Test box2d
     b2Vec2 gravity(0.0f, 10.0f);
     b2World world(gravity);
