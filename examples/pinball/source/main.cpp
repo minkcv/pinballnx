@@ -1,15 +1,10 @@
+#include <math.h>
 #include "Box2D/Box2D.h"
 #include "cross2d/c2d.h"
-#include <math.h>
+#include "util.h"
+#include "pinball.h"
 
 using namespace c2d;
-
-Vector2<float> rotateVector(Vector2<float> in, double radians) {
-    float x = cos(radians) * in.x + sin(radians) * in.y;
-    float y = sin(radians) * in.x - cos(radians) * in.y;
-    Vector2<float> result(x, y);
-    return result;
-}
 
 int main(int argc, char **argv) {
 
@@ -55,20 +50,6 @@ int main(int argc, char **argv) {
     fixtureDef.friction = 0.3f;
     body->CreateFixture(&fixtureDef);
 
-    b2CircleShape circle;
-    circle.m_radius = 1.0f;
-
-    b2BodyDef circleBodyDef;
-    circleBodyDef.type = b2_dynamicBody;
-    circleBodyDef.position.Set(18.0f, 1.0f);
-    b2Body* circleBody = world.CreateBody(&circleBodyDef);
-    b2FixtureDef circleFixtureDef;
-    circleFixtureDef.shape = &circle;
-    circleFixtureDef.density = 1.0f;
-    circleFixtureDef.friction = 0.3f;
-    circleBody->CreateFixture(&circleFixtureDef);
-
-
     float32 timeStep = 1.0f / 60.0f;
     int32 velocityIterations = 6;
     int32 positionIterations = 2;
@@ -85,10 +66,9 @@ int main(int argc, char **argv) {
     Shape* box = new C2DRectangle(r2);
     renderer->add(box);
 
-    Vector2<float> vTopLeft(-1.0f, -1.0f);
+    Pinball pinball(renderer, world);
 
-    CircleShape* shape3 = new CircleShape(10);
-    renderer->add(shape3);
+    Vector2<float> vTopLeft(-1.0f, -1.0f);
 
     // main loop
     while (true) {
@@ -117,11 +97,7 @@ int main(int argc, char **argv) {
         box->setPosition(boxX, boxY);
         box->setRotation(angle * 180 / M_PI); // cross2d uses degrees.
 
-        position = circleBody->GetPosition();
-        angle = circleBody->GetAngle();
-        transform = rotateVector(vTopLeft, -angle);
-        shape3->setPosition((position.x + transform.x) * 10, (position.y - transform.y) * 10);
-        shape3->setRotation(angle * 180 / M_PI);
+        pinball.update();
 
         renderer->flip();
     }
