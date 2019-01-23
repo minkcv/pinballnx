@@ -11,8 +11,8 @@ Made with [libcross2d](https://github.com/Cpasjuste/libcross2d) and [Box2D](http
     sudo dkp-pacman -S switch-dev switch-bzip2 switch-freetype switch-glad switch-glm switch-libdrm_nouveau switch-libpng switch-mesa switch-pkg-config switch-sdl2 switch-zlib 
 
 #### Then
-Clone this repo.
 
+    git clone --recursive https://github.com/minkcv/pinballnx.git
     cd pinballnx
     mkdir cmake-build && cd cmake-build
     export DEVKITPRO=/opt/devkitpro  
@@ -25,8 +25,8 @@ Clone this repo.
     sudo apt-get install build-essential cmake git libsdl2-dev libfreetype6-dev libglm-dev  
 
 #### Then
-Clone this repo.
 
+    git clone --recursive https://github.com/minkcv/pinballnx.git
     cd pinballnx
     mkdir cmake-build && cd cmake-build
     cmake -DBUILD_LINUX=1 ../
@@ -46,7 +46,9 @@ From an MSYS2 shell
     pacman -Sy bash git mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake mingw-w64-x86_64-SDL2 mingw-w64-x86_64-freetype mingw-w64-x86_64-glm mingw-w64-x86_64-glew mingw-w64-x86_64-mesa
 
 #### Then
-Clone this repo.
+From git bash
+
+    git clone --recursive https://github.com/minkcv/pinballnx.git
 
 From Command Prompt
 
