@@ -3,6 +3,7 @@
 #include "cross2d/c2d.h"
 #include "util.h"
 #include "pinball.h"
+#include "table.h"
 
 using namespace c2d;
 
@@ -67,6 +68,8 @@ int main(int argc, char **argv) {
     renderer->add(box);
 
     Pinball pinball(renderer, world);
+
+    Table table(renderer, world);
 
     Vector2<float> vTopLeft(-1.0f, -1.0f);
 
