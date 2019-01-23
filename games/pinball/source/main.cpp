@@ -16,62 +16,23 @@ int main(int argc, char **argv) {
     renderer->getInput()->setRepeatEnable(true);
     renderer->getInput()->setRepeatDelay(1000);
 
+    // Test text
     auto* text = new C2DText("Hello World");
-    text->setPosition(1280 - 172, 0);
+    text->setPosition(1280 - 128, 0);
     text->setRotation(90);
     renderer->add(text);
 
-    // Test box2d
-    b2Vec2 gravity(0.0f, 10.0f);
+    // Gravity to the left
+    b2Vec2 gravity(1.0f, 0.0f);
     b2World world(gravity);
-
-    b2BodyDef groundBodyDef;
-    groundBodyDef.position.Set(8.0f, 20.0f);
-    b2Body* groundBody = world.CreateBody(&groundBodyDef);
-
-    groundBodyDef.position.Set(18.0f, 40.0f);
-    b2Body* groundBody2 = world.CreateBody(&groundBodyDef);
-
-    b2PolygonShape groundBox;
-    groundBox.SetAsBox(5.0f, 1.0f);
-    groundBody->CreateFixture(&groundBox, 0.0f);
-    groundBody2->CreateFixture(&groundBox, 0.0f);
-
-    b2BodyDef bodyDef;
-    bodyDef.type = b2_dynamicBody;
-    bodyDef.position.Set(13.5f, 18.0f);
-    b2Body* body = world.CreateBody(&bodyDef);
-
-    b2PolygonShape dynamicBox;
-    dynamicBox.SetAsBox(1.0f, 1.0f);
-
-    b2FixtureDef fixtureDef;
-    fixtureDef.shape = &dynamicBox;
-    fixtureDef.density = 1.0f;
-    fixtureDef.friction = 0.3f;
-    body->CreateFixture(&fixtureDef);
 
     float32 timeStep = 1.0f / 60.0f;
     int32 velocityIterations = 6;
     int32 positionIterations = 2;
 
-    auto r = FloatRect((8 - 5) * 10, (20 - 1) * 10, 100, 20);
-    Shape* shape = new C2DRectangle(r);
-    renderer->add(shape);
-
-    auto r3 = FloatRect((18 - 5) * 10, (40 - 1) * 10, 100, 20);
-    Shape* shape2 = new C2DRectangle(r3);
-    renderer->add(shape2);
-
-    auto r2 = FloatRect((13.1 - 1) * 10, (4 - 1) * 10, 20, 20);
-    Shape* box = new C2DRectangle(r2);
-    renderer->add(box);
-
     Pinball pinball(renderer, world);
 
     Table table(renderer, world);
-
-    Vector2<float> vTopLeft(-1.0f, -1.0f);
 
     // main loop
     while (true) {
@@ -88,19 +49,9 @@ int main(int argc, char **argv) {
             }
         }
 
-        world.Step(timeStep, velocityIterations, positionIterations);
-        b2Vec2 position = body->GetPosition();
-        float32 angle = body->GetAngle();
-        //printf("%4.2f %4.2f %4.2f\n", position.x, position.y, angle);
-
-        Vector2<float> transform = rotateVector(vTopLeft, -angle);
-        //printf("%4.2f %4.2f\n", transform.x, transform.y);
-        float boxX = (position.x + transform.x) * 10;
-        float boxY = (position.y - transform.y) * 10;
-        box->setPosition(boxX, boxY);
-        box->setRotation(angle * 180 / M_PI); // cross2d uses degrees.
-
         pinball.update();
+
+        world.Step(timeStep, velocityIterations, positionIterations);
 
         renderer->flip();
     }

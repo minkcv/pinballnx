@@ -14,5 +14,10 @@ class Pinball {
     private:
         b2Body* m_body;
         CircleShape* m_shape;
+
+        // Box2D works best with objects between 0.1m and 10m in size.
+        // A pinball is normally 0.027 meters in diameter, but this is too small for Box2D.
+        // We simulate a pinball with a diameter of 0.1m and scale the pinball machine around this.
+        double m_radius = 0.05;
 };
 #endif

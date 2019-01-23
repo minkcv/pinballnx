@@ -2,10 +2,10 @@
 
 Pinball::Pinball(C2DRenderer* renderer, b2World& world) {
     b2CircleShape circle;
-    circle.m_radius = 1.0f;
+    circle.m_radius = m_radius;
     b2BodyDef circleBodyDef;
     circleBodyDef.type = b2_dynamicBody;
-    circleBodyDef.position.Set(18.0f, 1.0f);
+    circleBodyDef.position.Set(3.0f, 2.0f);
     m_body = world.CreateBody(&circleBodyDef);
     b2FixtureDef circleFixtureDef;
     circleFixtureDef.shape = &circle;
@@ -13,15 +13,15 @@ Pinball::Pinball(C2DRenderer* renderer, b2World& world) {
     circleFixtureDef.friction = 0.3f;
     m_body->CreateFixture(&circleFixtureDef);
 
-    m_shape = new CircleShape(10);
+    m_shape = new CircleShape(m_radius * g_graphicsScale);
     renderer->add(m_shape);
 }
 
 void Pinball::update() {
-    Vector2<float> vTopLeft(-1.0f, -1.0f);
+    Vector2<float> vTopLeft(-m_radius, -m_radius);
     b2Vec2 position = m_body->GetPosition();
     float32 angle = m_body->GetAngle();
     Vector2<float> transform = rotateVector(vTopLeft, -angle);
-    m_shape->setPosition((position.x + transform.x) * 10, (position.y - transform.y) * 10);
+    m_shape->setPosition((position.x + transform.x) * g_graphicsScale, (position.y - transform.y) * g_graphicsScale);
     m_shape->setRotation(angle * 180 / M_PI);
 }
