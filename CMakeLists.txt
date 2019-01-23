@@ -14,7 +14,7 @@ add_subdirectory(libcross2d)
 add_subdirectory(Box2D)
 
 # required for cmake toolchain setup
-project(cross2d-examples)
+project(pinballnx)
 
 # examples
-add_subdirectory(examples/pinball)
+add_subdirectory(games/pinball)
