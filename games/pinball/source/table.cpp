@@ -261,7 +261,7 @@ Table::Table(C2DRenderer* renderer, b2World& world) {
 
     b2Vec2 rightWallVerts[32];
     for (i = 0; i < 64; i+=2) {
-        rightWallVerts[i].Set(m_rightWall[i], m_rightWall[i + 1]);
+        rightWallVerts[i].Set(m_rightWall[i] / g_graphicsScale, m_rightWall[i + 1] / g_graphicsScale);
     }
     b2BodyDef bodyDef2;
     bodyDef2.position.Set(6.4, 3.6); // 1280 / 2 / 100, 720 / 2 / 100
