@@ -13,7 +13,6 @@ int main(int argc, char **argv) {
     auto *renderer = new C2DRenderer({C2D_SCREEN_WIDTH, C2D_SCREEN_HEIGHT});
 
     // set key repeat to 1 sec
-    renderer->getInput()->setRepeatEnable(true);
     renderer->getInput()->setRepeatDelay(1000);
 
     // Test text
