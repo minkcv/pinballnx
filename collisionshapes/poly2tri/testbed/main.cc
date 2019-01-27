@@ -214,9 +214,10 @@ int main(int argc, char* argv[])
       tri = triangles.at(i);
       for (int p = 0; p < 3; p++) { // < 3 because 3 pts in triangle
         pt = tri->GetPoint(p);
-        cout << pt->x << ", " << pt->y << endl;
+        cout << pt->x << ", " << pt->y << ", ";
       }
   }
+  cout << endl;
   
   //MainLoop(zoom);
 

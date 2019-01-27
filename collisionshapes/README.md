@@ -26,4 +26,22 @@ Example output:
     250, 293, -35, -18, -13, -37, -14, -37, 18, -38, 19, -38, 36, -13, 36, -14, 37, 16, 37, 15, 15, 36, 15, 37, -11, 34, -12, 35, -21, 14, -22, 14, -25, 6, -25, 5, -35, -17,
 
 ### Usage for creating triangles
-TODO: Decomposing the polygon into triangles expressed as groups of 3 pairs of x, y coordinates defnining triangles. 
+I haven't verified that this works yet, just written it. 
+
+Decomposing the polygon into triangles expressed as groups of 3 pairs of x, y coordinates is useful for creating polygon shapes in Box2D. 
+
+First, build poly2tri
+
+    cd poly2tri
+    ./waf configure
+    ./waf build
+
+Supply `myimage.bmp` following the same rules as above. 
+
+    ./imgtotris.sh myimage.bmp
+
+Output will be a list of pairs of x, y coordinates where every 3 pairs of coordinates defines a triangle.
+
+Example output:
+
+    -25, 5, -35, -17, -13, -37, 18, -38, -25, 5, -13, -37, 36, -13, -25, 5, 18, -38, 36, -13, -21, 14, -25, 5, 36, -13, 15, 36, -21, 14, 15, 36, 36, -13, 37, 15, 15, 36, -11, 34, -21, 14, -11, 34, 15, 36, 15, 37, -12, 35, -21, 14, -11, 34, -25, 5, -21, 14, -25, 6, -21, 14, -22, 14, -25, 6, 18, -38, 19, -38, 36, -13, -13, -37, -14, -37, 18, -38, -35, -17, -35, -18, -13, -37,
