@@ -17,5 +17,8 @@ points = points.replace("M", "")
 points = points.replace("l", "")
 points = points.replace("  ", " ")
 points = points.replace(" ", ", ")
-print(points)
+points = points.replace("\n", "")
+afterFirst = points[points.find(" ")+1:]
+
+print(afterFirst[afterFirst.find(" ")+1:])
 

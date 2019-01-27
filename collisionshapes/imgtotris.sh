@@ -6,4 +6,4 @@ if [ "$FILE" = "" ]; then
 fi
 potrace -a 0 $FILE -b svg -o tmp.svg
 ./totris.py 
-./poly2tri/build/p2t ./tmp.dat 0 0 1
+./earcut/main

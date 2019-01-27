@@ -32,7 +32,7 @@ while True:
     index2 = points[index + 2:].find(", ")
     y = points[index + 2:index + 2 + index2]
     if not skipfirst:
-        outfile.write(x + " " + y + "\n")
+        outfile.write(x + " " + y + " ")
     skipfirst = False
     points = points[index + 2 + index2 + 2:]
         
