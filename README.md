@@ -1,7 +1,9 @@
 # PinballNX
 A homebrew pinball game for the nintendo switch. Currently a work in progress. 
 
-Made with [libcross2d](https://github.com/Cpasjuste/libcross2d) and [Box2D](https://github.com/erincatto/Box2D)
+Made with [libcross2d](https://github.com/Cpasjuste/libcross2d), [Box2D](https://github.com/erincatto/Box2D), and [poly2tri](https://github.com/greenm01/poly2tri).
+
+These libraries have their own licenses which permit my use of them. Their licenses are preserved and their programs are appreciated.
 
 ### Building on Linux for switch
 #### Install dependencies

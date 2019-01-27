@@ -1,2 +1,4 @@
 cmake-build/
 collisionshapes/poly2tri/build/
+collisionshapes/tmp.dat
+collisionshapes/tmp.svg

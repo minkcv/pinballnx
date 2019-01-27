@@ -17,5 +17,23 @@ points = points.replace("M", "")
 points = points.replace("l", "")
 points = points.replace("  ", " ")
 points = points.replace(" ", ", ")
-print(points)
-
+points = points.replace("\n", "")
+x = ""
+y = ""
+index = 0
+index2 = 0
+skipfirst = True
+outfile = open("tmp.dat", "w")
+while True:
+    index = points.find(", ")
+    if index < 0:
+        break
+    x = points[0:index]
+    index2 = points[index + 2:].find(", ")
+    y = points[index + 2:index + 2 + index2]
+    if not skipfirst:
+        outfile.write(x + " " + y + "\n")
+    skipfirst = False
+    points = points[index + 2 + index2 + 2:]
+        
+outfile.close()
