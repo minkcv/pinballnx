@@ -1,6 +1,3 @@
 [submodule "libcross2d"]
 	path = libcross2d
 	url = https://github.com/Cpasjuste/libcross2d
-[submodule "poly2tri"]
-	path = collisionshapes/poly2tri
-	url = git@github.com:greenm01/poly2tri.git

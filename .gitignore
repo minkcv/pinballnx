@@ -1,6 +1,4 @@
 cmake-build/
-collisionshapes/poly2tri/build/
-collisionshapes/poly2tri/.lock-wafbuild
 collisionshapes/tmp.dat
 collisionshapes/tmp.svg
 
