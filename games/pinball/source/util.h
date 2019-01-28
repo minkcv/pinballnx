@@ -2,6 +2,7 @@
 #define UTIL_H_
 
 #include "cross2d/c2d.h"
+#include <Box2D/Box2D.h>
 
 using namespace c2d;
 
@@ -11,5 +12,13 @@ using namespace c2d;
 extern float g_graphicsScale;
 
 Vector2<float> rotateVector(Vector2<float> in, double radians);
+
+b2Vec2* getVertexArray(float* points, int numPoints);
+
+void addPointsToShape(ConvexShape* shape, float* points, int numPoints);
+
+void createTriangles(C2DRenderer* renderer, float* points, int numTriangles);
+
+void createFixturesFromPoints(b2Body* body, float* points, int numPoints);
 
 #endif

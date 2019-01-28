@@ -4,16 +4,16 @@
 #include "util.h"
 #include "pinball.h"
 #include "table.h"
+#include "flipper.h"
 
 using namespace c2d;
 
 int main(int argc, char **argv) {
-
     // create the main renderer
     auto *renderer = new C2DRenderer({C2D_SCREEN_WIDTH, C2D_SCREEN_HEIGHT});
 
-    // set key repeat to 1 sec
-    renderer->getInput()->setRepeatDelay(1000);
+    // disable key repeat
+    renderer->getInput()->setRepeatDelay(0);
 
     // Test text
     auto* text = new C2DText("Hello World");
@@ -22,7 +22,7 @@ int main(int argc, char **argv) {
     renderer->add(text);
 
     // Gravity to the left
-    b2Vec2 gravity(1.0f, 0.0f);
+    b2Vec2 gravity(-1.0f, 0.0f);
     b2World world(gravity);
 
     float32 timeStep = 1.0f / 60.0f;
@@ -30,8 +30,8 @@ int main(int argc, char **argv) {
     int32 positionIterations = 2;
 
     Pinball pinball(renderer, world);
-
     Table table(renderer, world);
+    Flipper leftFlipper(renderer, world);
 
     // main loop
     while (true) {
@@ -49,6 +49,7 @@ int main(int argc, char **argv) {
         }
 
         pinball.update();
+        leftFlipper.update(keys);
 
         world.Step(timeStep, velocityIterations, positionIterations);
 
