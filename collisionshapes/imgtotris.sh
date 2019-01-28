@@ -5,5 +5,5 @@ if [ "$FILE" = "" ]; then
     exit
 fi
 potrace -a 0 $FILE -b svg -o tmp.svg
-./totris.py 
+./totris.py 1
 ./earcut/main

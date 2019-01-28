@@ -1,5 +1,6 @@
 #!/usr/bin/python
 import os
+import sys
 file = open("tmp.svg", "r")
 points = ""
 found = False
@@ -20,9 +21,15 @@ points = points.replace(" ", ", ")
 points = points.replace("\n", "")
 x = ""
 y = ""
+xTotal = 0.0
+yTotal = 0.0
 index = 0
 index2 = 0
-skipfirst = True
+if len(sys.argv) < 1:
+    print("usage: ./totris.py <comma> \n where <comma> is 0 or 1 to choose commas after coordinates")
+    quit()
+
+comma = sys.argv[0] == 1
 outfile = open("tmp.dat", "w")
 while True:
     index = points.find(", ")
@@ -31,9 +38,12 @@ while True:
     x = points[0:index]
     index2 = points[index + 2:].find(", ")
     y = points[index + 2:index + 2 + index2]
-    if not skipfirst:
-        outfile.write(x + " " + y + " ")
-    skipfirst = False
+    xTotal += float(x)
+    yTotal += float(y)
+    if comma:
+        outfile.write(str(xTotal) + ", " + str(yTotal) + ", ")
+    else:
+        outfile.write(str(xTotal) + " " + str(yTotal) + " ")
     points = points[index + 2 + index2 + 2:]
         
 outfile.close()
