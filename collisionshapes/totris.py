@@ -25,11 +25,11 @@ xTotal = 0.0
 yTotal = 0.0
 index = 0
 index2 = 0
-if len(sys.argv) < 1:
+if len(sys.argv) < 2:
     print("usage: ./totris.py <comma> \n where <comma> is 0 or 1 to choose commas after coordinates")
     quit()
 
-comma = sys.argv[0] == 1
+comma = sys.argv[1] == str(1)
 outfile = open("tmp.dat", "w")
 while True:
     index = points.find(", ")
