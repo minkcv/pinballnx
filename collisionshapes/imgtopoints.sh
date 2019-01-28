@@ -5,4 +5,4 @@ if [ "$FILE" = "" ]; then
     exit
 fi
 potrace -a 0 $FILE -b svg -o tmp.svg
-./totris.py 0
+./totris.py 1
