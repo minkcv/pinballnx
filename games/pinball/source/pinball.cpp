@@ -6,6 +6,7 @@ Pinball::Pinball(C2DRenderer* renderer, b2World& world) {
     b2BodyDef circleBodyDef;
     circleBodyDef.type = b2_dynamicBody;
     circleBodyDef.position.Set(2.0f, 6.9f);
+    circleBodyDef.bullet = true;
     m_body = world.CreateBody(&circleBodyDef);
     b2FixtureDef circleFixtureDef;
     circleFixtureDef.shape = &circle;
