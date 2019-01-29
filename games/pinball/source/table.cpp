@@ -16,6 +16,12 @@ Table::Table(C2DRenderer* renderer, b2World& world) {
     numValues = sizeof(m_rightSlide) / sizeof(m_rightSlide[0]);
     numPoints = numValues / 2;
     loadShape(m_rightSlide, numPoints, renderer, world);
+    numValues = sizeof(m_leftBumper) / sizeof(m_leftBumper[0]);
+    numPoints = numValues / 2;
+    loadShape(m_leftBumper, numPoints, renderer, world);
+    numValues = sizeof(m_rightBumper) / sizeof(m_rightBumper[0]);
+    numPoints = numValues / 2;
+    loadShape(m_rightBumper, numPoints, renderer, world);
 }
 
 void Table::loadShape(float* points, int numPoints, C2DRenderer* renderer, b2World& world) {
@@ -32,8 +38,7 @@ void Table::loadShape(float* points, int numPoints, C2DRenderer* renderer, b2Wor
     body->CreateFixture(&fixtureDef);
 
     ConvexShape* cshape = new ConvexShape();
-    cshape->setPointCount(numPoints);
-    cshape->getVertexArray()->setPrimitiveType(PrimitiveType::LineStrip);
     addPointsToShape(cshape, points, numPoints);
+    cshape->getVertexArray()->setPrimitiveType(PrimitiveType::LineStrip);
     renderer->add(cshape);
 }
