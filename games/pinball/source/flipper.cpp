@@ -2,7 +2,7 @@
 
 Flipper::Flipper(C2DRenderer* renderer, b2World& world) {
     b2BodyDef bd;
-    bd.position.Set(1.0f, 2.0f); // TODO
+    bd.position.Set(m_x, m_y);
     m_pivot = world.CreateBody(&bd);
 
     b2CircleShape shape;
@@ -14,7 +14,7 @@ Flipper::Flipper(C2DRenderer* renderer, b2World& world) {
     m_pivot->CreateFixture(&fd);
 
     bd.type = b2_dynamicBody;
-    bd.position.Set(1.0f, 2.0f); // TODO
+    bd.position.Set(m_x, m_y);
     m_body = world.CreateBody(&bd);
 
     size_t numValues = sizeof(m_points) / sizeof(m_points[0]);
@@ -26,6 +26,9 @@ Flipper::Flipper(C2DRenderer* renderer, b2World& world) {
     jd.enableMotor = true;
     jd.maxMotorTorque = 1000.0f;
     jd.motorSpeed = 0.0f;
+    jd.lowerAngle = -M_PI / 8;
+    jd.upperAngle = M_PI / 8;
+    jd.enableLimit = true;
     m_joint = (b2RevoluteJoint*)world.CreateJoint(&jd);
 
     m_cshape = new ConvexShape();
@@ -35,11 +38,15 @@ Flipper::Flipper(C2DRenderer* renderer, b2World& world) {
 }
 
 void Flipper::update(unsigned int keys) {
+    float jointAngle = m_joint->GetJointAngle();
     if (keys & Input::Key::Left) {
-        m_joint->SetMotorSpeed(10.0f);
+        if (jointAngle < -M_PI / 8)
+            m_joint->SetMotorSpeed(0.0f);
+        else
+            m_joint->SetMotorSpeed(-10.0f);
     }
-    else if (keys & Input::Key::Right) {
-        m_joint->SetMotorSpeed(-10.0f);
+    else if (jointAngle < M_PI / 8) {
+        m_joint->SetMotorSpeed(10.0f);
     }
     else {
         m_joint->SetMotorSpeed(0.0f);

@@ -10,6 +10,12 @@ Table::Table(C2DRenderer* renderer, b2World& world) {
     numValues = sizeof(m_upperWall) / sizeof(m_upperWall[0]);
     numPoints = numValues / 2;
     loadShape(m_upperWall, numPoints, renderer, world);
+    numValues = sizeof(m_leftSlide) / sizeof(m_leftSlide[0]);
+    numPoints = numValues / 2;
+    loadShape(m_leftSlide, numPoints, renderer, world);
+    numValues = sizeof(m_rightSlide) / sizeof(m_rightSlide[0]);
+    numPoints = numValues / 2;
+    loadShape(m_rightSlide, numPoints, renderer, world);
 }
 
 void Table::loadShape(float* points, int numPoints, C2DRenderer* renderer, b2World& world) {
