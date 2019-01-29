@@ -28,7 +28,7 @@ Plunger::Plunger(C2DRenderer* renderer, b2World& world) {
     jd.lowerTranslation = -1.0f;
     jd.upperTranslation = 0.0f;
     jd.enableLimit = true;
-    jd.maxMotorForce = 10.0f;
+    jd.maxMotorForce = 15.0f;
     jd.motorSpeed = 0.0f;
     jd.enableMotor = true;
 

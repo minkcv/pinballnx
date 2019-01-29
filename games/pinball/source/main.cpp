@@ -23,7 +23,7 @@ int main(int argc, char **argv) {
     renderer->add(text);
 
     // Gravity to the left
-    b2Vec2 gravity(-1.0f, 0.0f);
+    b2Vec2 gravity(-2.0f, 0.0f);
     b2World world(gravity);
 
     float32 timeStep = 1.0f / 60.0f;
