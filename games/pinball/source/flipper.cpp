@@ -1,12 +1,28 @@
 #include "flipper.h"
 
-Flipper::Flipper(C2DRenderer* renderer, b2World& world) {
+Flipper::Flipper(C2DRenderer* renderer, b2World& world, bool rightFlipper) {
+    if (rightFlipper) {
+        m_key = Input::Key::Right;
+        m_x = m_rightX;
+        m_y = m_rightY;
+        m_lowerLimit = m_rightLowerLimit;
+        m_upperLimit = m_rightUpperLimit;
+        m_rotateDirection = -1.0f;
+    }
+    else {
+        m_key = Input::Key::Left;
+        m_x = m_leftX;
+        m_y = m_leftY;
+        m_lowerLimit = m_leftLowerLimit;
+        m_upperLimit = m_leftUpperLimit;
+        m_rotateDirection = 1.0f;
+    }
     b2BodyDef bd;
     bd.position.Set(m_x, m_y);
     m_pivot = world.CreateBody(&bd);
 
     b2CircleShape shape;
-    shape.m_radius = 0.2f;
+    shape.m_radius = 0.1f;
 
     b2FixtureDef fd;
     fd.shape = &shape;
@@ -17,6 +33,9 @@ Flipper::Flipper(C2DRenderer* renderer, b2World& world) {
     bd.position.Set(m_x, m_y);
     m_body = world.CreateBody(&bd);
 
+    if (rightFlipper)
+        m_body->SetTransform(bd.position, -M_PI);
+
     size_t numValues = sizeof(m_points) / sizeof(m_points[0]);
     size_t numPoints = numValues / 2;
     createFixturesFromPoints(m_body, m_points, numPoints);
@@ -26,8 +45,8 @@ Flipper::Flipper(C2DRenderer* renderer, b2World& world) {
     jd.enableMotor = true;
     jd.maxMotorTorque = 1000.0f;
     jd.motorSpeed = 0.0f;
-    jd.lowerAngle = -M_PI / 8;
-    jd.upperAngle = M_PI / 8;
+    jd.lowerAngle = m_lowerLimit;
+    jd.upperAngle = m_upperLimit;
     jd.enableLimit = true;
     m_joint = (b2RevoluteJoint*)world.CreateJoint(&jd);
 
@@ -39,14 +58,14 @@ Flipper::Flipper(C2DRenderer* renderer, b2World& world) {
 
 void Flipper::update(unsigned int keys) {
     float jointAngle = m_joint->GetJointAngle();
-    if (keys & Input::Key::Left) {
-        if (jointAngle < -M_PI / 8)
+    if (keys & m_key) {
+        if (jointAngle * m_rotateDirection < m_lowerLimit)
             m_joint->SetMotorSpeed(0.0f);
         else
-            m_joint->SetMotorSpeed(-10.0f);
+            m_joint->SetMotorSpeed(-10.0f * m_rotateDirection);
     }
-    else if (jointAngle < M_PI / 8) {
-        m_joint->SetMotorSpeed(10.0f);
+    else if (jointAngle * m_rotateDirection < m_upperLimit) {
+        m_joint->SetMotorSpeed(10.0f * m_rotateDirection);
     }
     else {
         m_joint->SetMotorSpeed(0.0f);
@@ -55,8 +74,6 @@ void Flipper::update(unsigned int keys) {
     Vector2<float> vTopLeft(-16 / g_graphicsScale, -16 / g_graphicsScale);
     b2Vec2 position = m_body->GetPosition();
     float32 angle = m_body->GetAngle();
-    //float32 angle = m_joint->GetJointAngle();
-    //printf("%f\n", angle);
     Vector2<float> transform = rotateVector(vTopLeft, -angle);
     m_cshape->setPosition((position.x + transform.x) * g_graphicsScale, (position.y - transform.y) * g_graphicsScale);
     m_cshape->setRotation(angle * 180 / M_PI);

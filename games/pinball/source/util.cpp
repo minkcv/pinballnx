@@ -42,7 +42,7 @@ void createFixturesFromPoints(b2Body* body, float* points, int numPoints) {
     b2FixtureDef fd;
     fd.friction = 0.6f;
     fd.density = 1.0f;
-    for (int i = 0; i < numPoints; i+=6) {
+    for (int i = 0; i < numPoints * 2; i+=6) {
         b2PolygonShape shape;
         b2Vec2 vs[3];
         vs[0].Set(points[i] / g_graphicsScale, points[i+1] / g_graphicsScale);

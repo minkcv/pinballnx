@@ -32,7 +32,8 @@ int main(int argc, char **argv) {
 
     Pinball pinball(renderer, world);
     Table table(renderer, world);
-    Flipper leftFlipper(renderer, world);
+    Flipper leftFlipper(renderer, world, false);
+    Flipper rightFlipper(renderer, world, true);
     Plunger plunger(renderer, world);
 
     // main loop
@@ -52,6 +53,7 @@ int main(int argc, char **argv) {
 
         pinball.update();
         leftFlipper.update(keys);
+        rightFlipper.update(keys);
         plunger.update(keys);
 
         world.Step(timeStep, velocityIterations, positionIterations);
