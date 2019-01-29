@@ -5,6 +5,7 @@
 #include "pinball.h"
 #include "table.h"
 #include "flipper.h"
+#include "plunger.h"
 
 using namespace c2d;
 
@@ -32,6 +33,7 @@ int main(int argc, char **argv) {
     Pinball pinball(renderer, world);
     Table table(renderer, world);
     Flipper leftFlipper(renderer, world);
+    Plunger plunger(renderer, world);
 
     // main loop
     while (true) {
@@ -50,6 +52,7 @@ int main(int argc, char **argv) {
 
         pinball.update();
         leftFlipper.update(keys);
+        plunger.update(keys);
 
         world.Step(timeStep, velocityIterations, positionIterations);
 
