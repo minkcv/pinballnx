@@ -19,9 +19,9 @@ Flipper::Flipper(C2DRenderer* renderer, b2World& world, bool rightFlipper) {
     }
     b2BodyDef bd;
     if (rightFlipper)
-        bd.position.Set(m_x - 16 / g_graphicsScale, m_y - 16 / g_graphicsScale);
+        bd.position.Set(m_x, m_y);
     else
-        bd.position.Set(m_x + 16 / g_graphicsScale, m_y + 16 / g_graphicsScale);
+        bd.position.Set(m_x, m_y);
     m_pivot = world.CreateBody(&bd);
 
     b2CircleShape circleShape;
