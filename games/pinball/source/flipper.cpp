@@ -5,23 +5,16 @@ Flipper::Flipper(C2DRenderer* renderer, b2World& world, bool rightFlipper) {
         m_key = Input::Key::Right;
         m_x = m_rightX;
         m_y = m_rightY;
-        m_lowerLimit = m_rightLowerLimit;
-        m_upperLimit = m_rightUpperLimit;
         m_rotateDirection = -1.0f;
     }
     else {
         m_key = Input::Key::Left;
         m_x = m_leftX;
         m_y = m_leftY;
-        m_lowerLimit = m_leftLowerLimit;
-        m_upperLimit = m_leftUpperLimit;
         m_rotateDirection = 1.0f;
     }
     b2BodyDef bd;
-    if (rightFlipper)
-        bd.position.Set(m_x, m_y);
-    else
-        bd.position.Set(m_x, m_y);
+    bd.position.Set(m_x, m_y);
     m_pivot = world.CreateBody(&bd);
 
     b2CircleShape circleShape;
