@@ -30,8 +30,8 @@ int main(int argc, char **argv) {
     int32 velocityIterations = 6;
     int32 positionIterations = 2;
 
-    Pinball pinball(renderer, world);
-    Table table(renderer, world);
+    Pinball* pinball = new Pinball(renderer, world);
+    Table table(renderer, world, pinball);
     Flipper leftFlipper(renderer, world, false);
     Flipper rightFlipper(renderer, world, true);
     Plunger plunger(renderer, world);
@@ -51,7 +51,8 @@ int main(int argc, char **argv) {
             }
         }
 
-        pinball.update();
+        table.update();
+        pinball->update();
         leftFlipper.update(keys);
         rightFlipper.update(keys);
         plunger.update(keys);
