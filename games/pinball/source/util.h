@@ -17,8 +17,4 @@ b2Vec2* getVertexArray(float* points, int numPoints);
 
 void addPointsToShape(ConvexShape* shape, float* points, int numPoints);
 
-void createTriangles(C2DRenderer* renderer, float* points, int numTriangles);
-
-void createFixturesFromPoints(b2Body* body, float* points, int numPoints);
-
 #endif
