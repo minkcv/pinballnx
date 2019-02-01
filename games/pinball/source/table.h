@@ -5,6 +5,7 @@
 #include "Box2D/Box2D.h"
 #include "util.h"
 #include "pinball.h"
+#include "scoreboard.h"
 
 using namespace c2d;
 
@@ -28,8 +29,9 @@ class Table : public b2ContactListener {
         b2Body* m_ballOutArea;
         b2Fixture* m_ballOutSensor;
         Pinball* m_pinball;
-        int m_ballsLeft;
+        int m_currentBall;
         bool m_ballOut;
+        Scoreboard m_scoreboard;
 };
 
 #endif

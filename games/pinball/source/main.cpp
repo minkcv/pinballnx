@@ -16,12 +16,6 @@ int main(int argc, char **argv) {
     // disable key repeat
     renderer->getInput()->setRepeatDelay(0);
 
-    // Test text
-    auto* text = new C2DText("Hello World");
-    text->setPosition(1280 - 128, 0);
-    text->setRotation(90);
-    renderer->add(text);
-
     // Gravity to the left
     b2Vec2 gravity(-2.0f, 0.0f);
     b2World world(gravity);
@@ -63,6 +57,7 @@ int main(int argc, char **argv) {
     }
 
     // cleanup
+    delete pinball;
     // will delete child's (textures, shapes, text..)
     delete (renderer);
 

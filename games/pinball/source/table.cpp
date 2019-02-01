@@ -1,8 +1,8 @@
 #include "table.h"
 
-Table::Table(C2DRenderer* renderer, b2World& world, Pinball* pinball) {
+Table::Table(C2DRenderer* renderer, b2World& world, Pinball* pinball) : m_scoreboard(renderer) {
     m_pinball = pinball;
-    m_ballsLeft = 4;
+    m_currentBall = 1;
     m_ballOut = false;
     world.SetContactListener(this);
     size_t numValues = sizeof(m_leftWall) / sizeof(m_leftWall[0]);
@@ -45,8 +45,11 @@ Table::Table(C2DRenderer* renderer, b2World& world, Pinball* pinball) {
 
 void Table::update() {
     if (m_ballOut) {
-        m_pinball->reset();
-        m_ballOut = false;
+        if (m_currentBall < 5) {
+            m_pinball->reset();
+            m_ballOut = false;
+        }
+        m_scoreboard.update(m_currentBall);
     }
 }
 
@@ -57,7 +60,7 @@ void Table::BeginContact(b2Contact* contact) {
     if ((fixtureA == m_ballOutSensor && fixtureB == m_pinball->getFixture()) ||
         (fixtureA == m_pinball->getFixture() && fixtureB == m_ballOutSensor))
     {
-        m_ballsLeft--;
+        m_currentBall++;
         m_ballOut = true;
     }
 }
