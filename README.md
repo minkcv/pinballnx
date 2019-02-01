@@ -9,10 +9,12 @@ These libraries have their own licenses which permit my use of them. Their licen
 ### Switch
 Flippers: L and R
 Pull Plunger: Left Stick Down
+Quit: Plus
 
 ### Desktop
 Flippers: S and D
 Pull Plunger: Down Arrow
+Quit: Enter
 
 ## Building
 
