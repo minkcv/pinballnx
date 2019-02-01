@@ -2,7 +2,7 @@
 
 Flipper::Flipper(C2DRenderer* renderer, b2World& world, bool rightFlipper) {
     if (rightFlipper) {
-        m_key = Input::Key::Right;
+        m_key = Input::Key::Fire6;
         m_x = m_rightX;
         m_y = m_rightY;
         m_lowerLimit = m_rightLowerLimit;
@@ -10,7 +10,7 @@ Flipper::Flipper(C2DRenderer* renderer, b2World& world, bool rightFlipper) {
         m_rotateDirection = -1.0f;
     }
     else {
-        m_key = Input::Key::Left;
+        m_key = Input::Key::Fire5;
         m_x = m_leftX;
         m_y = m_leftY;
         m_lowerLimit = m_leftLowerLimit;
