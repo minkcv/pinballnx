@@ -2,10 +2,8 @@
 #include "Box2D/Box2D.h"
 #include "cross2d/c2d.h"
 #include "util.h"
-#include "pinball.h"
 #include "table.h"
-#include "flipper.h"
-#include "plunger.h"
+
 
 using namespace c2d;
 
@@ -24,11 +22,7 @@ int main(int argc, char **argv) {
     int32 velocityIterations = 6;
     int32 positionIterations = 2;
 
-    Pinball* pinball = new Pinball(renderer, world);
-    Table table(renderer, world, pinball);
-    Flipper leftFlipper(renderer, world, false);
-    Flipper rightFlipper(renderer, world, true);
-    Plunger plunger(renderer, world);
+    Table table(renderer, world);
 
     // main loop
     while (true) {
@@ -45,11 +39,7 @@ int main(int argc, char **argv) {
             }
         }
 
-        table.update();
-        pinball->update();
-        leftFlipper.update(keys);
-        rightFlipper.update(keys);
-        plunger.update(keys);
+        table.update(keys);
 
         world.Step(timeStep, velocityIterations, positionIterations);
 
@@ -57,7 +47,6 @@ int main(int argc, char **argv) {
     }
 
     // cleanup
-    delete pinball;
     // will delete child's (textures, shapes, text..)
     delete (renderer);
 

@@ -1,7 +1,12 @@
 #include "table.h"
 
-Table::Table(C2DRenderer* renderer, b2World& world, Pinball* pinball) : m_scoreboard(renderer) {
-    m_pinball = pinball;
+Table::Table(C2DRenderer* renderer, b2World& world) : 
+    m_scoreboard(renderer),
+    m_leftFlipper(renderer, world, false),
+    m_rightFlipper(renderer, world, true),
+    m_plunger(renderer, world),
+    m_pinball(renderer, world)
+{
     m_currentBall = 1;
     m_ballOut = false;
     world.SetContactListener(this);
@@ -28,7 +33,7 @@ Table::Table(C2DRenderer* renderer, b2World& world, Pinball* pinball) : m_scoreb
     loadShape(m_rightBumper, numPoints, renderer, world);
 
     b2BodyDef bd;
-    bd.position.Set(-10, m_width / g_graphicsScale / 2);
+    bd.position.Set(-7, m_width / g_graphicsScale / 2);
     bd.type = b2_staticBody;
     m_ballOutArea = world.CreateBody(&bd);
 
@@ -43,10 +48,14 @@ Table::Table(C2DRenderer* renderer, b2World& world, Pinball* pinball) : m_scoreb
     m_ballOutSensor = m_ballOutArea->CreateFixture(&fd);
 }
 
-void Table::update() {
+void Table::update(unsigned int keys) {
+    m_pinball.update();
+    m_leftFlipper.update(keys);
+    m_rightFlipper.update(keys);
+    m_plunger.update(keys);
     if (m_ballOut) {
         if (m_currentBall < 5) {
-            m_pinball->reset();
+            m_pinball.reset();
             m_ballOut = false;
         }
         m_scoreboard.update(m_currentBall);
@@ -57,8 +66,8 @@ void Table::BeginContact(b2Contact* contact) {
     b2Fixture* fixtureA = contact->GetFixtureA();
     b2Fixture* fixtureB = contact->GetFixtureB();
 
-    if ((fixtureA == m_ballOutSensor && fixtureB == m_pinball->getFixture()) ||
-        (fixtureA == m_pinball->getFixture() && fixtureB == m_ballOutSensor))
+    if ((fixtureA == m_ballOutSensor && fixtureB == m_pinball.getFixture()) ||
+        (fixtureA == m_pinball.getFixture() && fixtureB == m_ballOutSensor))
     {
         m_currentBall++;
         m_ballOut = true;
@@ -73,6 +82,7 @@ void Table::loadShape(float* points, int numPoints, C2DRenderer* renderer, b2Wor
     b2Vec2* vs = getVertexArray(points, numPoints);
     b2ChainShape chain;
     chain.CreateChain(vs, numPoints);
+    free(vs);
 
     b2BodyDef bodyDef;
     b2Body* body = world.CreateBody(&bodyDef);
