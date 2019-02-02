@@ -2,6 +2,7 @@
 
 Table::Table(C2DRenderer* renderer, b2World& world) : 
     m_layers(),
+    m_ramps(),
     m_scoreboard(renderer),
     m_leftFlipper(renderer, world, false),
     m_rightFlipper(renderer, world, true),
@@ -12,8 +13,14 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     m_ballOut = false;
     world.SetContactListener(this);
 
-    Layer layer1(renderer, world, 0xFFFF, 0);
-    m_layers.push_front(layer1);
+    Layer layer1(renderer, world, 0x0001, 0);
+    m_layers.push_back(layer1);
+
+    Layer layer2(renderer, world, 0x0002, 1);
+    m_layers.push_back(layer2);
+
+    Ramp ramp1(renderer, world, 0, 0, 1);
+    m_ramps.push_back(ramp1);
 
     // Create a box in box2d to detect when the ball falls out.
     // The sensor box is positioned with a gap in between it and 
@@ -54,10 +61,26 @@ void Table::BeginContact(b2Contact* contact) {
     b2Fixture* fixtureB = contact->GetFixtureB();
 
     if ((fixtureA == m_ballOutSensor && fixtureB == m_pinball.getFixture()) ||
-        (fixtureA == m_pinball.getFixture() && fixtureB == m_ballOutSensor))
-    {
+        (fixtureA == m_pinball.getFixture() && fixtureB == m_ballOutSensor)) {
         m_currentBall++;
         m_ballOut = true;
+    }
+
+    for (size_t i = 0; i < m_ramps.size(); i++) {
+        b2Fixture* rampFixture1 = m_ramps.at(i).getFixture1();
+        b2Fixture* rampFixture2 = m_ramps.at(i).getFixture2();
+        // Check fixture1
+        if ((fixtureA == rampFixture1 && fixtureB == m_pinball.getFixture()) ||
+            (fixtureA == m_pinball.getFixture() && fixtureB == rampFixture1)) {
+            int layerID =  m_ramps.at(i).getLayer1ID();
+            m_pinball.setCollisionMask(m_layers.at(layerID).getCollisionMask());
+        }
+
+        if ((fixtureA == rampFixture2 && fixtureB == m_pinball.getFixture()) ||
+            (fixtureA == m_pinball.getFixture() && fixtureB == rampFixture2)) {
+            int layerID =  m_ramps.at(i).getLayer2ID();
+            m_pinball.setCollisionMask(m_layers.at(layerID).getCollisionMask());
+        }
     }
 }
 

@@ -12,6 +12,8 @@ class Pinball {
         Pinball(C2DRenderer* renderer, b2World& world);
         void update();
         b2Fixture* getFixture();
+        uint16 getCollisionMask();
+        void setCollisionMask(uint16 mask);
         void reset();
     private:
         b2Body* m_body;

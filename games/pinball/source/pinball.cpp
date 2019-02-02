@@ -13,6 +13,8 @@ Pinball::Pinball(C2DRenderer* renderer, b2World& world) {
     circleFixtureDef.density = 1.0f;
     circleFixtureDef.friction = 0.3f;
     circleFixtureDef.restitution = 0.3;
+    circleFixtureDef.filter.maskBits = 0x0001;
+    circleFixtureDef.filter.categoryBits = 0xFFFF;
     m_fixture = m_body->CreateFixture(&circleFixtureDef);
 
     m_shape = new CircleShape(m_radius * g_graphicsScale);
@@ -29,6 +31,16 @@ void Pinball::update() {
 
 b2Fixture* Pinball::getFixture() {
     return m_fixture;
+}
+
+uint16 Pinball::getCollisionMask() {
+    return m_fixture->GetFilterData().maskBits;
+}
+
+void Pinball::setCollisionMask(uint16 mask) {
+    b2Filter filterData = m_fixture->GetFilterData();
+    filterData.maskBits = mask;
+    m_fixture->SetFilterData(filterData);
 }
 
 void Pinball::reset() {

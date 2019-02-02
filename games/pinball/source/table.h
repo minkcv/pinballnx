@@ -10,6 +10,7 @@
 #include "plunger.h"
 #include "layer.h"
 #include "scoreboard.h"
+#include "ramp.h"
 
 using namespace c2d;
 
@@ -26,8 +27,8 @@ class Table : public b2ContactListener {
         void BeginContact(b2Contact* contact);
         void EndContact(b2Contact* contact);
     private:
-        std::list<Layer> m_layers;
-
+        std::vector<Layer> m_layers;
+        std::vector<Ramp> m_ramps;
         // The width of the table, which is the height of the screen.
         float m_width = 720;
         // The height of the table, which is the width of the screen.
