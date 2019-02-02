@@ -16,15 +16,14 @@ Pinball::Pinball(C2DRenderer* renderer, b2World& world) {
     m_fixture = m_body->CreateFixture(&circleFixtureDef);
 
     m_shape = new CircleShape(m_radius * g_graphicsScale);
+    m_shape->setOrigin(Origin::Center);
     renderer->add(m_shape);
 }
 
 void Pinball::update() {
-    Vector2<float> vTopLeft(-m_radius, -m_radius);
     b2Vec2 position = m_body->GetPosition();
     float32 angle = m_body->GetAngle();
-    Vector2<float> transform = rotateVector(vTopLeft, -angle);
-    m_shape->setPosition((position.x + transform.x) * g_graphicsScale, (position.y - transform.y) * g_graphicsScale);
+    m_shape->setPosition(position.x * g_graphicsScale, position.y * g_graphicsScale);
     m_shape->setRotation(angle * 180 / M_PI);
 }
 

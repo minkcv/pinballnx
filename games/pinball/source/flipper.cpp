@@ -33,9 +33,7 @@ Flipper::Flipper(C2DRenderer* renderer, b2World& world, bool rightFlipper) {
     if (rightFlipper)
         m_body->SetTransform(bd.position, -M_PI);
 
-    size_t numValues = sizeof(m_points) / sizeof(m_points[0]);
-    size_t numPoints = numValues / 2;
-    b2Vec2* vs = getVertexArray(m_points, numPoints);
+    b2Vec2* vs = getVertexArray(m_points);
     fd.density = 1.0f;
     b2PolygonShape shape;
     shape.Set(vs, 8);
@@ -54,7 +52,7 @@ Flipper::Flipper(C2DRenderer* renderer, b2World& world, bool rightFlipper) {
 
     m_cshape = new ConvexShape();
     m_cshape->getVertexArray()->setPrimitiveType(PrimitiveType::LineStrip);
-    addPointsToShape(m_cshape, m_points, numPoints);
+    addPointsToShape(m_cshape, m_points);
     renderer->add(m_cshape);
 }
 

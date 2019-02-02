@@ -1,9 +1,12 @@
 #ifndef FLIPPER_H_
 #define FLIPPER_H_
 
+#include <vector>
 #include "cross2d/c2d.h"
 #include "Box2D/Box2D.h"
 #include "util.h"
+
+using namespace std;
 
 class Flipper {
     public:
@@ -20,7 +23,7 @@ class Flipper {
         float m_upperLimit = M_PI / 8;
         float m_x;
         float m_y;
-        float m_points[16] = {-16, 0, -8, 75, -5, 79, -2, 80, 2, 80, 5, 79, 8, 75, 16, 0};
+        vector<float> m_points = {-16, 0, -8, 75, -5, 79, -2, 80, 2, 80, 5, 79, 8, 75, 16, 0};
         b2RevoluteJoint* m_joint;
         ConvexShape* m_cshape;
         b2Body* m_body;

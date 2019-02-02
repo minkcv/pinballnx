@@ -13,13 +13,7 @@ using namespace c2d;
 // 128 cm deep is pretty close. Thus a scaling factor of 100 was chosen (it's in  util.cpp though).
 extern float g_graphicsScale;
 
-Vector2<float> rotateVector(Vector2<float> in, double radians);
-
-b2Vec2* getVertexArray(float* points, int numPoints);
-
 b2Vec2* getVertexArray(std::vector<float> points);
-
-void addPointsToShape(ConvexShape* shape, float* points, int numPoints);
 
 void addPointsToShape(ConvexShape* shape, std::vector<float> points);
 
