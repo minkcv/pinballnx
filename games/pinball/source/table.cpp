@@ -12,7 +12,7 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     m_ballOut = false;
     world.SetContactListener(this);
 
-    Layer layer1(renderer, world, 0xFFFF);
+    Layer layer1(renderer, world, 0xFFFF, 0);
     m_layers.push_front(layer1);
 
     // Create a box in box2d to detect when the ball falls out.
