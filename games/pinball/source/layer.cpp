@@ -1,7 +1,7 @@
 #include "layer.h"
 
 Layer::Layer(C2DRenderer* renderer, b2World& world, uint16 categoryFilter, int layerID) {
-    m_collisionMask = categoryFilter;
+    m_categoryFilter = categoryFilter;
     int numShapes = m_layerData.at(layerID).size();
     for (int i = 0; i < numShapes; i++) {
         loadShape(m_layerData.at(layerID).at(i), renderer, world, categoryFilter);
@@ -33,6 +33,6 @@ void Layer::loadShape(std::vector<float> points, C2DRenderer* renderer, b2World&
     renderer->add(cshape);
 }
 
-uint16 Layer::getCollisionMask() {
-    return m_collisionMask;
+uint16 Layer::getCategoryFilter() {
+    return m_categoryFilter;
 }

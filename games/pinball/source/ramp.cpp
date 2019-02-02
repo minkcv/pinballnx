@@ -21,6 +21,8 @@ Ramp::Ramp(C2DRenderer* renderer, b2World& world, int rampID, int layer1ID, int 
     fixtureDef.density = 0.0f;
     fixtureDef.friction = 0.3f;
     fixtureDef.isSensor = true;
+    fixtureDef.filter.maskBits = 0xFFFF;
+    fixtureDef.filter.categoryBits = 0xFFFF;
     m_fixture1 = body->CreateFixture(&fixtureDef);
 
     // Debug graphics

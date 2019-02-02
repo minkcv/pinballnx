@@ -22,6 +22,9 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     Ramp ramp1(renderer, world, 0, 0, 1);
     m_ramps.push_back(ramp1);
 
+    Ramp ramp2(renderer, world, 1, 0, 1);
+    m_ramps.push_back(ramp2);
+
     // Create a box in box2d to detect when the ball falls out.
     // The sensor box is positioned with a gap in between it and 
     // the bottom of the pinball table so that there is a delay before
@@ -73,13 +76,13 @@ void Table::BeginContact(b2Contact* contact) {
         if ((fixtureA == rampFixture1 && fixtureB == m_pinball.getFixture()) ||
             (fixtureA == m_pinball.getFixture() && fixtureB == rampFixture1)) {
             int layerID =  m_ramps.at(i).getLayer1ID();
-            m_pinball.setCollisionMask(m_layers.at(layerID).getCollisionMask());
+            m_pinball.setCollisionMask(m_layers.at(layerID).getCategoryFilter());
         }
 
         if ((fixtureA == rampFixture2 && fixtureB == m_pinball.getFixture()) ||
             (fixtureA == m_pinball.getFixture() && fixtureB == rampFixture2)) {
             int layerID =  m_ramps.at(i).getLayer2ID();
-            m_pinball.setCollisionMask(m_layers.at(layerID).getCollisionMask());
+            m_pinball.setCollisionMask(m_layers.at(layerID).getCategoryFilter());
         }
     }
 }
