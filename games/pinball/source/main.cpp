@@ -4,7 +4,6 @@
 #include "util.h"
 #include "table.h"
 
-
 using namespace c2d;
 
 int main(int argc, char **argv) {
@@ -18,6 +17,9 @@ int main(int argc, char **argv) {
     b2Vec2 gravity(-2.0f, 0.0f);
     b2World world(gravity);
 
+    // You can change the 60.0f to the refresh rate of your monitor.
+    // If you have a 120hz monitor and you leave this at 1/60 then 
+    // the game runs twice as fast as on the switch.
     float32 timeStep = 1.0f / 60.0f;
     int32 velocityIterations = 6;
     int32 positionIterations = 2;
