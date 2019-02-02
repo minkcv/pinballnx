@@ -6,9 +6,10 @@
 
 using namespace c2d;
 
-// The pinball is 0.1m in diameter in Box2D units.
-// The graphical diameter of the pinball should be 10 pixels.
-// Thus the conversion from Box2D units to pixels is a factor of 100.
+// The box2d coordinates are not pixel coordinates because they are in meters.
+// The graphics need to be 1280x720, but it would be very bad if the pinball table was 
+// 1280 meters long. Most pinball games are 140 cm deep so having the pinball table be
+// 128 cm deep is pretty close. Thus a scaling factor of 100 was chosen (it's in  util.cpp though).
 extern float g_graphicsScale;
 
 Vector2<float> rotateVector(Vector2<float> in, double radians);

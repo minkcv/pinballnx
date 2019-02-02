@@ -15,6 +15,10 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     Layer layer1(renderer, world, 0xFFFF);
     m_layers.push_front(layer1);
 
+    // Create a box in box2d to detect when the ball falls out.
+    // The sensor box is positioned with a gap in between it and 
+    // the bottom of the pinball table so that there is a delay before
+    // the ball is reset. 
     b2BodyDef bd;
     bd.position.Set(-7, m_width / g_graphicsScale / 2);
     bd.type = b2_staticBody;
@@ -27,7 +31,7 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     fd.isSensor = true;
     fd.shape = &box;
     fd.density = 1.0;
-    
+
     m_ballOutSensor = m_ballOutArea->CreateFixture(&fd);
 }
 

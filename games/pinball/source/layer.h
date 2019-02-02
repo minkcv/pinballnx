@@ -5,6 +5,11 @@
 #include "Box2D/Box2D.h"
 #include "util.h"
 
+// The pinball table is a series of layers.
+// Each layer has it's own set of collision shapes and graphics, 
+// Each layer's collision shapes have a category filter for box2d collisions.
+// This allows the ball to pass from one layer to another by having the table 
+// change the balls collision mask.
 class Layer {
     public:
         Layer(C2DRenderer* renderer, b2World& world, uint16 categoryFilter);

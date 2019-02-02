@@ -16,6 +16,9 @@ using namespace c2d;
 // This class is at the top of the heirarchy. 
 // It stores and manages the pinball, plunger, 
 // flippers, layers, box2d events, scoreboard.
+// The box2d events detect when the ball passes 
+// out of bounds, onto and off of ramps, and 
+// onto and off of scoring triggers.
 class Table : public b2ContactListener {
     public:
         Table(C2DRenderer* renderer, b2World& world);
@@ -24,7 +27,10 @@ class Table : public b2ContactListener {
         void EndContact(b2Contact* contact);
     private:
         std::list<Layer> m_layers;
+
+        // The width of the table, which is the height of the screen.
         float m_width = 720;
+        // The height of the table, which is the width of the screen.
         float m_height = 1280;
         b2Body* m_ballOutArea;
         b2Fixture* m_ballOutSensor;
