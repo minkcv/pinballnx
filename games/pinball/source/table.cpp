@@ -19,11 +19,17 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     Layer layer2(renderer, world, 0x0002, 1);
     m_layers.push_back(layer2);
 
-    Ramp ramp1(renderer, world, 0, 0, 1);
+    Ramp ramp1(renderer, world, 0, 0);
     m_ramps.push_back(ramp1);
 
-    Ramp ramp2(renderer, world, 1, 0, 1);
+    Ramp ramp2(renderer, world, 1, 1);
     m_ramps.push_back(ramp2);
+
+    Ramp ramp3(renderer, world, 2, 0);
+    m_ramps.push_back(ramp3);
+
+    Ramp ramp4(renderer, world, 3, 1);
+    m_ramps.push_back(ramp4);
 
     // Create a box in box2d to detect when the ball falls out.
     // The sensor box is positioned with a gap in between it and 
@@ -70,18 +76,10 @@ void Table::BeginContact(b2Contact* contact) {
     }
 
     for (size_t i = 0; i < m_ramps.size(); i++) {
-        b2Fixture* rampFixture1 = m_ramps.at(i).getFixture1();
-        b2Fixture* rampFixture2 = m_ramps.at(i).getFixture2();
-        // Check fixture1
-        if ((fixtureA == rampFixture1 && fixtureB == m_pinball.getFixture()) ||
-            (fixtureA == m_pinball.getFixture() && fixtureB == rampFixture1)) {
-            int layerID =  m_ramps.at(i).getLayer1ID();
-            m_pinball.setCollisionMask(m_layers.at(layerID).getCategoryFilter());
-        }
-
-        if ((fixtureA == rampFixture2 && fixtureB == m_pinball.getFixture()) ||
-            (fixtureA == m_pinball.getFixture() && fixtureB == rampFixture2)) {
-            int layerID =  m_ramps.at(i).getLayer2ID();
+        b2Fixture* rampFixture = m_ramps.at(i).getFixture();
+        if ((fixtureA == rampFixture && fixtureB == m_pinball.getFixture()) ||
+            (fixtureA == m_pinball.getFixture() && fixtureB == rampFixture)) {
+            int layerID =  m_ramps.at(i).getLayerID();
             m_pinball.setCollisionMask(m_layers.at(layerID).getCategoryFilter());
         }
     }
