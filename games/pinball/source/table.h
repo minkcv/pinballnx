@@ -29,19 +29,21 @@ class Table : public b2ContactListener {
     private:
         std::vector<Layer> m_layers;
         std::vector<Ramp> m_ramps;
-        // The width of the table, which is the height of the screen.
-        float m_width = 720;
-        // The height of the table, which is the width of the screen.
-        float m_height = 1280;
-        b2Body* m_ballOutArea;
-        b2Fixture* m_ballOutSensor;
-        int m_currentBall;
-        bool m_ballOut;
+        std::vector<Pinball*> m_pinballs;
         Scoreboard m_scoreboard;
         Flipper m_leftFlipper;
         Flipper m_rightFlipper;
         Plunger m_plunger;
-        Pinball m_pinball;
+        C2DRenderer* m_renderer;
+        // The width of the table, which is the height of the screen.
+        float m_width = 720;
+        // The height of the table, which is the width of the screen.
+        float m_height = 1280;
+        b2World* m_b2world;
+        b2Body* m_ballOutArea;
+        b2Fixture* m_ballOutSensor;
+        int m_currentBall;
+        bool m_ballOut;
 };
 
 #endif

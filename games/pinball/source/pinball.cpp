@@ -1,13 +1,13 @@
 #include "pinball.h"
 
-Pinball::Pinball(C2DRenderer* renderer, b2World& world) {
+Pinball::Pinball(C2DRenderer* renderer, b2World* world) {
     b2CircleShape circle;
     circle.m_radius = m_radius;
     b2BodyDef circleBodyDef;
     circleBodyDef.type = b2_dynamicBody;
     circleBodyDef.position.Set(m_startX, m_startY);
     circleBodyDef.bullet = true;
-    m_body = world.CreateBody(&circleBodyDef);
+    m_body = world->CreateBody(&circleBodyDef);
     b2FixtureDef circleFixtureDef;
     circleFixtureDef.shape = &circle;
     circleFixtureDef.density = 1.0f;
@@ -22,7 +22,15 @@ Pinball::Pinball(C2DRenderer* renderer, b2World& world) {
     renderer->add(m_shape);
 }
 
-void Pinball::update() {
+void Pinball::update(b2World* world) {
+    if (m_ballOut == true) {
+        // I've been removed from the world but my update function is still called
+        // somewhere. Just waste time until we get deleted.
+        world->DestroyBody(m_body);
+        m_body = NULL;
+        m_removed = true;
+        return;
+    }
     b2Vec2 position = m_body->GetPosition();
     float32 angle = m_body->GetAngle();
     m_shape->setPosition(position.x * g_graphicsScale, position.y * g_graphicsScale);
@@ -43,6 +51,10 @@ void Pinball::setCollisionMask(uint16 mask) {
     m_fixture->SetFilterData(filterData);
 }
 
-void Pinball::reset() {
-    m_body->SetTransform(b2Vec2(m_startX, m_startY), 0);
+void Pinball::removeFromWorld() {
+    m_ballOut = true;
+}
+
+bool Pinball::cleanupDone() {
+    return m_removed;
 }

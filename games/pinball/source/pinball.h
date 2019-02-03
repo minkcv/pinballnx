@@ -9,12 +9,13 @@ using namespace c2d;
 
 class Pinball {
     public:
-        Pinball(C2DRenderer* renderer, b2World& world);
-        void update();
+        Pinball(C2DRenderer* renderer, b2World* world);
+        void update(b2World* world);
         b2Fixture* getFixture();
         uint16 getCollisionMask();
         void setCollisionMask(uint16 mask);
-        void reset();
+        void removeFromWorld();
+        bool cleanupDone();
     private:
         b2Body* m_body;
         b2Fixture* m_fixture;
@@ -28,5 +29,7 @@ class Pinball {
         // Coordinates for the launch tube.
         float m_startX = 2.0f;
         float m_startY = 6.9f;
+        bool m_ballOut;
+        bool m_removed;
 };
 #endif
