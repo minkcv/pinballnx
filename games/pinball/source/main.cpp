@@ -48,9 +48,11 @@ int main(int argc, char **argv) {
         renderer->flip();
     }
 
+    table.cleanup();
+
     // cleanup
     // will delete child's (textures, shapes, text..)
     delete (renderer);
-
+    
     return 0;
 }

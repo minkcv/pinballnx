@@ -138,3 +138,16 @@ void Table::BeginContact(b2Contact* contact) {
 void Table::EndContact(b2Contact* contact) {
 
 }
+
+void Table::cleanup() {
+    for (size_t i = 0; i < m_pinballs.size(); i++) {
+        Pinball* pinball = m_pinballs.at(i);
+        if (pinball != NULL) {
+            pinball->removeFromWorld();
+            pinball->update(m_renderer, m_b2world);
+            if (pinball->cleanupDone()) {
+                delete pinball;
+            }
+        }
+    }
+}
