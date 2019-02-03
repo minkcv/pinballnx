@@ -57,13 +57,21 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
 }
 
 void Table::update(unsigned int keys) {
+    // Some useful debug code:
+    //b2Body* body = m_b2world->GetBodyList();
+    //int numBodies = 0;
+    //while (body != NULL) {
+    //    numBodies++;
+    //    body = body->GetNext();
+    //}
+    //printf("# of bodies %d\n", numBodies);
+    
     for (size_t i = 0; i < m_pinballs.size(); i++) {
         Pinball* pinball = m_pinballs.at(i);
         if (pinball != NULL)
-            pinball->update(m_b2world);
+            pinball->update(m_renderer, m_b2world);
 
-        if (pinball->cleanupDone())
-        {
+        if (pinball->cleanupDone()) {
             // Remove this ball from the list.
             m_pinballs.erase(m_pinballs.begin()+i);
             // Free the memory.

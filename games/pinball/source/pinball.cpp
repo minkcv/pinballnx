@@ -22,12 +22,14 @@ Pinball::Pinball(C2DRenderer* renderer, b2World* world) {
     renderer->add(m_shape);
 }
 
-void Pinball::update(b2World* world) {
+void Pinball::update(C2DRenderer* renderer, b2World* world) {
     if (m_ballOut == true) {
         // I've been removed from the world but my update function is still called
         // somewhere. Just waste time until we get deleted.
         world->DestroyBody(m_body);
+        renderer->remove(m_shape);
         m_body = NULL;
+        m_shape = NULL;
         m_removed = true;
         return;
     }
