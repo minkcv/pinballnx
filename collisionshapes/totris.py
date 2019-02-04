@@ -47,6 +47,13 @@ while True:
     xTotal += float(x) / 10.0
     # substract here because the y is inverted in the svg (see transform)
     yTotal += -float(y) / 10.0
+
+    # ignore small changes that box2d can't handle
+    ignoreDistance = 5
+    if abs(float(x)) / 10.0 + abs(float(y)) / 10.0 < ignoreDistance:
+        print("skipping " + x + " and " + y)
+        points = points[index + 2 + index2 + 2:]
+        continue
     if comma:
         outfile.write(str(xTotal) + ", " + str(yTotal) + ", ")
     else:
