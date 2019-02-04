@@ -27,23 +27,33 @@ int main(int argc, char **argv) {
     Table table(renderer, world);
 
     // main loop
+    bool paused = false;
+    bool pauseReleased = true;
     while (true) {
 
         unsigned int keys = renderer->getInput()->getKeys();
-        if (keys) {
-            // "special" close/quit event send by sdl2 windows (linux platform)
-            if (keys & EV_QUIT) {
-                break;
+        // "special" close/quit event send by sdl2 windows (linux platform)
+        if (keys & EV_QUIT) {
+            break;
+        }
+        // exit if START or SELECT is pressed (+/- on switch)
+        if (keys & Input::Key::Start) {
+            break;
+        }
+        if (keys & Input::Key::Select) {
+            if (pauseReleased) {
+                paused = !paused;
             }
-            // exit if START or SELECT is pressed (+/- on switch)
-            if (keys & Input::Key::Start || keys & Input::Key::Select) {
-                break;
-            }
+            pauseReleased = false;
+        }
+        else {
+            pauseReleased = true;
         }
 
-        table.update(keys);
-
-        world.Step(timeStep, velocityIterations, positionIterations);
+        if (!paused) {
+            table.update(keys);
+            world.Step(timeStep, velocityIterations, positionIterations);
+        }
 
         renderer->flip();
     }
