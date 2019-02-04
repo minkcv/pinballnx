@@ -12,7 +12,6 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     m_b2world = &world;
     m_renderer = renderer;
     m_currentBall = 1;
-    m_ballOut = false;
     world.SetContactListener(this);
 
     Layer layer1(renderer, world, 0x0001, 0);
@@ -87,9 +86,9 @@ void Table::update(unsigned int keys) {
     m_leftFlipper.update(keys);
     m_rightFlipper.update(keys);
     m_plunger.update(keys);
-    if (m_ballOut) {
+    if (m_pinballs.size() < 1) {
+        m_currentBall++;
         if (m_currentBall < 5) {
-            m_ballOut = false;
             Pinball* nextPinball = new Pinball(m_renderer, m_b2world);
             m_pinballs.push_back(nextPinball);
         }
@@ -114,8 +113,6 @@ void Table::BeginContact(b2Contact* contact) {
             
         if ((fixtureA == m_ballOutSensor && fixtureB == pinball->getFixture()) ||
             (fixtureA == pinball->getFixture() && fixtureB == m_ballOutSensor)) {
-            m_currentBall++;
-            m_ballOut = true;
             pinball->removeFromWorld();
         }
 
