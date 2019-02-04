@@ -10,6 +10,6 @@ class Scoreboard {
         Scoreboard(C2DRenderer* renderer);
         void update(int currentBall);
     private:
-        C2DText m_ballsLeftText;
+        C2DText* m_ballsLeftText;
 };
 #endif
