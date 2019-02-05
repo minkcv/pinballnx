@@ -16,14 +16,14 @@ class Flipper {
         float m_rotateDirection;
         unsigned int m_key;
         float m_leftX = 0.74f;
-        float m_leftY = 2.32f;
+        float m_leftY = 2.20f;
         float m_rightX = 0.74f;
-        float m_rightY = 4.40f;
+        float m_rightY = 4.50f;
         float m_lowerLimit = -M_PI / 8;
         float m_upperLimit = M_PI / 8;
         float m_x;
         float m_y;
-        vector<float> m_points = {-16, 0, -8, 75, -5, 79, -2, 80, 2, 80, 5, 79, 8, 75, 16, 0};
+        vector<float> m_points = {-16, 0, -10, 93, -6, 99, -2.5, 100, 2.5, 100, 6, 99, 10, 93, 16, 0};
         b2RevoluteJoint* m_joint;
         ConvexShape* m_cshape;
         b2Body* m_body;
