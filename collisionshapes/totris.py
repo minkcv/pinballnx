@@ -49,7 +49,9 @@ while True:
     yTotal += -float(y) / 10.0
 
     # ignore small changes that box2d can't handle
-    ignoreDistance = 5
+    # you might have to fuss with this value depending on 
+    # how jagged or smooth your shapes are
+    ignoreDistance = 1
     if abs(float(x)) / 10.0 + abs(float(y)) / 10.0 < ignoreDistance:
         print("skipping " + x + " and " + y)
         points = points[index + 2 + index2 + 2:]
