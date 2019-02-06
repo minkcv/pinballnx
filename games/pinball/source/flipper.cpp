@@ -24,6 +24,8 @@ Flipper::Flipper(C2DRenderer* renderer, b2World& world, bool rightFlipper) {
     fd.friction = 0.6f;
     fd.density = 1.0f;
     fd.shape = &circleShape;
+    fd.filter.maskBits = 0xFFFF;
+    fd.filter.categoryBits = 0xFFFF;
     m_pivot->CreateFixture(&fd);
 
     bd.type = b2_dynamicBody;

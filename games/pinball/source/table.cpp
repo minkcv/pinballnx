@@ -14,23 +14,30 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     m_currentBall = 1;
     world.SetContactListener(this);
 
-    Layer layer1(renderer, world, 0x0001, 0);
-    m_layers.push_back(layer1);
+    Layer launchTubeLayer(renderer, world, 0x0001, 0);
+    m_layers.push_back(launchTubeLayer);
 
-    Layer layer2(renderer, world, 0x0002, 1);
+    Ramp tubeExit(renderer, world, 0, 1);
+    m_ramps.push_back(tubeExit);
+
+    Layer mainTableLayer(renderer, world, 0x0002, 1);
+    m_layers.push_back(mainTableLayer);
+
+    // Rails
+    Layer layer2(renderer, world, 0x0004, 2);
     m_layers.push_back(layer2);
 
-    Ramp ramp1(renderer, world, 0, 0);
+    Ramp ramp1(renderer, world, 1, 2);
     m_ramps.push_back(ramp1);
 
-    Ramp ramp2(renderer, world, 1, 1);
-    m_ramps.push_back(ramp2);
+    Ramp ramp1Down(renderer, world, 2, 1);
+    m_ramps.push_back(ramp1Down);
 
-    Ramp ramp3(renderer, world, 2, 0);
-    m_ramps.push_back(ramp3);
+    Ramp hole1(renderer, world, 3, 1);
+    m_ramps.push_back(hole1);
 
-    Ramp ramp4(renderer, world, 3, 1);
-    m_ramps.push_back(ramp4);
+    //Ramp ramp4(renderer, world, 3, 1);
+    //m_ramps.push_back(ramp4);
 
     Pinball* firstPinball = new Pinball(renderer, &world);
     m_pinballs.push_back(firstPinball);
@@ -51,6 +58,8 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     fd.isSensor = true;
     fd.shape = &box;
     fd.density = 1.0;
+    fd.filter.maskBits = 0xFFFF;
+    fd.filter.categoryBits = 0xFFFF;
 
     m_ballOutSensor = m_ballOutArea->CreateFixture(&fd);
 }
