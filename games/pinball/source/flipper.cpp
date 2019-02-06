@@ -52,10 +52,17 @@ Flipper::Flipper(C2DRenderer* renderer, b2World& world, bool rightFlipper) {
     jd.enableLimit = true;
     m_joint = (b2RevoluteJoint*)world.CreateJoint(&jd);
 
+#if DEBUG
     m_cshape = new ConvexShape();
     m_cshape->getVertexArray()->setPrimitiveType(PrimitiveType::LineStrip);
     addPointsToShape(m_cshape, m_points);
     renderer->add(m_cshape);
+#else
+    m_texture = new C2DTexture(renderer->getIo()->getDataReadPath() + "flipper.png");
+    m_texture->setOrigin(Origin::Top);
+    m_texture->setLayer(99);
+    renderer->add(m_texture);
+#endif
 }
 
 void Flipper::update(unsigned int keys) {
@@ -75,6 +82,11 @@ void Flipper::update(unsigned int keys) {
 
     b2Vec2 position = m_body->GetPosition();
     float32 angle = m_body->GetAngle();
+#if DEBUG
     m_cshape->setPosition(position.x * g_graphicsScale, position.y * g_graphicsScale);
     m_cshape->setRotation(angle * 180 / M_PI);
+#else
+    m_texture->setPosition(position.x * g_graphicsScale, position.y * g_graphicsScale);
+    m_texture->setRotation(angle * 180 / M_PI);
+#endif
 }

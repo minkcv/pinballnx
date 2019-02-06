@@ -12,18 +12,20 @@ class Pinball {
         Pinball(C2DRenderer* renderer, b2World* world);
         void update(C2DRenderer* renderer, b2World* world);
         b2Fixture* getFixture();
-        uint16 getCollisionMask();
-        void setCollisionMask(uint16 mask);
+        int getLayerID();
+        void setLayerID(int layerID);
         void removeFromWorld();
         bool cleanupDone();
     private:
         b2Body* m_body;
         b2Fixture* m_fixture;
         CircleShape* m_shape;
+        C2DTexture* m_texture;
+        int m_currentLayerID = 0;
 
         // Box2D works best with objects between 0.1m and 10m in size.
         // A pinball is normally 0.027 meters in diameter, but this is too small for Box2D.
-        // We simulate a pinball with a diameter of 0.16m and scale the pinball machine around this.
+        // We simulate a pinball with a diameter of 0.2m and scale the pinball machine around this.
         float m_radius = 0.1;
 
         // Coordinates for the launch tube.

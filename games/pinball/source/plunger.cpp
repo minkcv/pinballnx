@@ -34,8 +34,14 @@ Plunger::Plunger(C2DRenderer* renderer, b2World& world) {
 
     m_joint = (b2PrismaticJoint*)world.CreateJoint(&jd);
 
+#if DEBUG
     m_shape = new RectangleShape(Vector2f(m_halfWidth * 2 * g_graphicsScale, m_halfHeight * 2 * g_graphicsScale));
     renderer->add(m_shape);
+#else
+    m_texture = new C2DTexture(renderer->getIo()->getDataReadPath() + "plunger.png");
+    m_texture->setLayer(99);
+    renderer->add(m_texture);
+#endif
 }
 
 void Plunger::update(unsigned int keys) {
@@ -47,5 +53,9 @@ void Plunger::update(unsigned int keys) {
     }
 
     b2Vec2 position = m_body->GetPosition();
+#if DEBUG
     m_shape->setPosition((position.x - m_halfWidth) * g_graphicsScale, (position.y - m_halfHeight) * g_graphicsScale);
+#else
+    m_texture->setPosition((position.x - m_halfWidth) * g_graphicsScale, (position.y - m_halfHeight) * g_graphicsScale);
+#endif
 }

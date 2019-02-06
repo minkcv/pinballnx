@@ -13,43 +13,61 @@ Pinball::Pinball(C2DRenderer* renderer, b2World* world) {
     circleFixtureDef.density = 1.0f;
     circleFixtureDef.friction = 0.3f;
     circleFixtureDef.restitution = 0.3;
-    circleFixtureDef.filter.maskBits = 0x0001;
+    circleFixtureDef.filter.maskBits = 1 << m_currentLayerID;
     circleFixtureDef.filter.categoryBits = 0xFFFF;
     m_fixture = m_body->CreateFixture(&circleFixtureDef);
 
+#if DEBUG
     m_shape = new CircleShape(m_radius * g_graphicsScale);
     m_shape->setOrigin(Origin::Center);
     renderer->add(m_shape);
+#else
+    m_texture = new C2DTexture(renderer->getIo()->getDataReadPath() + "pinball.png");
+    m_texture->setOrigin(Origin::Center);
+    m_texture->setLayer(m_currentLayerID);
+    renderer->add(m_texture);
+#endif
 }
 
 void Pinball::update(C2DRenderer* renderer, b2World* world) {
     if (m_ballOut == true) {
-        // I've been removed from the world but my update function is still called
-        // somewhere. Just waste time until we get deleted.
+        // The ball can't be removed in the box2d contact event handler,
+        // so m_ballOut is set to true and now we remove the body and graphics,
+        // outside of the box2d physics code.
         world->DestroyBody(m_body);
+#if DEBUG
         renderer->remove(m_shape);
+#else
+        renderer->remove(m_texture);
+#endif
         m_body = NULL;
         m_shape = NULL;
         m_removed = true;
         return;
     }
     b2Vec2 position = m_body->GetPosition();
-    float32 angle = m_body->GetAngle();
+#if DEBUG
     m_shape->setPosition(position.x * g_graphicsScale, position.y * g_graphicsScale);
-    m_shape->setRotation(angle * 180 / M_PI);
+#else
+    m_texture->setPosition(position.x * g_graphicsScale, position.y * g_graphicsScale);
+#endif
 }
 
 b2Fixture* Pinball::getFixture() {
     return m_fixture;
 }
 
-uint16 Pinball::getCollisionMask() {
-    return m_fixture->GetFilterData().maskBits;
+int Pinball::getLayerID() {
+    return m_currentLayerID;
 }
 
-void Pinball::setCollisionMask(uint16 mask) {
+void Pinball::setLayerID(int layerID) {
+    m_currentLayerID = layerID;
+#if !DEBUG
+    m_texture->setLayer(m_currentLayerID);
+#endif
     b2Filter filterData = m_fixture->GetFilterData();
-    filterData.maskBits = mask;
+    filterData.maskBits = 1 << layerID;
     m_fixture->SetFilterData(filterData);
 }
 

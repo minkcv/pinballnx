@@ -14,17 +14,17 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     m_currentBall = 1;
     world.SetContactListener(this);
 
-    Layer launchTubeLayer(renderer, world, 0x0001, 0);
+    Layer launchTubeLayer(renderer, world, 0);
     m_layers.push_back(launchTubeLayer);
 
     Ramp tubeExit(renderer, world, 0, 1);
     m_ramps.push_back(tubeExit);
 
-    Layer mainTableLayer(renderer, world, 0x0002, 1);
+    Layer mainTableLayer(renderer, world, 1);
     m_layers.push_back(mainTableLayer);
 
     // Rails
-    Layer layer2(renderer, world, 0x0004, 2);
+    Layer layer2(renderer, world, 2);
     m_layers.push_back(layer2);
 
     Ramp ramp1(renderer, world, 1, 2);
@@ -135,7 +135,7 @@ void Table::BeginContact(b2Contact* contact) {
             if ((fixtureA == rampFixture && fixtureB == pinball->getFixture()) ||
                 (fixtureA == pinball->getFixture() && fixtureB == rampFixture)) {
                 int layerID =  m_ramps.at(r).getLayerID();
-                pinball->setCollisionMask(m_layers.at(layerID).getCategoryFilter());
+                pinball->setLayerID(layerID);
             }
         }
     }

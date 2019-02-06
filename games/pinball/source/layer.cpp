@@ -1,14 +1,18 @@
 #include "layer.h"
 
-Layer::Layer(C2DRenderer* renderer, b2World& world, uint16 categoryFilter, int layerID) {
-    m_categoryFilter = categoryFilter;
+Layer::Layer(C2DRenderer* renderer, b2World& world, int layerID) {
     int numShapes = m_layerData.at(layerID).size();
     for (int i = 0; i < numShapes; i++) {
-        loadShape(m_layerData.at(layerID).at(i), renderer, world, categoryFilter);
+        loadShape(m_layerData.at(layerID).at(i), renderer, world, layerID);
     }
+#if !DEBUG
+    auto* texture = new C2DTexture(renderer->getIo()->getDataReadPath() + "layer" + std::to_string(layerID) + ".png");
+    texture->setLayer(layerID);
+    renderer->add(texture);
+#endif
 }
 
-void Layer::loadShape(std::vector<float> points, C2DRenderer* renderer, b2World& world, uint16 categoryFilter) {
+void Layer::loadShape(std::vector<float> points, C2DRenderer* renderer, b2World& world, int layerID) {
     b2Vec2* vs = getVertexArray(points);
     b2ChainShape chain;
     chain.CreateChain(vs, points.size() / 2);
@@ -21,7 +25,7 @@ void Layer::loadShape(std::vector<float> points, C2DRenderer* renderer, b2World&
     fixtureDef.density = 0.0f;
     fixtureDef.friction = 0.3f;
     fixtureDef.filter.maskBits = 0xFFFF;
-    fixtureDef.filter.categoryBits = categoryFilter;
+    fixtureDef.filter.categoryBits = 1 << layerID;
     body->CreateFixture(&fixtureDef);
 
 #if DEBUG
@@ -34,6 +38,6 @@ void Layer::loadShape(std::vector<float> points, C2DRenderer* renderer, b2World&
 #endif
 }
 
-uint16 Layer::getCategoryFilter() {
-    return m_categoryFilter;
+int Layer::getLayerID() {
+    return m_layerID;
 }

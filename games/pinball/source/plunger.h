@@ -18,6 +18,7 @@ class Plunger {
         b2Body* m_constraint;
         b2PrismaticJoint* m_joint;
         RectangleShape* m_shape;
+        C2DTexture* m_texture;
 };
 
 #endif

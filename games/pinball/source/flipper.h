@@ -26,6 +26,7 @@ class Flipper {
         vector<float> m_points = {-16, 0, -10, 93, -6, 99, -2.5, 100, 2.5, 100, 6, 99, 10, 93, 16, 0};
         b2RevoluteJoint* m_joint;
         ConvexShape* m_cshape;
+        C2DTexture* m_texture;
         b2Body* m_body;
         b2Body* m_pivot;
 };
