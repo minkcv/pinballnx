@@ -24,13 +24,14 @@ void Layer::loadShape(std::vector<float> points, C2DRenderer* renderer, b2World&
     fixtureDef.filter.categoryBits = categoryFilter;
     body->CreateFixture(&fixtureDef);
 
+#if DEBUG
     // Debug graphics
-    // TODO: Comment this out when the texture graphics are done.
     // The texture loading should be done elsewhere.
     ConvexShape* cshape = new ConvexShape();
     addPointsToShape(cshape, points);
     cshape->getVertexArray()->setPrimitiveType(PrimitiveType::LineStrip);
     renderer->add(cshape);
+#endif
 }
 
 uint16 Layer::getCategoryFilter() {

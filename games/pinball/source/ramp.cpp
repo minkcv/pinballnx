@@ -23,13 +23,14 @@ Ramp::Ramp(C2DRenderer* renderer, b2World& world, int rampID, int layerID) {
     fixtureDef.filter.categoryBits = 0xFFFF;
     m_fixture = body->CreateFixture(&fixtureDef);
 
+#if DEBUG
     // Debug graphics
-    // TODO: Comment this out when the texture graphics are done.
     // The ramp class is just a sensor. 
     ConvexShape* cshape = new ConvexShape();
     addPointsToShape(cshape, points);
     cshape->getVertexArray()->setPrimitiveType(PrimitiveType::LineStrip);
     renderer->add(cshape);
+#endif
 }
 
 b2Fixture* Ramp::getFixture() {

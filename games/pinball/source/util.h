@@ -5,6 +5,8 @@
 #include <vector>
 #include "cross2d/c2d.h"
 
+#define DEBUG 1
+
 using namespace c2d;
 
 // The box2d coordinates are not pixel coordinates because they are in meters.
