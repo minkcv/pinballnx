@@ -68,6 +68,7 @@ void Pinball::setLayerID(int layerID) {
 #endif
     b2Filter filterData = m_fixture->GetFilterData();
     filterData.maskBits = 1 << layerID;
+    filterData.categoryBits = 1 << layerID;
     m_fixture->SetFilterData(filterData);
 }
 
