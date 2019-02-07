@@ -36,8 +36,14 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     Ramp hole1(renderer, world, 3, 1);
     m_ramps.push_back(hole1);
 
-    //Ramp ramp4(renderer, world, 3, 1);
-    //m_ramps.push_back(ramp4);
+    Ramp hole2(renderer, world, 6, 1);
+    m_ramps.push_back(hole2);
+
+    Ramp rightRamp(renderer, world, 4, 2);
+    m_ramps.push_back(rightRamp);
+
+    Ramp rightRampDown(renderer, world, 5, 1);
+    m_ramps.push_back(rightRampDown);
 
     Pinball* firstPinball = new Pinball(renderer, &world);
     m_pinballs.push_back(firstPinball);
