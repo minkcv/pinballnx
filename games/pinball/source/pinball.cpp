@@ -24,7 +24,7 @@ Pinball::Pinball(C2DRenderer* renderer, b2World* world) {
 #else
     m_texture = new C2DTexture(renderer->getIo()->getDataReadPath() + "pinball.png");
     m_texture->setOrigin(Origin::Center);
-    m_texture->setLayer(m_currentLayerID);
+    m_texture->setLayer(m_currentLayerID * 2);
     renderer->add(m_texture);
 #endif
 }
@@ -64,7 +64,9 @@ int Pinball::getLayerID() {
 void Pinball::setLayerID(int layerID) {
     m_currentLayerID = layerID;
 #if !DEBUG
-    m_texture->setLayer(m_currentLayerID);
+    // Multiply by 2 because rendering layers have a gap so the pinball
+    // can be rendered above the layer it is on.
+    m_texture->setLayer(m_currentLayerID * 2 + 1);
 #endif
     b2Filter filterData = m_fixture->GetFilterData();
     filterData.maskBits = 1 << layerID;

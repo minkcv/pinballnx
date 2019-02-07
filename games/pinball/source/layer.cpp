@@ -7,7 +7,9 @@ Layer::Layer(C2DRenderer* renderer, b2World& world, int layerID) {
     }
 #if !DEBUG
     auto* texture = new C2DTexture(renderer->getIo()->getDataReadPath() + "layer" + std::to_string(layerID) + ".png");
-    texture->setLayer(layerID);
+    // Multiply by 2 because rendering layers have a gap so the pinball
+    // can be rendered above the layer it is on.
+    texture->setLayer(layerID * 2);
     renderer->add(texture);
 #endif
 }
