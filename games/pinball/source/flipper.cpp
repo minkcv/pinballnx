@@ -45,7 +45,7 @@ Flipper::Flipper(C2DRenderer* renderer, b2World& world, bool rightFlipper) {
     b2RevoluteJointDef jd;
     jd.Initialize(m_pivot, m_body, m_pivot->GetWorldCenter());
     jd.enableMotor = true;
-    jd.maxMotorTorque = 1000.0f;
+    jd.maxMotorTorque = 2000.0f;
     jd.motorSpeed = 0.0f;
     jd.lowerAngle = m_lowerLimit;
     jd.upperAngle = m_upperLimit;
@@ -71,10 +71,10 @@ void Flipper::update(unsigned int keys) {
         if (jointAngle * m_rotateDirection < m_lowerLimit)
             m_joint->SetMotorSpeed(0.0f);
         else
-            m_joint->SetMotorSpeed(-15.0f * m_rotateDirection);
+            m_joint->SetMotorSpeed(-20.0f * m_rotateDirection);
     }
     else if (jointAngle * m_rotateDirection < m_upperLimit) {
-        m_joint->SetMotorSpeed(15.0f * m_rotateDirection);
+        m_joint->SetMotorSpeed(20.0f * m_rotateDirection);
     }
     else {
         m_joint->SetMotorSpeed(0.0f);
