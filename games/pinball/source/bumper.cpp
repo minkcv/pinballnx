@@ -16,12 +16,6 @@ Bumper::Bumper(C2DRenderer* renderer, b2World& world, int layerID, float x, floa
     circleFixtureDef.restitution = 0.9;
     circleFixtureDef.filter.maskBits = 1 << layerID;
     circleFixtureDef.filter.categoryBits = 1 << layerID;
-    body->CreateFixture(&circleFixtureDef);
-
-    b2CircleShape sensorCircle;
-    sensorCircle.m_radius = m_sensorRadius;
-    circleFixtureDef.shape = &sensorCircle;
-    circleFixtureDef.isSensor = true;
     m_fixture = body->CreateFixture(&circleFixtureDef);
 
 #if DEBUG
@@ -44,20 +38,25 @@ Bumper::Bumper(C2DRenderer* renderer, b2World& world, int layerID, float x, floa
 #endif
 }
 
-b2Fixture* Bumper::getFixture() {
-    return m_fixture;
-}
-
-void Bumper::setHit(bool hit) {
-#if !DEBUG
-    // TODO: a better visibility enable/disable
-    if (hit) {
-        m_texture1->setLayer(-99);
-        m_texture2->setLayer(m_layerID * 2 + 1);
+void Bumper::update() {
+    if (m_flashFrameCurrent < m_flashFrames) {
+        m_flashFrameCurrent++;
     }
     else {
         m_texture1->setLayer(m_layerID * 2 + 1);
         m_texture2->setLayer(-99);
     }
+}
+
+b2Fixture* Bumper::getFixture() {
+    return m_fixture;
+}
+
+void Bumper::setHit() {
+#if !DEBUG
+    // TODO: a better visibility enable/disable
+    m_texture1->setLayer(-99);
+    m_texture2->setLayer(m_layerID * 2 + 1);
+    m_flashFrameCurrent = 0;
 #endif
 }

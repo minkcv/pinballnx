@@ -3,6 +3,7 @@
 Table::Table(C2DRenderer* renderer, b2World& world) : 
     m_layers(),
     m_ramps(),
+    m_bumpers(),
     m_pinballs(),
     m_scoreboard(renderer),
     m_leftFlipper(renderer, world, false),
@@ -45,16 +46,16 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     Ramp rightRampDown(renderer, world, 5, 1);
     m_ramps.push_back(rightRampDown);
 
-    Bumper bumper1(renderer, world, 1, 9, 1.3);
+    Bumper* bumper1 = new Bumper(renderer, world, 1, 9, 1.3);
     m_bumpers.push_back(bumper1);
 
-    Bumper bumper2(renderer, world, 1, 10, 2);
+    Bumper* bumper2 = new Bumper(renderer, world, 1, 10, 2);
     m_bumpers.push_back(bumper2);
 
-    Bumper bumper3(renderer, world, 1, 9, 2.7);
+    Bumper* bumper3 = new Bumper(renderer, world, 1, 9, 2.7);
     m_bumpers.push_back(bumper3);
 
-    Bumper bumper4(renderer, world, 2, 9.7, 5.2);
+    Bumper* bumper4 = new Bumper(renderer, world, 2, 9.7, 5.2);
     m_bumpers.push_back(bumper4);
 
     Pinball* firstPinball = new Pinball(renderer, &world);
@@ -122,7 +123,12 @@ void Table::update(unsigned int keys) {
         m_scoreboard.update(m_currentBall);
     }
 
-    // Free extra multi balls in debug mode at the press of a key
+    for (size_t i = 0; i < m_bumpers.size(); i++) {
+        Bumper* bumper = m_bumpers.at(i);
+        bumper->update();
+    }
+
+    // Multi ball in debug mode at the press of a key
     if (Input::Key::Fire1 & keys) {
         Pinball* nextPinball = new Pinball(m_renderer, m_b2world);
         m_pinballs.push_back(nextPinball);
@@ -158,33 +164,18 @@ void Table::BeginContact(b2Contact* contact) {
         }
 
         for (size_t b = 0; b < m_bumpers.size(); b++) {
-            Bumper bumper = m_bumpers.at(b);
-            b2Fixture* bumperFixture = bumper.getFixture();
+            Bumper* bumper = m_bumpers.at(b);
+            b2Fixture* bumperFixture = bumper->getFixture();
             if ((fixtureA == bumperFixture && fixtureB == pinball->getFixture()) ||
                 (fixtureA == pinball->getFixture() && fixtureB == bumperFixture)) {
-                bumper.setHit(true);
+                bumper->setHit();
             }
         }
     }
 }
 
 void Table::EndContact(b2Contact* contact) {
-    b2Fixture* fixtureA = contact->GetFixtureA();
-    b2Fixture* fixtureB = contact->GetFixtureB();
-    for (size_t i = 0; i < m_pinballs.size(); i++) {
-        Pinball* pinball = m_pinballs.at(i);
-        if (pinball == NULL)
-            continue;
 
-        for (size_t b = 0; b < m_bumpers.size(); b++) {
-            Bumper bumper = m_bumpers.at(b);
-            b2Fixture* bumperFixture = bumper.getFixture();
-            if ((fixtureA == bumperFixture && fixtureB == pinball->getFixture()) ||
-                (fixtureA == pinball->getFixture() && fixtureB == bumperFixture)) {
-                bumper.setHit(false);
-            }
-        }
-    }
 }
 
 void Table::cleanup() {
