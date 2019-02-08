@@ -189,4 +189,8 @@ void Table::cleanup() {
             }
         }
     }
+    for (size_t i = 0; i < m_bumpers.size(); i++) {
+        Bumper* bumper = m_bumpers.at(i);
+        delete bumper;
+    }
 }
