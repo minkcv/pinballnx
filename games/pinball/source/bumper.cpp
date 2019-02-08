@@ -32,7 +32,7 @@ Bumper::Bumper(C2DRenderer* renderer, b2World& world, int layerID, float x, floa
 #else
     m_texture1 = new C2DTexture(renderer->getIo()->getDataReadPath() + "bumper1.png");
     m_texture1->setOrigin(Origin::Center);
-    m_texture1->setLayer(layerID * 2);
+    m_texture1->setLayer(layerID * 2 + 1);
     m_texture1->setPosition(x * g_graphicsScale, y * g_graphicsScale);
     renderer->add(m_texture1);
 
@@ -53,10 +53,10 @@ void Bumper::setHit(bool hit) {
     // TODO: a better visibility enable/disable
     if (hit) {
         m_texture1->setLayer(-99);
-        m_texture2->setLayer(m_layerID * 2);
+        m_texture2->setLayer(m_layerID * 2 + 1);
     }
     else {
-        m_texture1->setLayer(m_layerID * 2);
+        m_texture1->setLayer(m_layerID * 2 + 1);
         m_texture2->setLayer(-99);
     }
 #endif

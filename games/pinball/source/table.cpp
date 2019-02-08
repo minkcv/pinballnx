@@ -54,6 +54,9 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     Bumper bumper3(renderer, world, 1, 9, 2.7);
     m_bumpers.push_back(bumper3);
 
+    Bumper bumper4(renderer, world, 2, 9.7, 5.2);
+    m_bumpers.push_back(bumper4);
+
     Pinball* firstPinball = new Pinball(renderer, &world);
     m_pinballs.push_back(firstPinball);
 

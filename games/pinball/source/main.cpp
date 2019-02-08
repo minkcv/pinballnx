@@ -20,7 +20,7 @@ int main(int argc, char **argv) {
     // You can change the 60.0f to the refresh rate of your monitor.
     // If you have a 120hz monitor and you leave this at 1/60 then 
     // the game runs twice as fast as on the switch.
-    float32 timeStep = 1.0f / 60.0f;
+    float32 timeStep = 1.0f / 50.0f;
     int32 velocityIterations = 6;
     int32 positionIterations = 2;
 
