@@ -45,6 +45,15 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     Ramp rightRampDown(renderer, world, 5, 1);
     m_ramps.push_back(rightRampDown);
 
+    Bumper bumper1(renderer, world, 1, 9, 1.3);
+    m_bumpers.push_back(bumper1);
+
+    Bumper bumper2(renderer, world, 1, 10, 2);
+    m_bumpers.push_back(bumper2);
+
+    Bumper bumper3(renderer, world, 1, 9, 2.7);
+    m_bumpers.push_back(bumper3);
+
     Pinball* firstPinball = new Pinball(renderer, &world);
     m_pinballs.push_back(firstPinball);
 
@@ -142,6 +151,14 @@ void Table::BeginContact(b2Contact* contact) {
                 (fixtureA == pinball->getFixture() && fixtureB == rampFixture)) {
                 int layerID =  m_ramps.at(r).getLayerID();
                 pinball->setLayerID(layerID);
+            }
+        }
+
+        for (size_t b = 0; b < m_bumpers.size(); b++) {
+            b2Fixture* bumperFixture = m_bumpers.at(b).getFixture();
+            if ((fixtureA == bumperFixture && fixtureB == pinball->getFixture()) ||
+                (fixtureA == pinball->getFixture() && fixtureB == bumperFixture)) {
+                printf("HIT\n");
             }
         }
     }

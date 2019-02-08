@@ -11,6 +11,7 @@
 #include "layer.h"
 #include "scoreboard.h"
 #include "ramp.h"
+#include "bumper.h"
 
 using namespace c2d;
 
@@ -30,6 +31,7 @@ class Table : public b2ContactListener {
     private:
         std::vector<Layer> m_layers;
         std::vector<Ramp> m_ramps;
+        std::vector<Bumper> m_bumpers;
         std::vector<Pinball*> m_pinballs;
         Scoreboard m_scoreboard;
         Flipper m_leftFlipper;
