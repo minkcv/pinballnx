@@ -155,17 +155,33 @@ void Table::BeginContact(b2Contact* contact) {
         }
 
         for (size_t b = 0; b < m_bumpers.size(); b++) {
-            b2Fixture* bumperFixture = m_bumpers.at(b).getFixture();
+            Bumper bumper = m_bumpers.at(b);
+            b2Fixture* bumperFixture = bumper.getFixture();
             if ((fixtureA == bumperFixture && fixtureB == pinball->getFixture()) ||
                 (fixtureA == pinball->getFixture() && fixtureB == bumperFixture)) {
-                printf("HIT\n");
+                bumper.setHit(true);
             }
         }
     }
 }
 
 void Table::EndContact(b2Contact* contact) {
+    b2Fixture* fixtureA = contact->GetFixtureA();
+    b2Fixture* fixtureB = contact->GetFixtureB();
+    for (size_t i = 0; i < m_pinballs.size(); i++) {
+        Pinball* pinball = m_pinballs.at(i);
+        if (pinball == NULL)
+            continue;
 
+        for (size_t b = 0; b < m_bumpers.size(); b++) {
+            Bumper bumper = m_bumpers.at(b);
+            b2Fixture* bumperFixture = bumper.getFixture();
+            if ((fixtureA == bumperFixture && fixtureB == pinball->getFixture()) ||
+                (fixtureA == pinball->getFixture() && fixtureB == bumperFixture)) {
+                bumper.setHit(false);
+            }
+        }
+    }
 }
 
 void Table::cleanup() {

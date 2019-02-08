@@ -11,11 +11,14 @@ class Bumper {
     public:
         Bumper(C2DRenderer* renderer, b2World& world, int layerID, float x, float y);
         b2Fixture* getFixture();
+        void setHit(bool hit);
     private:
+        int m_layerID;
         b2Fixture* m_fixture;
-        ConvexShape* m_shape;
-        C2DTexture* m_texture;
+        CircleShape* m_shape;
+        C2DTexture* m_texture1;
+        C2DTexture* m_texture2;
         float m_radius = 0.3;
-        float m_sensorRadius = 0.35;
+        float m_sensorRadius = 0.32;
 };
 #endif

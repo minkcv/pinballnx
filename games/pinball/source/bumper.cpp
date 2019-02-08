@@ -1,6 +1,7 @@
 #include "bumper.h"
 
 Bumper::Bumper(C2DRenderer* renderer, b2World& world, int layerID, float x, float y) {
+    m_layerID = layerID;
     b2CircleShape circle;
     circle.m_radius = m_radius;
     b2BodyDef circleBodyDef;
@@ -29,14 +30,34 @@ Bumper::Bumper(C2DRenderer* renderer, b2World& world, int layerID, float x, floa
     m_shape->setPosition(x * g_graphicsScale, y * g_graphicsScale);
     renderer->add(m_shape);
 #else
-    m_texture = new C2DTexture(renderer->getIo()->getDataReadPath() + "bumper.png");
-    m_texture->setOrigin(Origin::Center);
-    m_texture->setLayer(layerID * 2);
-    m_texture->setPosition(x * g_graphicsScale, y * g_graphicsScale);
-    renderer->add(m_texture);
+    m_texture1 = new C2DTexture(renderer->getIo()->getDataReadPath() + "bumper1.png");
+    m_texture1->setOrigin(Origin::Center);
+    m_texture1->setLayer(layerID * 2);
+    m_texture1->setPosition(x * g_graphicsScale, y * g_graphicsScale);
+    renderer->add(m_texture1);
+
+    m_texture2 = new C2DTexture(renderer->getIo()->getDataReadPath() + "bumper2.png");
+    m_texture2->setOrigin(Origin::Center);
+    m_texture2->setLayer(-99);
+    m_texture2->setPosition(x * g_graphicsScale, y * g_graphicsScale);
+    renderer->add(m_texture2);
 #endif
 }
 
 b2Fixture* Bumper::getFixture() {
     return m_fixture;
+}
+
+void Bumper::setHit(bool hit) {
+#if !DEBUG
+    // TODO: a better visibility enable/disable
+    if (hit) {
+        m_texture1->setLayer(-99);
+        m_texture2->setLayer(m_layerID * 2);
+    }
+    else {
+        m_texture1->setLayer(m_layerID * 2);
+        m_texture2->setLayer(-99);
+    }
+#endif
 }
