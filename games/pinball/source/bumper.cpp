@@ -43,8 +43,10 @@ void Bumper::update() {
         m_flashFrameCurrent++;
     }
     else {
+#if !DEBUG
         m_texture1->setLayer(m_layerID * 2 + 1);
         m_texture2->setLayer(-99);
+#endif
     }
 }
 
