@@ -14,7 +14,7 @@ int main(int argc, char **argv) {
     renderer->getInput()->setRepeatDelay(0);
 
     // Gravity to the left
-    b2Vec2 gravity(-2.0f, 0.0f);
+    b2Vec2 gravity(-3.0f, 0.0f);
     b2World world(gravity);
 
     // You can change the 60.0f to the refresh rate of your monitor.
