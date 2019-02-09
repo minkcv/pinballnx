@@ -12,6 +12,7 @@
 #include "scoreboard.h"
 #include "ramp.h"
 #include "bumper.h"
+#include "kicker.h"
 
 using namespace c2d;
 
@@ -36,6 +37,8 @@ class Table : public b2ContactListener {
         Scoreboard m_scoreboard;
         Flipper m_leftFlipper;
         Flipper m_rightFlipper;
+        Kicker* m_leftKicker;
+        Kicker* m_rightKicker;
         Plunger m_plunger;
         C2DRenderer* m_renderer;
         // The width of the table, which is the height of the screen.
