@@ -14,6 +14,9 @@
     cmake -DBUILD_SWITCH=1 ../  
     make pinball.nro
 
+#### Finally
+Copy the pinball.nro and data folder in cmake-build/games/pinball to the switch folder on your sd card.
+
 ### Building on Linux for Linux
 #### Install dependencies
 
@@ -26,7 +29,8 @@
     mkdir cmake-build && cd cmake-build
     cmake -DBUILD_LINUX=1 ../
     make pinball.elf
-    ./examples/pinball/pinball.elf
+    cd games/pinball
+    ./pinball.elf
 
 ### Building on Windows for Windows
 #### Install devitPro
@@ -56,4 +60,5 @@ Which opens an MSYS2 shell. From that new shell
     mkdir cmake-build && cd cmake-build
     cmake -G "MSYS Makefiles" -DBUILD_WINDOWS=1 ../
     make pinball.elf
-    ./examples/pinball/pinball.elf.exe
+    cd games/pinball
+    ./pinball.elf.exe
