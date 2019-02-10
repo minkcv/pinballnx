@@ -3,9 +3,9 @@ cmake_minimum_required(VERSION 3.0)
 
 project(pinball)
 
-set(PROJECT_AUTHOR "minkcv")
+set(PROJECT_AUTHOR "Will Smith")
 set(VERSION_MAJOR "0")
-set(VERSION_MINOR "0")
+set(VERSION_MINOR "1")
 # ps vita
 set(TITLE_ID "CROSS0001")
 
