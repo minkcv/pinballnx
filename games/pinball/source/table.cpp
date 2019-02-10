@@ -37,26 +37,35 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     Ramp hole1(renderer, world, 3, 1);
     m_ramps.push_back(hole1);
 
-    Ramp hole2(renderer, world, 6, 1);
-    m_ramps.push_back(hole2);
-
     Ramp rightRamp(renderer, world, 4, 2);
     m_ramps.push_back(rightRamp);
 
     Ramp rightRampDown(renderer, world, 5, 1);
     m_ramps.push_back(rightRampDown);
+    
+    Ramp hole2(renderer, world, 6, 1);
+    m_ramps.push_back(hole2);
 
-    Bumper* bumper1 = new Bumper(renderer, world, 1, 9, 1.3);
+    Ramp ramp3(renderer, world, 7, 2);
+    m_ramps.push_back(ramp3);
+
+    Ramp ramp3Down(renderer, world, 8, 1);
+    m_ramps.push_back(ramp3Down);
+
+    Ramp ramp3up2(renderer, world, 9, 2);
+    m_ramps.push_back(ramp3up2);
+
+    Bumper* bumper1 = new Bumper(renderer, world, 1, 8.6, 2.1);
     m_bumpers.push_back(bumper1);
 
-    Bumper* bumper2 = new Bumper(renderer, world, 1, 10, 2);
+    Bumper* bumper2 = new Bumper(renderer, world, 1, 9.9, 2.1);
     m_bumpers.push_back(bumper2);
 
-    Bumper* bumper3 = new Bumper(renderer, world, 1, 9, 2.7);
+    Bumper* bumper3 = new Bumper(renderer, world, 1, 9.25, 3.0);
     m_bumpers.push_back(bumper3);
 
-    Bumper* bumper4 = new Bumper(renderer, world, 2, 9.7, 5.2);
-    m_bumpers.push_back(bumper4);
+    //Bumper* bumper4 = new Bumper(renderer, world, 2, 8.4, 6.6);
+    //m_bumpers.push_back(bumper4);
 
     // Minor TODO: can these be non pointer type?
     m_leftKicker = new Kicker(renderer, world, false);

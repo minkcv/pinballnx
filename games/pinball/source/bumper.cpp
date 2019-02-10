@@ -13,7 +13,7 @@ Bumper::Bumper(C2DRenderer* renderer, b2World& world, int layerID, float x, floa
     circleFixtureDef.shape = &circle;
     circleFixtureDef.density = 1.0f;
     circleFixtureDef.friction = 0.3f;
-    circleFixtureDef.restitution = 0.9;
+    circleFixtureDef.restitution = 0.6;
     circleFixtureDef.filter.maskBits = 1 << layerID;
     circleFixtureDef.filter.categoryBits = 1 << layerID;
     m_fixture = body->CreateFixture(&circleFixtureDef);

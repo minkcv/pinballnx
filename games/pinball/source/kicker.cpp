@@ -63,7 +63,7 @@ void Kicker::update() {
 #endif
 
     if (m_hitFrameCurrent < m_hitFrames) {
-        m_joint->SetMotorSpeed(10.0f);
+        m_joint->SetMotorSpeed(15.0f);
         m_hitFrameCurrent++;
     }
     else
