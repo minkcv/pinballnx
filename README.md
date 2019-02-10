@@ -3,6 +3,8 @@ A homebrew pinball game for the nintendo switch. Currently a work in progress.
 
 Made with [libcross2d](https://github.com/Cpasjuste/libcross2d) and [Box2D](https://github.com/erincatto/Box2D).
 
+![demovideo](https://giant.gfycat.com/SpottedWellinformedBactrian.gif)
+
 ## Controls
 ### Switch
 - Flippers: L and R
