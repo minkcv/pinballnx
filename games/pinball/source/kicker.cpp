@@ -34,9 +34,9 @@ Kicker::Kicker(C2DRenderer* renderer, b2World& world, bool right) {
     b2Vec2 axis(1.0f, 0.0f);
     jd.Initialize(constraint, m_body, constraint->GetWorldCenter(), axis);
     jd.lowerTranslation = -10.0f;
-    jd.upperTranslation = 10.0f;
+    jd.upperTranslation = 0.3f;
     jd.enableLimit = true;
-    jd.maxMotorForce = 15.0f;
+    jd.maxMotorForce = 20.0f;
     jd.motorSpeed = 0.0f;
     jd.enableMotor = true;
 
@@ -63,7 +63,7 @@ void Kicker::update() {
 #endif
 
     if (m_hitFrameCurrent < m_hitFrames) {
-        m_joint->SetMotorSpeed(15.0f);
+        m_joint->SetMotorSpeed(20.0f);
         m_hitFrameCurrent++;
     }
     else

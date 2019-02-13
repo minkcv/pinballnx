@@ -25,7 +25,7 @@ class Kicker {
         float m_rightY = 6.38;
         float m_halfHeight = 0.1;
         float m_halfWidth = 0.175;
-        int m_hitFrames = 4;
+        int m_hitFrames = 1;
         int m_hitFrameCurrent = m_hitFrames;
 };
 
