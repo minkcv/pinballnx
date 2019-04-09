@@ -49,6 +49,7 @@ class Table : public b2ContactListener {
         b2Body* m_ballOutArea;
         b2Fixture* m_ballOutSensor;
         int m_currentBall;
+        int m_score;
 };
 
 #endif

@@ -1,11 +1,9 @@
 # PinballNX
 A homebrew pinball game for the nintendo switch. Currently a work in progress. 
 
-Made with [libcross2d](https://github.com/Cpasjuste/libcross2d) and [Box2D](https://github.com/erincatto/Box2D).
-
 Take the joycons off and turn the display to portrait.
 
-![demovideo](https://giant.gfycat.com/SpottedWellinformedBactrian.gif)
+![screenshot](./screenshot.png)
 
 ## Controls
 ### Switch
@@ -23,3 +21,12 @@ Take the joycons off and turn the display to portrait.
 ## Building
 
 See [BUILDING.md](./BUILDING.md).
+
+## Credits
+
+- Libcross2d
+  - Cpajuste [libcross2d](https://github.com/Cpasjuste/libcross2d)
+- Box2D
+  - Erin Catto [Box2D](https://github.com/erincatto/Box2D)
+- Scoreboard Font: Advanced Dot Digital-7
+  - Sizenko Alexander [Style-7](http://www.styleseven.com)

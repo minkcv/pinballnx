@@ -13,6 +13,7 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     m_b2world = &world;
     m_renderer = renderer;
     m_currentBall = 1;
+    m_score = 0;
     world.SetContactListener(this);
 
     Layer launchTubeLayer(renderer, world, 0);
@@ -135,8 +136,8 @@ void Table::update(unsigned int keys) {
             Pinball* nextPinball = new Pinball(m_renderer, m_b2world);
             m_pinballs.push_back(nextPinball);
         }
-        m_scoreboard.update(m_currentBall);
     }
+    m_scoreboard.update(m_currentBall, m_score);
 
     for (size_t i = 0; i < m_bumpers.size(); i++) {
         Bumper* bumper = m_bumpers.at(i);
@@ -183,6 +184,7 @@ void Table::BeginContact(b2Contact* contact) {
             b2Fixture* bumperFixture = bumper->getFixture();
             if ((fixtureA == bumperFixture && fixtureB == pinball->getFixture()) ||
                 (fixtureA == pinball->getFixture() && fixtureB == bumperFixture)) {
+                m_score += 10;
                 bumper->setHit();
             }
         }
