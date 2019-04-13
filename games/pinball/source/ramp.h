@@ -9,7 +9,7 @@
 using namespace std;
 
 // The ramp class has a box2d body and fixture but they are only for detection purposes.
-// The fixture in here is a  box2d sensors and doesn't cause any forces. 
+// The fixture in here is a box2d sensor and doesn't cause any forces. 
 // The collision detection is handled in the Table class in the overriden
 // BeginContact and EndContact methods from the b2ContactListener that Table extends.
 // Creating a bidirectional ramp actually takes 2 Ramp objects, one for up and one for down
@@ -37,7 +37,7 @@ class Ramp {
         vector<float> m_ramp3 = {734.0, 543.6, 714.0, 562.2, 714.0, 565.6, 714.0, 569.0, 724.8, 579.5, 735.5, 590.0, 738.8, 590.0, 742.1, 590.0, 745.0, 588.5, 748.0, 586.9, 748.0, 584.6, 748.0, 582.2, 749.6, 580.9, 751.2, 579.6, 753.0, 578.5, 754.9, 577.5, 764.5, 569.5, 774.2, 561.5, 777.5, 559.0, 780.8, 556.5, 782.5, 553.1, 784.1, 549.7, 779.3, 544.6, 774.5, 539.5, 767.5, 532.2, 760.6, 525.0, 757.3, 525.0, 754.0, 525.0, 734.0, 543.6};
         vector<float> m_ramp3Down = {708.5, 497.6, 702.5, 503.2, 695.5, 508.7, 688.5, 514.3, 684.8, 517.9, 681.0, 521.4, 681.0, 524.3, 681.0, 527.1, 694.6, 541.8, 708.3, 556.5, 711.5, 556.5, 714.8, 556.5, 731.9, 540.2, 749.0, 523.8, 749.0, 520.5, 749.0, 517.2, 735.6, 504.6, 722.2, 492.0, 718.4, 492.0, 714.5, 492.1, 708.5, 497.6};
         vector<float> m_ramp3up2 = {792.0, 564.7, 789.5, 565.2, 785.0, 569.4, 780.5, 573.7, 775.0, 577.7, 769.5, 581.7, 764.5, 586.8, 759.5, 591.9, 757.9, 592.0, 756.2, 592.0, 752.5, 596.1, 748.8, 600.3, 749.4, 607.4, 750.1, 614.5, 751.8, 616.2, 753.5, 617.9, 765.0, 618.5, 776.5, 619.2, 791.0, 616.5, 805.5, 613.9, 811.5, 610.6, 817.5, 607.4, 820.0, 605.9, 822.5, 604.5, 824.8, 602.6, 827.0, 600.7, 827.0, 597.6, 827.0, 594.5, 812.4, 579.2, 797.8, 564.0, 796.2, 564.1, 794.5, 564.3, 792.0, 564.7};
-        // Access this vector by index of rampID to get the 2 collisions shapes for that ramp
+        // Access this vector by index of rampID to get the collision shape for that ramp
         vector<vector<float>> m_rampShapes = {
             m_launchTubeExitSensor, m_ramp1, m_ramp1Down, m_hole1, m_ramp2, m_ramp2Down, m_hole2, m_ramp3, m_ramp3Down, m_ramp3up2
         };

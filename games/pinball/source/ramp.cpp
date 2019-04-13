@@ -5,7 +5,6 @@ Ramp::Ramp(C2DRenderer* renderer, b2World& world, int rampID, int layerID) {
 
     vector<float> points = m_rampShapes.at(rampID);
 
-    // Only 2 shapes per ramp
     b2Vec2* vs = getVertexArray(points);
     b2ChainShape chain;
     chain.CreateChain(vs, points.size() / 2);
