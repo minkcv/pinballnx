@@ -28,6 +28,8 @@ class Table : public b2ContactListener {
         void update(unsigned int keys);
         void BeginContact(b2Contact* contact);
         void EndContact(b2Contact* contact);
+        bool isGameOver();
+        void newGame();
         void cleanup();
     private:
         std::vector<Layer> m_layers;

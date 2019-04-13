@@ -40,8 +40,15 @@ int main(int argc, char **argv) {
         if (keys & Input::Key::Start) {
             break;
         }
+        if (keys & Input::Key::Fire2) {
+            if (table.isGameOver()) {
+                table.newGame();
+            }
+        }
         if (keys & Input::Key::Select) {
-            if (pauseReleased) {
+            // Don't pause when it's game over, the player could start a new game and be confused
+            // by nothing working and not know to unpause.
+            if (pauseReleased && !table.isGameOver()) {
                 paused = !paused;
             }
             pauseReleased = false;

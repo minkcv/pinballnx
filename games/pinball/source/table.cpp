@@ -153,10 +153,12 @@ void Table::update(unsigned int keys) {
     }
 
     // Multi ball in debug mode at the press of a key
+#if DEBUG
     if (Input::Key::Fire1 & keys) {
         Pinball* nextPinball = new Pinball(m_renderer, m_b2world);
         m_pinballs.push_back(nextPinball);
     }
+#endif
 }
 
 void Table::BeginContact(b2Contact* contact) {
@@ -211,6 +213,16 @@ void Table::BeginContact(b2Contact* contact) {
 
 void Table::EndContact(b2Contact* contact) {
 
+}
+
+bool Table::isGameOver() {
+    return m_currentBall > 4;
+}
+
+void Table::newGame() {
+    m_currentBall = 1;
+    Pinball* nextPinball = new Pinball(m_renderer, m_b2world);
+    m_pinballs.push_back(nextPinball);
 }
 
 void Table::cleanup() {

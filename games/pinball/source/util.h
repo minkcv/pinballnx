@@ -5,7 +5,7 @@
 #include <vector>
 #include "cross2d/c2d.h"
 
-#define DEBUG 0
+#define DEBUG 1
 
 using namespace c2d;
 
