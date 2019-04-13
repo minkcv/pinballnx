@@ -41,19 +41,22 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     Ramp rightRamp(renderer, world, 4, 2);
     m_ramps.push_back(rightRamp);
 
-    Ramp rightRampDown(renderer, world, 5, 1);
+    Ramp rightRampUp2(renderer, world, 5, 2);
+    m_ramps.push_back(rightRampUp2);
+
+    Ramp rightRampDown(renderer, world, 6, 1);
     m_ramps.push_back(rightRampDown);
     
-    Ramp hole2(renderer, world, 6, 1);
+    Ramp hole2(renderer, world, 7, 1);
     m_ramps.push_back(hole2);
 
-    Ramp ramp3(renderer, world, 7, 2);
+    Ramp ramp3(renderer, world, 8, 2);
     m_ramps.push_back(ramp3);
 
-    Ramp ramp3Down(renderer, world, 8, 1);
+    Ramp ramp3Down(renderer, world, 9, 1);
     m_ramps.push_back(ramp3Down);
 
-    Ramp ramp3up2(renderer, world, 9, 2);
+    Ramp ramp3up2(renderer, world, 10, 2);
     m_ramps.push_back(ramp3up2);
 
     Bumper* bumper1 = new Bumper(renderer, world, 1, 8.6, 2.1);
