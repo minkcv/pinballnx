@@ -223,6 +223,7 @@ void Table::newGame() {
     m_currentBall = 1;
     Pinball* nextPinball = new Pinball(m_renderer, m_b2world);
     m_pinballs.push_back(nextPinball);
+    m_score = 0;
 }
 
 void Table::cleanup() {
