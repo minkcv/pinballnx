@@ -10,12 +10,14 @@ Take the joycons off and turn the display to portrait.
 - Flippers: L and R
 - Pull Plunger: Either Stick Down
 - Pause: Minus
+- New Game: B
 - Quit: Plus
 
 ### Desktop
 - Flippers: S and D
 - Pull Plunger: Down Arrow
 - Pause: Space
+- New Game: W
 - Quit: Enter
 
 ## Building
