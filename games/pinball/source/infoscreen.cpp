@@ -36,10 +36,3 @@ void InfoScreen::hide() {
     }
     m_shape->setLayer(-99);
 }
-
-InfoScreen::~InfoScreen() {
-    for (size_t t = 0; t < m_textLines.size(); t++) {
-        C2DText* text = m_textLines.at(t);
-        delete text;
-    }
-}

@@ -12,7 +12,6 @@ class InfoScreen {
         InfoScreen(C2DRenderer* renderer);
         void show();
         void hide();
-        ~InfoScreen();
     private:
         vector<C2DText*> m_textLines;
         C2DRectangle* m_shape;
