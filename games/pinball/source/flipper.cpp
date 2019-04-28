@@ -60,7 +60,7 @@ Flipper::Flipper(C2DRenderer* renderer, b2World& world, bool rightFlipper) {
 #else
     m_texture = new C2DTexture(renderer->getIo()->getDataReadPath() + "flipper.png");
     m_texture->setOrigin(Origin::Top);
-    m_texture->setLayer(99);
+    m_texture->setLayer(6);
     renderer->add(m_texture);
 #endif
 }

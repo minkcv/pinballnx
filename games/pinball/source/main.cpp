@@ -3,6 +3,7 @@
 #include "cross2d/c2d.h"
 #include "util.h"
 #include "table.h"
+#include "infoscreen.h"
 
 using namespace c2d;
 
@@ -25,6 +26,7 @@ int main(int argc, char **argv) {
     int32 positionIterations = 2;
 
     Table table(renderer, world);
+    InfoScreen infoScreen(renderer);
 
     // main loop
     bool paused = false;
@@ -46,9 +48,11 @@ int main(int argc, char **argv) {
             }
         }
         if (keys & Input::Key::Select) {
-            // Don't pause when it's game over, the player could start a new game and be confused
-            // by nothing working and not know to unpause.
-            if (pauseReleased && !table.isGameOver()) {
+            if (pauseReleased) {
+                if (paused)
+                    infoScreen.hide();
+                else
+                    infoScreen.show();
                 paused = !paused;
             }
             pauseReleased = false;

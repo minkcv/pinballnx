@@ -39,7 +39,7 @@ Plunger::Plunger(C2DRenderer* renderer, b2World& world) {
     renderer->add(m_shape);
 #else
     m_texture = new C2DTexture(renderer->getIo()->getDataReadPath() + "plunger.png");
-    m_texture->setLayer(99);
+    m_texture->setLayer(6);
     renderer->add(m_texture);
 #endif
 }
