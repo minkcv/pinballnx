@@ -267,6 +267,14 @@ void Table::cleanup() {
         Bumper* bumper = m_bumpers.at(i);
         delete bumper;
     }
+    for (size_t opt = 0; opt < m_optWalls.size(); opt++) {
+        OptWall* optWall = m_optWalls.at(opt);
+        delete optWall;
+    }
+    for (size_t t = 0; t < m_triggers.size(); t++) {
+        Trigger* trigger = m_triggers.at(t);
+        delete trigger;
+    }
 
     delete m_leftKicker;
     delete m_rightKicker;
