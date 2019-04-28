@@ -67,6 +67,9 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     Ramp ramp1DownMid(renderer, world, 12, 1);
     m_ramps.push_back(ramp1DownMid);
 
+    OptWall leftRailWall(renderer, world, 0, 2);
+    m_optWalls.push_back(leftRailWall);
+
     Bumper* bumper1 = new Bumper(renderer, world, 1, 8.6, 2.1);
     m_bumpers.push_back(bumper1);
 
@@ -76,10 +79,6 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     Bumper* bumper3 = new Bumper(renderer, world, 1, 9.25, 3.0);
     m_bumpers.push_back(bumper3);
 
-    //Bumper* bumper4 = new Bumper(renderer, world, 2, 8.4, 6.6);
-    //m_bumpers.push_back(bumper4);
-
-    // Minor TODO: can these be non pointer type?
     m_leftKicker = new Kicker(renderer, world, false);
     m_rightKicker = new Kicker(renderer, world, true);
 
