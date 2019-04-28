@@ -150,7 +150,6 @@ void Table::update(unsigned int keys) {
             m_pinballs.push_back(nextPinball);
         }
     }
-    m_scoreboard.update(m_currentBall, m_score);
 
     for (size_t i = 0; i < m_bumpers.size(); i++) {
         Bumper* bumper = m_bumpers.at(i);
@@ -247,6 +246,10 @@ void Table::newGame() {
     for (size_t opt = 0; opt < m_optWalls.size(); opt++) {
         m_optWalls.at(opt)->disable();
     }
+}
+
+void Table::updateScoreboard(bool paused) {
+    m_scoreboard.update(m_currentBall, m_score, paused);
 }
 
 void Table::cleanup() {

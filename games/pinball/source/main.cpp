@@ -61,6 +61,7 @@ int main(int argc, char **argv) {
             table.update(keys);
             world.Step(timeStep, velocityIterations, positionIterations);
         }
+        table.updateScoreboard(paused);
 
         renderer->flip();
     }

@@ -32,6 +32,7 @@ class Table : public b2ContactListener {
         void EndContact(b2Contact* contact);
         bool isGameOver();
         void newGame();
+        void updateScoreboard(bool paused);
         void cleanup();
     private:
         std::vector<Layer> m_layers;

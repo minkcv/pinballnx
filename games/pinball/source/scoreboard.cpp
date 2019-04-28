@@ -18,11 +18,15 @@ Scoreboard::Scoreboard(C2DRenderer* renderer) {
     renderer->add(m_scoreText);
 }
 
-void Scoreboard::update(int currentBall, int score) {
-    if (currentBall < 5)
-        m_ballsLeftText->setString("BALL " + std::to_string(currentBall) + "/4");
-    else
-        m_ballsLeftText->setString("GAME OVER");
+void Scoreboard::update(int currentBall, int score, bool paused) {
+    if (paused) 
+        m_ballsLeftText->setString("PAUSED");
+    else {
+        if (currentBall < 5)
+            m_ballsLeftText->setString("BALL " + std::to_string(currentBall) + "/4");
+        else
+            m_ballsLeftText->setString("GAME OVER");
+    }
 
     // There is proabaly a cleaner way to do this zero padding.
     char buffer[255];
