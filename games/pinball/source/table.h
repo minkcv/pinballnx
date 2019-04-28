@@ -13,6 +13,8 @@
 #include "ramp.h"
 #include "bumper.h"
 #include "kicker.h"
+#include "optwall.h"
+#include "trigger.h"
 
 using namespace c2d;
 
@@ -34,6 +36,8 @@ class Table : public b2ContactListener {
     private:
         std::vector<Layer> m_layers;
         std::vector<Ramp> m_ramps;
+        std::vector<OptWall*> m_optWalls;
+        std::vector<Trigger*> m_triggers;
         std::vector<Bumper*> m_bumpers;
         std::vector<Pinball*> m_pinballs;
         Scoreboard m_scoreboard;

@@ -64,6 +64,15 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     Ramp ramp3up2(renderer, world, 11, 2);
     m_ramps.push_back(ramp3up2);
 
+    Ramp ramp1DownMid(renderer, world, 12, 1);
+    m_ramps.push_back(ramp1DownMid);
+
+    OptWall* leftRailWall = new OptWall(renderer, world, 0, 2);
+    m_optWalls.push_back(leftRailWall);
+
+    Trigger* leftTrigger = new Trigger(renderer, world, 0, 1, leftRailWall);
+    m_triggers.push_back(leftTrigger);
+
     Bumper* bumper1 = new Bumper(renderer, world, 1, 8.6, 2.1);
     m_bumpers.push_back(bumper1);
 
@@ -73,10 +82,6 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     Bumper* bumper3 = new Bumper(renderer, world, 1, 9.25, 3.0);
     m_bumpers.push_back(bumper3);
 
-    //Bumper* bumper4 = new Bumper(renderer, world, 2, 8.4, 6.6);
-    //m_bumpers.push_back(bumper4);
-
-    // Minor TODO: can these be non pointer type?
     m_leftKicker = new Kicker(renderer, world, false);
     m_rightKicker = new Kicker(renderer, world, true);
 
@@ -151,6 +156,10 @@ void Table::update(unsigned int keys) {
         Bumper* bumper = m_bumpers.at(i);
         bumper->update();
     }
+    for (size_t t = 0; t < m_triggers.size(); t++) {
+        Trigger* trigger = m_triggers.at(t);
+        trigger->update();
+    }
 
     // Multi ball in debug mode at the press of a key
 #if DEBUG
@@ -189,6 +198,14 @@ void Table::BeginContact(b2Contact* contact) {
             }
         }
 
+        for (size_t t = 0; t < m_triggers.size(); t++) {
+            b2Fixture* triggerFixture = m_triggers.at(t)->getFixture();
+            if ((fixtureA == triggerFixture && fixtureB == pinball->getFixture()) ||
+                (fixtureA == pinball->getFixture() && fixtureB == triggerFixture)) {
+                m_triggers.at(t)->press();
+            }
+        }
+
         for (size_t b = 0; b < m_bumpers.size(); b++) {
             Bumper* bumper = m_bumpers.at(b);
             b2Fixture* bumperFixture = bumper->getFixture();
@@ -224,6 +241,12 @@ void Table::newGame() {
     Pinball* nextPinball = new Pinball(m_renderer, m_b2world);
     m_pinballs.push_back(nextPinball);
     m_score = 0;
+    for (size_t t = 0; t < m_triggers.size(); t++) {
+        m_triggers.at(t)->reset();
+    }
+    for (size_t opt = 0; opt < m_optWalls.size(); opt++) {
+        m_optWalls.at(opt)->disable();
+    }
 }
 
 void Table::cleanup() {
