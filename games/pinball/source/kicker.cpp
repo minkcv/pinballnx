@@ -57,7 +57,7 @@ Kicker::Kicker(C2DRenderer* renderer, b2World& world, bool right) {
 void Kicker::update() {
     b2Vec2 position = m_body->GetPosition();
 #if DEBUG
-    m_shape->setPosition((position.x - m_halfWidth) * g_graphicsScale, (position.y - m_halfHeight) * g_graphicsScale);
+    m_shape->setPosition((position.x + m_halfWidth) * g_graphicsScale, (position.y - m_halfHeight) * g_graphicsScale);
 #else
     m_texture->setPosition((position.x - m_halfWidth) * g_graphicsScale, (position.y - m_halfHeight) * g_graphicsScale);
 #endif

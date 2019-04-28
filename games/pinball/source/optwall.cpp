@@ -17,7 +17,7 @@ OptWall::OptWall(C2DRenderer* renderer, b2World& world, int optWallId, int layer
     fixtureDef.shape = &chain;
     fixtureDef.density = 0.0f;
     fixtureDef.friction = 0.3f;
-    fixtureDef.filter.maskBits = 0xFFFF;
+    fixtureDef.filter.maskBits = 1 << layerID;
     fixtureDef.filter.categoryBits = 1 << layerID;
     m_fixture = body->CreateFixture(&fixtureDef);
 
@@ -27,7 +27,15 @@ OptWall::OptWall(C2DRenderer* renderer, b2World& world, int optWallId, int layer
     addPointsToShape(cshape, points);
     cshape->getVertexArray()->setPrimitiveType(PrimitiveType::LineStrip);
     renderer->add(cshape);
+#else
+    m_textureEnabled = new C2DTexture(renderer->getIo()->getDataReadPath() + "optwall" + std::to_string(optWallId) + "enabled.png");
+    m_textureEnabled->setLayer(layerID * 2 + 1);
+    renderer->add(m_textureEnabled);
+    m_textureDisabled = new C2DTexture(renderer->getIo()->getDataReadPath() + "optwall" + std::to_string(optWallId) + "disabled.png");
+    m_textureDisabled->setLayer(-99);
+    renderer->add(m_textureDisabled);
 #endif
+    //disable();
 }
 
 void OptWall::enable() {
@@ -35,6 +43,8 @@ void OptWall::enable() {
     filterData.maskBits = 1 << m_layerID;
     filterData.categoryBits = 1 << m_layerID;
     m_fixture->SetFilterData(filterData);
+    m_textureEnabled->setLayer(m_layerID * 2 + 1);
+    m_textureDisabled->setLayer(-99);
 }
 
 void OptWall::disable() {
@@ -42,4 +52,6 @@ void OptWall::disable() {
     filterData.maskBits = 0;
     filterData.categoryBits = 0;
     m_fixture->SetFilterData(filterData);
+    m_textureEnabled->setLayer(-99);
+    m_textureDisabled->setLayer(m_layerID * 2);
 }

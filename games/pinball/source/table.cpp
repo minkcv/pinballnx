@@ -67,7 +67,7 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     Ramp ramp1DownMid(renderer, world, 12, 1);
     m_ramps.push_back(ramp1DownMid);
 
-    OptWall leftRailWall(renderer, world, 0, 2);
+    OptWall* leftRailWall = new OptWall(renderer, world, 0, 2);
     m_optWalls.push_back(leftRailWall);
 
     Bumper* bumper1 = new Bumper(renderer, world, 1, 8.6, 2.1);
