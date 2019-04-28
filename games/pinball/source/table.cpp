@@ -64,6 +64,9 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     Ramp ramp3up2(renderer, world, 11, 2);
     m_ramps.push_back(ramp3up2);
 
+    Ramp ramp1DownMid(renderer, world, 12, 1);
+    m_ramps.push_back(ramp1DownMid);
+
     Bumper* bumper1 = new Bumper(renderer, world, 1, 8.6, 2.1);
     m_bumpers.push_back(bumper1);
 
