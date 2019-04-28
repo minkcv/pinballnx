@@ -35,10 +35,12 @@ OptWall::OptWall(C2DRenderer* renderer, b2World& world, int optWallId, int layer
     m_textureDisabled->setLayer(-99);
     renderer->add(m_textureDisabled);
 #endif
-    //disable();
+    // Default state is disabled
+    disable();
 }
 
 void OptWall::enable() {
+    m_isEnabled = true;
     b2Filter filterData = m_fixture->GetFilterData();
     filterData.maskBits = 1 << m_layerID;
     filterData.categoryBits = 1 << m_layerID;
@@ -48,10 +50,15 @@ void OptWall::enable() {
 }
 
 void OptWall::disable() {
+    m_isEnabled = false;
     b2Filter filterData = m_fixture->GetFilterData();
     filterData.maskBits = 0;
     filterData.categoryBits = 0;
     m_fixture->SetFilterData(filterData);
     m_textureEnabled->setLayer(-99);
-    m_textureDisabled->setLayer(m_layerID * 2);
+    m_textureDisabled->setLayer(m_layerID * 2 + 1);
+}
+
+bool OptWall::isEnabled() {
+    return m_isEnabled;
 }
