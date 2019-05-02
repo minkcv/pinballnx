@@ -17,22 +17,22 @@ InfoScreen::InfoScreen(C2DRenderer* renderer) {
         m_text->setCharacterSize(40);
         m_text->setPosition(1100 - t * 60, 80);
         m_text->setRotation(90);
-        m_text->setLayer(-99);
         renderer->add(m_text);
+        m_text->setLayer(-100);
         m_textLines.push_back(m_text);
     }
 }
 
 void InfoScreen::show() {
     for (size_t t = 0; t < m_textLines.size(); t++) {
-        m_textLines.at(t)->setLayer(99);
+        m_textLines.at(t)->setLayer(100);
     }
     m_shape->setLayer(99);
 }
 
 void InfoScreen::hide() {
     for (size_t t = 0; t < m_textLines.size(); t++) {
-        m_textLines.at(t)->setLayer(-99);
+        m_textLines.at(t)->setLayer(-100);
     }
     m_shape->setLayer(-99);
 }

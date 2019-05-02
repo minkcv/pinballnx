@@ -51,9 +51,11 @@ void Trigger::update() {
     else if (m_isPressed) {
         m_isPressed = false;
         // Re enable and change graphics
-        
+
+#if !DEBUG
         m_textureEnabled->setLayer(m_layerID * 2 + 1);
         m_textureDisabled->setLayer(-99);
+#endif
     }
 }
 
@@ -70,13 +72,17 @@ void Trigger::press() {
     else
         m_wallToChange->enable();
     
+#if !DEBUG
     // Change graphics.
     m_textureEnabled->setLayer(-99);
     m_textureDisabled->setLayer(m_layerID * 2 + 1);
+#endif
 }
 
 void Trigger::reset() {
     m_isPressed = false;
+#if !DEBUG
     m_textureEnabled->setLayer(m_layerID * 2 + 1);
     m_textureDisabled->setLayer(-99);
+#endif
 }

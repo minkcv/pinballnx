@@ -23,17 +23,18 @@ OptWall::OptWall(C2DRenderer* renderer, b2World& world, int optWallId, int layer
 
 #if DEBUG
     // Debug graphics
-    ConvexShape* cshape = new ConvexShape();
-    addPointsToShape(cshape, points);
-    cshape->getVertexArray()->setPrimitiveType(PrimitiveType::LineStrip);
-    renderer->add(cshape);
+    m_shapeEnabled = new ConvexShape();
+    addPointsToShape(m_shapeEnabled, points);
+    m_shapeEnabled->getVertexArray()->setPrimitiveType(PrimitiveType::LineStrip);
+    renderer->add(m_shapeEnabled);
+    m_shapeEnabled->setLayer(layerID * 2 + 1);
 #else
     m_textureEnabled = new C2DTexture(renderer->getIo()->getDataReadPath() + "optwall" + std::to_string(optWallId) + "enabled.png");
-    m_textureEnabled->setLayer(layerID * 2 + 1);
     renderer->add(m_textureEnabled);
+    m_textureEnabled->setLayer(layerID * 2 + 1);
     m_textureDisabled = new C2DTexture(renderer->getIo()->getDataReadPath() + "optwall" + std::to_string(optWallId) + "disabled.png");
-    m_textureDisabled->setLayer(-99);
     renderer->add(m_textureDisabled);
+    m_textureDisabled->setLayer(-100);
 #endif
     // Default state is disabled
     disable();
@@ -45,8 +46,12 @@ void OptWall::enable() {
     filterData.maskBits = 1 << m_layerID;
     filterData.categoryBits = 1 << m_layerID;
     m_fixture->SetFilterData(filterData);
+#if !DEBUG
     m_textureEnabled->setLayer(m_layerID * 2 + 1);
     m_textureDisabled->setLayer(-99);
+#else
+    m_shapeEnabled->setLayer(m_layerID * 2 + 1);
+#endif
 }
 
 void OptWall::disable() {
@@ -55,8 +60,12 @@ void OptWall::disable() {
     filterData.maskBits = 0;
     filterData.categoryBits = 0;
     m_fixture->SetFilterData(filterData);
+#if !DEBUG
     m_textureEnabled->setLayer(-99);
     m_textureDisabled->setLayer(m_layerID * 2 + 1);
+#else
+    m_shapeEnabled->setLayer(-100);
+#endif
 }
 
 bool OptWall::isEnabled() {
