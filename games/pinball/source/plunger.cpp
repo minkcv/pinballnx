@@ -28,7 +28,7 @@ Plunger::Plunger(C2DRenderer* renderer, b2World& world) {
     jd.lowerTranslation = -1.0f;
     jd.upperTranslation = 0.0f;
     jd.enableLimit = true;
-    jd.maxMotorForce = 15.0f;
+    jd.maxMotorForce = 25.0f;
     jd.motorSpeed = 0.0f;
     jd.enableMotor = true;
 
@@ -49,7 +49,7 @@ void Plunger::update(unsigned int keys) {
         m_joint->SetMotorSpeed(-5.0f);
     }
     else {
-        m_joint->SetMotorSpeed(15.0f);
+        m_joint->SetMotorSpeed(25.0f);
     }
 
     b2Vec2 position = m_body->GetPosition();
