@@ -15,10 +15,10 @@ class Flipper {
     private:
         float m_rotateDirection;
         unsigned int m_key;
-        float m_leftX = 0.74f;
-        float m_leftY = 2.20f;
-        float m_rightX = 0.74f;
-        float m_rightY = 4.50f;
+        float m_leftX = 0.68f;
+        float m_leftY = 2.19f;
+        float m_rightX = 0.68f;
+        float m_rightY = 4.51f;
         float m_lowerLimit = -M_PI / 8;
         float m_upperLimit = M_PI / 8;
         float m_x;
