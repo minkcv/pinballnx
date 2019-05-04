@@ -10,7 +10,7 @@ InfoScreen::InfoScreen(C2DRenderer* renderer) {
     vector<string> infoText = {
         "PINBALLNX","BY MINKCV", "", "CONTROLS:", 
         "+ QUIT", "- PAUSE", "B NEW GAME", "JOYSTICK PLUNGER", "LR FLIPPERS", "",
-        "VERSION: 0.3"};
+        "VERSION: 0.4"};
     for (size_t t = 0; t < infoText.size(); t++) {
         C2DText* m_text = new C2DText(infoText.at(t));
         m_text->setFont(*m_font);
