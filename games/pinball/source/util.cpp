@@ -2,6 +2,8 @@
 
 float g_graphicsScale = 100.0f;
 
+float g_displayFrameRate = 60;
+
 b2Vec2* getVertexArray(std::vector<float> points) {
     b2Vec2* vs = (b2Vec2*)malloc(sizeof(b2Vec2) * points.size() / 2);
     for (size_t i = 0; i < points.size(); i+=2) {
