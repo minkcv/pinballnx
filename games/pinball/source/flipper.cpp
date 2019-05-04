@@ -18,7 +18,7 @@ Flipper::Flipper(C2DRenderer* renderer, b2World& world, bool rightFlipper) {
     m_pivot = world.CreateBody(&bd);
 
     b2CircleShape circleShape;
-    circleShape.m_radius = 0.16f;
+    circleShape.m_radius = 0.18f;
 
     b2FixtureDef fd;
     fd.friction = 0.6f;
