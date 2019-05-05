@@ -8,12 +8,14 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     m_scoreboard(renderer),
     m_leftFlipper(renderer, world, false),
     m_rightFlipper(renderer, world, true),
-    m_plunger(renderer, world)
+    m_plunger(renderer, world),
+    m_ballLock(renderer, world)
 {
     m_b2world = &world;
     m_renderer = renderer;
     m_currentBall = 1;
     m_score = 0;
+    m_lockedBalls = 0;
     world.SetContactListener(this);
 
     Layer launchTubeLayer(renderer, world, 0);
@@ -120,6 +122,20 @@ void Table::update(unsigned int keys) {
     //}
     //printf("# of bodies %d\n", numBodies);
     
+    if (m_lockBallTimers.size() == 0) {
+        // We don't want to increment the current ball and put a new one 
+        // in the launch tube if we're in the process of spawning a ball from the 
+        // lock ball mechanism, so only do this if we don't have any lock ball timers.
+        if (m_pinballs.size() < 1) {
+            m_currentBall++;
+            if (m_currentBall < 5) {
+                Pinball* nextPinball = new Pinball(m_renderer, m_b2world);
+                m_pinballs.push_back(nextPinball);
+            }
+            if (m_lockedBalls == -1)
+                m_lockedBalls = 0; // End previous multiball
+        }
+    }
     for (size_t i = 0; i < m_pinballs.size(); i++) {
         Pinball* pinball = m_pinballs.at(i);
         if (pinball != NULL)
@@ -138,18 +154,40 @@ void Table::update(unsigned int keys) {
             i--;
         }
     }
+
+    // If triggering multiball, don't create the replacement ball, multiball will make the 3 balls
+    if (m_lockBallTimers.size() > 0 && m_lockedBalls != 3) {
+        for (size_t i = 0; i < m_lockBallTimers.size(); i++) {
+            int timer = m_lockBallTimers.at(i);
+            timer--;
+            m_lockBallTimers.at(i) = timer;
+            if (timer < 0) {
+                Pinball* lockBallRelease = new Pinball(m_renderer, m_b2world, 1);
+                m_pinballs.push_back(lockBallRelease);
+                m_lockBallTimers.erase(m_lockBallTimers.begin() + i);
+                break;
+            }
+        }
+    }
+    if (m_lockBallTimers.size() > 0 && m_lockedBalls == 3) { // Trigger multiball
+        m_lockedBalls = -1;
+        m_lockBallTimers.clear();
+        for (int i = 0; i < 3; i++) {
+            Pinball* multiBall = new Pinball(m_renderer, m_b2world, i + 1);
+            m_pinballs.push_back(multiBall);
+        }
+    }
+    
+    
+    
+    
+    
     m_leftFlipper.update(keys);
     m_rightFlipper.update(keys);
     m_leftKicker->update();
     m_rightKicker->update();
     m_plunger.update(keys);
-    if (m_pinballs.size() < 1) {
-        m_currentBall++;
-        if (m_currentBall < 5) {
-            Pinball* nextPinball = new Pinball(m_renderer, m_b2world);
-            m_pinballs.push_back(nextPinball);
-        }
-    }
+    
 
     for (size_t i = 0; i < m_bumpers.size(); i++) {
         Bumper* bumper = m_bumpers.at(i);
@@ -183,7 +221,19 @@ void Table::BeginContact(b2Contact* contact) {
             pinball->removeFromWorld();
         }
 
-        // If the ball has gone out of bounds and been deleted, then don't
+        if (m_lockBallTimers.size() == 0 && (
+            (fixtureA == m_ballLock.getFixture() && fixtureB == pinball->getFixture()) ||
+            (fixtureA == pinball->getFixture() && fixtureB == m_ballLock.getFixture()))) {
+            pinball->removeFromWorld();
+            if (m_lockedBalls >= 0 && m_lockedBalls < 3)
+                m_lockedBalls++;
+            // This queues a ball to be created in table update.
+            // The table makes sure to check this value before ending the game
+            // or loading the next ball.
+            m_lockBallTimers.push_back(m_lockBallDelay);
+        }
+
+        // If the ball has gone out of bounds and been deleted or locked, then don't
         // Try to check collisions with it with any ramps.
         if (pinball == NULL)
             continue;
@@ -240,6 +290,7 @@ void Table::newGame() {
     Pinball* nextPinball = new Pinball(m_renderer, m_b2world);
     m_pinballs.push_back(nextPinball);
     m_score = 0;
+    m_lockedBalls = 0;
     for (size_t t = 0; t < m_triggers.size(); t++) {
         m_triggers.at(t)->reset();
     }
@@ -249,7 +300,7 @@ void Table::newGame() {
 }
 
 void Table::updateScoreboard(bool paused) {
-    m_scoreboard.update(m_currentBall, m_score, paused);
+    m_scoreboard.update(m_currentBall, m_score, m_lockedBalls, paused);
 }
 
 void Table::cleanup() {
