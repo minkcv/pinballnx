@@ -32,7 +32,7 @@ class Pinball {
         float m_startX = 2.0f;
         float m_startY = 6.9f;
         // Coordinates for up above after a ball is locked.
-        float m_lockStartX = 6.8;
+        float m_lockStartX = 6.9;
         float m_lockStartY = 6.0;
         bool m_ballOut = false;
         bool m_removed = false;
