@@ -1,17 +1,16 @@
 #include "pinball.h"
 
-Pinball::Pinball(C2DRenderer* renderer, b2World* world, bool lockBall) {
+Pinball::Pinball(C2DRenderer* renderer, b2World* world, int iStartPos) {
     b2CircleShape circle;
     circle.m_radius = m_radius;
     b2BodyDef circleBodyDef;
     circleBodyDef.type = b2_dynamicBody;
-    if (lockBall) {
-        circleBodyDef.position.Set(m_lockStartX, m_lockStartY);
+    if (iStartPos > 0) {
         m_currentLayerID = 1;
     }
-    else {
-        circleBodyDef.position.Set(m_startX, m_startY);
-    }
+    float startX = m_startPositions.at(iStartPos * 2);
+    float startY = m_startPositions.at(iStartPos * 2 + 1);
+    circleBodyDef.position.Set(startX, startY);
     circleBodyDef.bullet = true;
     m_body = world->CreateBody(&circleBodyDef);
     b2FixtureDef circleFixtureDef;

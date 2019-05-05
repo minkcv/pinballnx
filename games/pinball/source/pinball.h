@@ -4,12 +4,14 @@
 #include "cross2d/c2d.h"
 #include "Box2D/Box2D.h"
 #include "util.h"
+#include <vector>
 
 using namespace c2d;
+using namespace std;
 
 class Pinball {
     public:
-        Pinball(C2DRenderer* renderer, b2World* world, bool lockBall = false);
+        Pinball(C2DRenderer* renderer, b2World* world, int iStartPos = 0);
         void update(C2DRenderer* renderer, b2World* world);
         b2Fixture* getFixture();
         int getLayerID();
@@ -34,6 +36,12 @@ class Pinball {
         // Coordinates for up above after a ball is locked.
         float m_lockStartX = 6.9;
         float m_lockStartY = 6.0;
+        vector<float> m_startPositions = {
+            2.0f, 6.9f, // Launch tube
+            6.9f, 6.0f, // Lock ball ejector
+            7.4f, 4.3f, // Middle multiball ejector
+            10.2f, 0.5f // Left multiball ejector
+        };
         bool m_ballOut = false;
         bool m_removed = false;
 };
