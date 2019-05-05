@@ -9,7 +9,7 @@ using namespace c2d;
 
 class Pinball {
     public:
-        Pinball(C2DRenderer* renderer, b2World* world);
+        Pinball(C2DRenderer* renderer, b2World* world, bool lockBall = false);
         void update(C2DRenderer* renderer, b2World* world);
         b2Fixture* getFixture();
         int getLayerID();
@@ -31,6 +31,9 @@ class Pinball {
         // Coordinates for the launch tube.
         float m_startX = 2.0f;
         float m_startY = 6.9f;
+        // Coordinates for up above after a ball is locked.
+        float m_lockStartX = 6.8;
+        float m_lockStartY = 6.0;
         bool m_ballOut = false;
         bool m_removed = false;
 };

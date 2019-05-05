@@ -15,8 +15,10 @@
 #include "kicker.h"
 #include "optwall.h"
 #include "trigger.h"
+#include "balllock.h"
 
 using namespace c2d;
+using namespace std;
 
 // This class is at the top of the heirarchy. 
 // It stores and manages the pinball, plunger, 
@@ -35,18 +37,20 @@ class Table : public b2ContactListener {
         void updateScoreboard(bool paused);
         void cleanup();
     private:
-        std::vector<Layer> m_layers;
-        std::vector<Ramp> m_ramps;
-        std::vector<OptWall*> m_optWalls;
-        std::vector<Trigger*> m_triggers;
-        std::vector<Bumper*> m_bumpers;
-        std::vector<Pinball*> m_pinballs;
+        vector<Layer> m_layers;
+        vector<Ramp> m_ramps;
+        vector<OptWall*> m_optWalls;
+        vector<Trigger*> m_triggers;
+        vector<Bumper*> m_bumpers;
+        vector<Pinball*> m_pinballs;
+        vector<int> m_lockBallTimers;
         Scoreboard m_scoreboard;
         Flipper m_leftFlipper;
         Flipper m_rightFlipper;
         Kicker* m_leftKicker;
         Kicker* m_rightKicker;
         Plunger m_plunger;
+        BallLock m_ballLock;
         C2DRenderer* m_renderer;
         // The width of the table, which is the height of the screen.
         float m_width = 720;
@@ -57,6 +61,8 @@ class Table : public b2ContactListener {
         b2Fixture* m_ballOutSensor;
         int m_currentBall;
         int m_score;
+        int m_lockedBalls;
+        int m_lockBallDelay = 1920 / g_displayFrameRate;
 };
 
 #endif

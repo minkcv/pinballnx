@@ -8,12 +8,14 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     m_scoreboard(renderer),
     m_leftFlipper(renderer, world, false),
     m_rightFlipper(renderer, world, true),
-    m_plunger(renderer, world)
+    m_plunger(renderer, world),
+    m_ballLock(renderer, world)
 {
     m_b2world = &world;
     m_renderer = renderer;
     m_currentBall = 1;
     m_score = 0;
+    m_lockedBalls = 0;
     world.SetContactListener(this);
 
     Layer launchTubeLayer(renderer, world, 0);
@@ -120,22 +122,35 @@ void Table::update(unsigned int keys) {
     //}
     //printf("# of bodies %d\n", numBodies);
     
-    for (size_t i = 0; i < m_pinballs.size(); i++) {
-        Pinball* pinball = m_pinballs.at(i);
-        if (pinball != NULL)
-            pinball->update(m_renderer, m_b2world);
+    if (m_lockBallTimers.size() == 0) {
+        for (size_t i = 0; i < m_pinballs.size(); i++) {
+            Pinball* pinball = m_pinballs.at(i);
+            if (pinball != NULL)
+                pinball->update(m_renderer, m_b2world);
 
-        if (pinball->cleanupDone()) {
-            // Remove this ball from the list.
-            m_pinballs.erase(m_pinballs.begin()+i);
-            // Free the memory.
-            delete pinball;
-            pinball = NULL;
+            if (pinball->cleanupDone()) {
+                // Remove this ball from the list.
+                m_pinballs.erase(m_pinballs.begin()+i);
+                // Free the memory.
+                delete pinball;
+                pinball = NULL;
 
-            // We need to repeat the current i iteration
-            // because we removed an item from the list 
-            // and shifted its elements.
-            i--;
+                // We need to repeat the current i iteration
+                // because we removed an item from the list 
+                // and shifted its elements.
+                i--;
+            }
+        }
+    }
+    for (size_t i = 0; i < m_lockBallTimers.size(); i++) {
+        int timer = m_lockBallTimers.at(i);
+        timer--;
+        m_lockBallTimers.at(i) = timer;
+        if (timer < 0) {
+            Pinball* nextPinball = new Pinball(m_renderer, m_b2world, true);
+            m_pinballs.push_back(nextPinball);
+            m_lockBallTimers.erase(m_lockBallTimers.begin() + i);
+            break;
         }
     }
     m_leftFlipper.update(keys);
@@ -183,7 +198,16 @@ void Table::BeginContact(b2Contact* contact) {
             pinball->removeFromWorld();
         }
 
-        // If the ball has gone out of bounds and been deleted, then don't
+        if (m_lockBallTimers.size() == 0 && (
+            (fixtureA == m_ballLock.getFixture() && fixtureB == pinball->getFixture()) ||
+            (fixtureA == pinball->getFixture() && fixtureB == m_ballLock.getFixture()))) {
+            pinball->removeFromWorld();
+            if (m_lockedBalls < 3)
+                m_lockedBalls++;
+            m_lockBallTimers.push_back(m_lockBallDelay);
+        }
+
+        // If the ball has gone out of bounds and been deleted or locked, then don't
         // Try to check collisions with it with any ramps.
         if (pinball == NULL)
             continue;
@@ -240,6 +264,7 @@ void Table::newGame() {
     Pinball* nextPinball = new Pinball(m_renderer, m_b2world);
     m_pinballs.push_back(nextPinball);
     m_score = 0;
+    m_lockedBalls = 0;
     for (size_t t = 0; t < m_triggers.size(); t++) {
         m_triggers.at(t)->reset();
     }
@@ -249,7 +274,7 @@ void Table::newGame() {
 }
 
 void Table::updateScoreboard(bool paused) {
-    m_scoreboard.update(m_currentBall, m_score, paused);
+    m_scoreboard.update(m_currentBall, m_score, m_lockedBalls, paused);
 }
 
 void Table::cleanup() {
