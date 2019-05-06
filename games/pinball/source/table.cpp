@@ -162,10 +162,13 @@ void Table::update(unsigned int keys) {
             timer--;
             m_lockBallTimers.at(i) = timer;
             if (timer < 0) {
-                int iSpawnPos = rand() % 4; // Value in the range 0 to 3
+                int iSpawnPos = rand() % 3 + 1; // Value in the range 1 to 3
                 Pinball* lockBallRelease = new Pinball(m_renderer, m_b2world, iSpawnPos);
                 m_pinballs.push_back(lockBallRelease);
                 m_lockBallTimers.erase(m_lockBallTimers.begin() + i);
+                // Shoot downwards
+                b2Vec2 vec(-4.0, 0);
+                lockBallRelease->getBody()->ApplyForce(vec, lockBallRelease->getBody()->GetWorldVector(b2Vec2(0, 0)), true);
                 break;
             }
         }
