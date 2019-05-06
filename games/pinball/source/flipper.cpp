@@ -36,7 +36,7 @@ Flipper::Flipper(C2DRenderer* renderer, b2World& world, bool rightFlipper) {
         m_body->SetTransform(bd.position, -M_PI);
 
     b2Vec2* vs = getVertexArray(m_points);
-    fd.density = 1.0f;
+    fd.density = 10.0f;
     b2PolygonShape shape;
     shape.Set(vs, 8);
     fd.shape = &shape;

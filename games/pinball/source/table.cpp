@@ -162,7 +162,8 @@ void Table::update(unsigned int keys) {
             timer--;
             m_lockBallTimers.at(i) = timer;
             if (timer < 0) {
-                Pinball* lockBallRelease = new Pinball(m_renderer, m_b2world, 1);
+                int iSpawnPos = rand() % 4; // Value in the range 0 to 3
+                Pinball* lockBallRelease = new Pinball(m_renderer, m_b2world, iSpawnPos);
                 m_pinballs.push_back(lockBallRelease);
                 m_lockBallTimers.erase(m_lockBallTimers.begin() + i);
                 break;
