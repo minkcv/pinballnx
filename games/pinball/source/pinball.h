@@ -14,6 +14,7 @@ class Pinball {
         Pinball(C2DRenderer* renderer, b2World* world, int iStartPos = 0);
         void update(C2DRenderer* renderer, b2World* world);
         b2Fixture* getFixture();
+        b2Body* getBody();
         int getLayerID();
         void setLayerID(int layerID);
         void removeFromWorld();

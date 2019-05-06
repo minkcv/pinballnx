@@ -63,6 +63,8 @@ class Table : public b2ContactListener {
         int m_score;
         int m_lockedBalls;
         int m_lockBallDelay = 1920 / g_displayFrameRate;
+        int m_tiltCooldown = 3840  / g_displayFrameRate;
+        int m_tiltTimer = m_tiltCooldown;
 };
 
 #endif

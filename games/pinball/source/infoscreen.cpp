@@ -9,7 +9,7 @@ InfoScreen::InfoScreen(C2DRenderer* renderer) {
     renderer->add(m_shape);
     vector<string> infoText = {
         "PINBALLNX","BY MINKCV", "", "CONTROLS:", 
-        "+ QUIT", "- PAUSE", "B NEW GAME", "JOYSTICK PLUNGER", "LR FLIPPERS", "",
+        "+ QUIT", "- PAUSE", "B NEW GAME", "DOWN PLUNGER", "LR FLIPPERS", "LEFT / RIGHT TILT", "",
         "VERSION: 0.4"};
     for (size_t t = 0; t < infoText.size(); t++) {
         C2DText* m_text = new C2DText(infoText.at(t));

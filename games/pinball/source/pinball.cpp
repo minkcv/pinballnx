@@ -62,6 +62,10 @@ b2Fixture* Pinball::getFixture() {
     return m_fixture;
 }
 
+b2Body* Pinball::getBody() {
+    return m_body;
+}
+
 int Pinball::getLayerID() {
     return m_currentLayerID;
 }

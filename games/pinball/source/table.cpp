@@ -179,10 +179,6 @@ void Table::update(unsigned int keys) {
         }
     }
     
-    
-    
-    
-    
     m_leftFlipper.update(keys);
     m_rightFlipper.update(keys);
     m_leftKicker->update();
@@ -197,6 +193,22 @@ void Table::update(unsigned int keys) {
     for (size_t t = 0; t < m_triggers.size(); t++) {
         Trigger* trigger = m_triggers.at(t);
         trigger->update();
+    }
+    if (m_tiltTimer < m_tiltCooldown) {
+        m_tiltTimer++;
+    }
+    else if (m_tiltTimer == m_tiltCooldown) {
+        if (Input::Key::Left & keys || Input::Key::Right & keys) {
+            double leftOrRight = Input::Key::Left & keys ? -0.7 : 0.7;
+            m_tiltTimer = 0;
+            for (size_t p = 0; p < m_pinballs.size(); p++) {
+                Pinball* pinball = m_pinballs.at(p);
+                if (pinball != nullptr) {
+                    b2Vec2 vec(1.0, leftOrRight);
+                    pinball->getBody()->ApplyForce(vec, pinball->getBody()->GetWorldVector(b2Vec2(0, 0)), true);
+                }
+            }
+        }
     }
 
     // Multi ball in debug mode at the press of a key
