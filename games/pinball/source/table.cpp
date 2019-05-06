@@ -171,6 +171,7 @@ void Table::update(unsigned int keys) {
         }
     }
     if (m_lockBallTimers.size() > 0 && m_lockedBalls == 3) { // Trigger multiball
+        m_score += 10000;
         m_lockedBalls = -1;
         m_lockBallTimers.clear();
         for (int i = 0; i < 3; i++) {
@@ -244,6 +245,7 @@ void Table::BeginContact(b2Contact* contact) {
             // The table makes sure to check this value before ending the game
             // or loading the next ball.
             m_lockBallTimers.push_back(m_lockBallDelay);
+            m_score += 1000;
         }
 
         // If the ball has gone out of bounds and been deleted or locked, then don't
