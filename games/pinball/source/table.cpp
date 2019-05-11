@@ -177,7 +177,12 @@ void Table::update(unsigned int keys) {
         m_score += 10000;
         m_lockedBalls = -1;
         m_lockBallTimers.clear();
-        for (int i = 0; i < 3; i++) {
+        Pinball* launchedBall = new Pinball(m_renderer, m_b2world, 0);
+        // Launch the ball up the launch tube. Some machines actually do this.
+        // We do this instead of launching all 3 release slots to give the player more time to deal with all the balls.
+        launchedBall->getBody()->ApplyForce(b2Vec2(30, 0), launchedBall->getBody()->GetWorldVector(b2Vec2(0, 0)), true);
+        m_pinballs.push_back(launchedBall);
+        for (int i = 0; i < 2; i++) {
             Pinball* multiBall = new Pinball(m_renderer, m_b2world, i + 1);
             m_pinballs.push_back(multiBall);
         }
