@@ -208,7 +208,7 @@ void Table::update(unsigned int keys) {
     }
     else if (m_tiltTimer == m_tiltCooldown) {
         if (Input::Key::Left & keys || Input::Key::Right & keys) {
-            double leftOrRight = Input::Key::Left & keys ? -0.7 : 0.7;
+            double leftOrRight = Input::Key::Left & keys ? -0.9 : 0.9;
             m_tiltTimer = 0;
             for (size_t p = 0; p < m_pinballs.size(); p++) {
                 Pinball* pinball = m_pinballs.at(p);
@@ -283,7 +283,7 @@ void Table::BeginContact(b2Contact* contact) {
             b2Fixture* bumperFixture = bumper->getFixture();
             if ((fixtureA == bumperFixture && fixtureB == pinball->getFixture()) ||
                 (fixtureA == pinball->getFixture() && fixtureB == bumperFixture)) {
-                m_score += 10;
+                m_score += 50;
                 bumper->setHit();
             }
         }
