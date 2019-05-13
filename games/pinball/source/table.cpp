@@ -188,8 +188,14 @@ void Table::update(unsigned int keys) {
         // We do this instead of launching all 3 release slots to give the player more time to deal with all the balls.
         launchedBall->getBody()->ApplyForce(b2Vec2(30, 0), launchedBall->getBody()->GetWorldVector(b2Vec2(0, 0)), true);
         m_pinballs.push_back(launchedBall);
+        int iPreviousSpawn = -1;
         for (int i = 0; i < 2; i++) {
-            Pinball* multiBall = new Pinball(m_renderer, m_b2world, i + 1);
+            int iSpawnPos = rand() % 3 + 1; // Value in the range 1 to 3
+            while (iSpawnPos == iPreviousSpawn) {
+                iSpawnPos = rand() % 3 + 1;
+            }
+            iPreviousSpawn = iSpawnPos;
+            Pinball* multiBall = new Pinball(m_renderer, m_b2world, iSpawnPos);
             m_pinballs.push_back(multiBall);
         }
     }
