@@ -56,6 +56,12 @@ void Pinball::update(C2DRenderer* renderer, b2World* world) {
 #else
     m_texture->setPosition(position.x * g_graphicsScale, position.y * g_graphicsScale);
 #endif
+    if (m_bumpX != 0 && m_bumpY != 0) {
+        b2Vec2 vec(m_bumpX, m_bumpY);
+        m_body->ApplyForce(vec, m_body->GetWorldVector(b2Vec2(0, 0)), true);
+        m_bumpX = 0;
+        m_bumpY = 0;
+    }
 }
 
 b2Fixture* Pinball::getFixture() {
@@ -85,6 +91,11 @@ void Pinball::setLayerID(int layerID) {
 
 void Pinball::removeFromWorld() {
     m_ballOut = true;
+}
+
+void Pinball::setBumpVelocity(float x, float y) {
+    m_bumpX = x;
+    m_bumpY = y;
 }
 
 bool Pinball::cleanupDone() {

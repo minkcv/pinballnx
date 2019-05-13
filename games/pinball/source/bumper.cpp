@@ -8,7 +8,7 @@ Bumper::Bumper(C2DRenderer* renderer, b2World& world, int layerID, float x, floa
     circleBodyDef.type = b2_staticBody;
     circleBodyDef.position.Set(x, y);
     circleBodyDef.bullet = true;
-    b2Body* body = world.CreateBody(&circleBodyDef);
+    m_body = world.CreateBody(&circleBodyDef);
     b2FixtureDef circleFixtureDef;
     circleFixtureDef.shape = &circle;
     circleFixtureDef.density = 1.0f;
@@ -16,7 +16,7 @@ Bumper::Bumper(C2DRenderer* renderer, b2World& world, int layerID, float x, floa
     circleFixtureDef.restitution = 0.6;
     circleFixtureDef.filter.maskBits = 1 << layerID;
     circleFixtureDef.filter.categoryBits = 1 << layerID;
-    m_fixture = body->CreateFixture(&circleFixtureDef);
+    m_fixture = m_body->CreateFixture(&circleFixtureDef);
 
 #if DEBUG
     m_shape = new CircleShape(m_radius * g_graphicsScale);
@@ -52,6 +52,10 @@ void Bumper::update() {
 
 b2Fixture* Bumper::getFixture() {
     return m_fixture;
+}
+
+b2Body* Bumper::getBody() {
+    return m_body;
 }
 
 void Bumper::setHit() {

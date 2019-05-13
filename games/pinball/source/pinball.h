@@ -18,6 +18,7 @@ class Pinball {
         int getLayerID();
         void setLayerID(int layerID);
         void removeFromWorld();
+        void setBumpVelocity(float x, float y);
         bool cleanupDone();
     private:
         b2Body* m_body;
@@ -45,5 +46,7 @@ class Pinball {
         };
         bool m_ballOut = false;
         bool m_removed = false;
+        float m_bumpX = 0;
+        float m_bumpY = 0;
 };
 #endif

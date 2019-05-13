@@ -11,11 +11,13 @@ class Bumper {
     public:
         Bumper(C2DRenderer* renderer, b2World& world, int layerID, float x, float y);
         b2Fixture* getFixture();
+        b2Body* getBody();
         void update();
         void setHit();
     private:
         int m_layerID;
         b2Fixture* m_fixture;
+        b2Body* m_body;
         CircleShape* m_shape;
         C2DTexture* m_texture1;
         C2DTexture* m_texture2;

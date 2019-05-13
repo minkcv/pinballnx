@@ -300,6 +300,12 @@ void Table::BeginContact(b2Contact* contact) {
                 (fixtureA == pinball->getFixture() && fixtureB == bumperFixture)) {
                 m_score += 50;
                 bumper->setHit();
+
+                // Push the pinball. This has to be queued here and applied in udpate because we're in BeginContact right now.
+                b2Vec2 vec = (pinball->getBody()->GetWorldCenter() - (bumper->getBody()->GetWorldCenter()));
+                float multiply = 3.0;
+                printf("vec %f %f\n", vec.x * multiply, vec.y * multiply);
+                pinball->setBumpVelocity(vec.x * multiply, vec.y * multiply);
             }
         }
 
