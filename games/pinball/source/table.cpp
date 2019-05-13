@@ -197,6 +197,9 @@ void Table::update(unsigned int keys) {
             iPreviousSpawn = iSpawnPos;
             Pinball* multiBall = new Pinball(m_renderer, m_b2world, iSpawnPos);
             m_pinballs.push_back(multiBall);
+            // Shoot downwards
+            b2Vec2 vec(-4.0, 0);
+            multiBall->getBody()->ApplyForce(vec, multiBall->getBody()->GetWorldVector(b2Vec2(0, 0)), true);
         }
     }
     
