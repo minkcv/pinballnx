@@ -1,6 +1,7 @@
 #include "flipper.h"
 
 Flipper::Flipper(C2DRenderer* renderer, b2World& world, bool rightFlipper) {
+    float yOffset = rightFlipper ? 0.02: -0.02;
     if (rightFlipper) {
         m_key = Input::Key::Fire6;
         m_x = m_rightX;
@@ -14,11 +15,17 @@ Flipper::Flipper(C2DRenderer* renderer, b2World& world, bool rightFlipper) {
         m_rotateDirection = 1.0f;
     }
     b2BodyDef bd;
-    bd.position.Set(m_x, m_y);
+    bd.position.Set(m_x, m_y + yOffset);
     m_pivot = world.CreateBody(&bd);
 
     b2CircleShape circleShape;
     circleShape.m_radius = 0.18f;
+
+#if DEBUG
+    m_pivotShape = new CircleShape(0.18f * g_graphicsScale);
+    m_pivotShape->setOrigin(Origin::Center);
+    renderer->add(m_pivotShape);
+#endif
 
     b2FixtureDef fd;
     fd.friction = 0.6f;
@@ -28,6 +35,7 @@ Flipper::Flipper(C2DRenderer* renderer, b2World& world, bool rightFlipper) {
     fd.filter.categoryBits = 0xFFFF;
     m_pivot->CreateFixture(&fd);
 
+    // Flipper body
     bd.type = b2_dynamicBody;
     bd.position.Set(m_x, m_y);
     m_body = world.CreateBody(&bd);
@@ -85,6 +93,9 @@ void Flipper::update(unsigned int keys) {
 #if DEBUG
     m_cshape->setPosition(position.x * g_graphicsScale, position.y * g_graphicsScale);
     m_cshape->setRotation(angle * 180 / M_PI);
+    // Pivot graphics
+    b2Vec2 pivotPosition = m_pivot->GetPosition();
+    m_pivotShape->setPosition(pivotPosition.x * g_graphicsScale, pivotPosition.y * g_graphicsScale);
 #else
     m_texture->setPosition(position.x * g_graphicsScale, position.y * g_graphicsScale);
     m_texture->setRotation(angle * 180 / M_PI);

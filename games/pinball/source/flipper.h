@@ -29,6 +29,7 @@ class Flipper {
         C2DTexture* m_texture;
         b2Body* m_body;
         b2Body* m_pivot;
+        CircleShape* m_pivotShape;
 };
 
 #endif
