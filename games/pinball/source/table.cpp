@@ -98,8 +98,14 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     Bumper* bumperRight = new Bumper(renderer, world, 1, 1);
     m_bumpers.push_back(bumperRight);
 
-    m_leftKicker = new Kicker(renderer, world, false);
-    m_rightKicker = new Kicker(renderer, world, true);
+    Bumper* bumperLeftKicker = new Bumper(renderer, world, 1, 2);
+    m_bumpers.push_back(bumperLeftKicker);
+
+    Bumper* bumperRightKicker = new Bumper(renderer, world, 1, 3);
+    m_bumpers.push_back(bumperRightKicker);
+
+    //m_leftKicker = new Kicker(renderer, world, false);
+    //m_rightKicker = new Kicker(renderer, world, true);
 
     Pinball* firstPinball = new Pinball(renderer, &world);
     m_pinballs.push_back(firstPinball);
@@ -213,8 +219,8 @@ void Table::update(unsigned int keys) {
     
     m_leftFlipper.update(keys);
     m_rightFlipper.update(keys);
-    m_leftKicker->update();
-    m_rightKicker->update();
+    //m_leftKicker->update();
+    //m_rightKicker->update();
     m_plunger.update(keys);
     
 
@@ -316,15 +322,15 @@ void Table::BeginContact(b2Contact* contact) {
             }
         }
 
-        if ((fixtureA == pinball->getFixture() && fixtureB == m_leftKicker->getFixture()) ||
-            (fixtureA == m_leftKicker->getFixture() && fixtureB == pinball->getFixture())) {
-            m_leftKicker->setHit();
-        }
+        //if ((fixtureA == pinball->getFixture() && fixtureB == m_leftKicker->getFixture()) ||
+        //    (fixtureA == m_leftKicker->getFixture() && fixtureB == pinball->getFixture())) {
+        //    m_leftKicker->setHit();
+        //}
 
-        if ((fixtureA == pinball->getFixture() && fixtureB == m_rightKicker->getFixture()) ||
-            (fixtureA == m_rightKicker->getFixture() && fixtureB == pinball->getFixture())) {
-            m_rightKicker->setHit();
-        }
+        //if ((fixtureA == pinball->getFixture() && fixtureB == m_rightKicker->getFixture()) ||
+        //    (fixtureA == m_rightKicker->getFixture() && fixtureB == pinball->getFixture())) {
+        //    m_rightKicker->setHit();
+        //}
     }
 }
 
@@ -378,6 +384,6 @@ void Table::cleanup() {
         delete trigger;
     }
 
-    delete m_leftKicker;
-    delete m_rightKicker;
+    //delete m_leftKicker;
+    //delete m_rightKicker;
 }
