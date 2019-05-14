@@ -310,7 +310,6 @@ void Table::BeginContact(b2Contact* contact) {
                 bumper->setHit();
 
                 // Push the pinball. This has to be queued here and applied in udpate because we're in BeginContact right now.
-                b2Vec2 bumperPos = bumper->getBody()->GetWorldCenter();
                 b2Vec2 vec = (pinball->getBody()->GetWorldCenter() - (bumper->getBody()->GetWorldCenter()));
                 float multiply = bumper->getBumpForce();
                 pinball->setBumpVelocity(vec.x * multiply, vec.y * multiply);
