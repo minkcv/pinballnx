@@ -24,8 +24,8 @@ extern float g_displayFrameRate;
 // 1280 meters long. 
 extern float g_graphicsScale;
 
-b2Vec2* getVertexArray(std::vector<float> points);
+b2Vec2* getVertexArray(std::vector<float> points, float xOffset = 0, float yOffset = 0);
 
-void addPointsToShape(ConvexShape* shape, std::vector<float> points);
+void addPointsToShape(ConvexShape* shape, std::vector<float> points, float xOffset = 0, float yOffset = 0);
 
 #endif

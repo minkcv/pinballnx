@@ -81,14 +81,22 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     Trigger* leftTrigger = new Trigger(renderer, world, 0, 1, leftRailWall);
     m_triggers.push_back(leftTrigger);
 
-    Bumper* bumper1 = new Bumper(renderer, world, 1, 8.6, 2.1);
+    // Circle bumpers at the top left
+    Bumper* bumper1 = new Bumper(renderer, world, 1, -1, 8.6, 2.1);
     m_bumpers.push_back(bumper1);
 
-    Bumper* bumper2 = new Bumper(renderer, world, 1, 9.9, 2.1);
+    Bumper* bumper2 = new Bumper(renderer, world, 1, -1, 9.9, 2.1);
     m_bumpers.push_back(bumper2);
 
-    Bumper* bumper3 = new Bumper(renderer, world, 1, 9.25, 3.0);
+    Bumper* bumper3 = new Bumper(renderer, world, 1, -1, 9.25, 3.0);
     m_bumpers.push_back(bumper3);
+
+    // Bumpers for return area bumpers
+    Bumper* bumperLeft = new Bumper(renderer, world, 1, 0);
+    m_bumpers.push_back(bumperLeft);
+
+    Bumper* bumperRight = new Bumper(renderer, world, 1, 1);
+    m_bumpers.push_back(bumperRight);
 
     m_leftKicker = new Kicker(renderer, world, false);
     m_rightKicker = new Kicker(renderer, world, true);
@@ -302,8 +310,9 @@ void Table::BeginContact(b2Contact* contact) {
                 bumper->setHit();
 
                 // Push the pinball. This has to be queued here and applied in udpate because we're in BeginContact right now.
+                b2Vec2 bumperPos = bumper->getBody()->GetWorldCenter();
                 b2Vec2 vec = (pinball->getBody()->GetWorldCenter() - (bumper->getBody()->GetWorldCenter()));
-                float multiply = 10.0;
+                float multiply = bumper->getBumpForce();
                 pinball->setBumpVelocity(vec.x * multiply, vec.y * multiply);
             }
         }
