@@ -20,7 +20,7 @@ class Kicker {
         C2DTexture* m_texture;
         b2PrismaticJoint* m_joint;
         float m_leftX = 0.34;
-        float m_leftY = 0.32;
+        float m_leftY = 0.34;
         float m_rightX = 0.34;
         float m_rightY = 6.40;
         float m_halfHeight = 0.1;
