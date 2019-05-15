@@ -12,7 +12,6 @@
 #include "scoreboard.h"
 #include "ramp.h"
 #include "bumper.h"
-#include "kicker.h"
 #include "optwall.h"
 #include "trigger.h"
 #include "balllock.h"
@@ -47,8 +46,6 @@ class Table : public b2ContactListener {
         Scoreboard m_scoreboard;
         Flipper m_leftFlipper;
         Flipper m_rightFlipper;
-        Kicker* m_leftKicker;
-        Kicker* m_rightKicker;
         Plunger m_plunger;
         BallLock m_ballLock;
         C2DRenderer* m_renderer;
