@@ -21,10 +21,6 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     Layer launchTubeLayer(renderer, world, 0);
     m_layers.push_back(launchTubeLayer);
 
-    // Ramp out of tube layer
-    Ramp tubeExit(renderer, world, 0, 1);
-    m_ramps.push_back(tubeExit);
-
     Layer mainTableLayer(renderer, world, 1);
     m_layers.push_back(mainTableLayer);
 
@@ -33,47 +29,44 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     m_layers.push_back(layer2);
 
     // Ramps for main layer
-    Ramp ramp1(renderer, world, 1, 2);
+    Ramp ramp1(renderer, world, 0, 2);
     m_ramps.push_back(ramp1);
 
-    Ramp ramp1up2(renderer, world, 2, 2);
+    Ramp ramp1up2(renderer, world, 1, 2);
     m_ramps.push_back(ramp1up2);
 
-    Ramp ramp1Down(renderer, world, 3, 1);
+    Ramp ramp1Down(renderer, world, 2, 1);
     m_ramps.push_back(ramp1Down);
 
-    Ramp hole1(renderer, world, 4, 1);
+    Ramp hole1(renderer, world, 3, 1);
     m_ramps.push_back(hole1);
 
-    Ramp rightRamp(renderer, world, 5, 2);
+    Ramp rightRamp(renderer, world, 4, 2);
     m_ramps.push_back(rightRamp);
 
-    Ramp rightRampUp2(renderer, world, 6, 2);
+    Ramp rightRampUp2(renderer, world, 5, 2);
     m_ramps.push_back(rightRampUp2);
 
-    Ramp rightRampDown(renderer, world, 7, 1);
+    Ramp rightRampDown(renderer, world, 6, 1);
     m_ramps.push_back(rightRampDown);
     
-    Ramp hole2(renderer, world, 8, 1);
+    Ramp hole2(renderer, world, 7, 1);
     m_ramps.push_back(hole2);
 
-    Ramp ramp3(renderer, world, 9, 2);
+    Ramp ramp3(renderer, world, 8, 2);
     m_ramps.push_back(ramp3);
 
-    Ramp ramp3Down(renderer, world, 10, 1);
+    Ramp ramp3Down(renderer, world, 9, 1);
     m_ramps.push_back(ramp3Down);
 
-    Ramp ramp3up2(renderer, world, 11, 2);
+    Ramp ramp3up2(renderer, world, 10, 2);
     m_ramps.push_back(ramp3up2);
 
-    Ramp ramp1DownMid(renderer, world, 12, 1);
+    Ramp ramp1DownMid(renderer, world, 11, 1);
     m_ramps.push_back(ramp1DownMid);
 
-    Ramp backdoorDown(renderer, world, 13, 1);
+    Ramp backdoorDown(renderer, world, 12, 1);
     m_ramps.push_back(backdoorDown);
-
-    Ramp backdoorUp(renderer, world, 14, 0);
-    m_ramps.push_back(backdoorUp);
 
     OptWall* leftRailWall = new OptWall(renderer, world, 0, 2);
     m_optWalls.push_back(leftRailWall);
@@ -98,12 +91,12 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     Bumper* bumperRight = new Bumper(renderer, world, 1, 1);
     m_bumpers.push_back(bumperRight);
 
+    // Kicker bumpers
     Bumper* bumperLeftKicker = new Bumper(renderer, world, 1, 2);
     m_bumpers.push_back(bumperLeftKicker);
 
     Bumper* bumperRightKicker = new Bumper(renderer, world, 1, 3);
     m_bumpers.push_back(bumperRightKicker);
-
 
     Pinball* firstPinball = new Pinball(renderer, &world);
     m_pinballs.push_back(firstPinball);
