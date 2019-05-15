@@ -28,6 +28,10 @@ Ramp::Ramp(C2DRenderer* renderer, b2World& world, int rampID, int layerID) {
     ConvexShape* cshape = new ConvexShape();
     addPointsToShape(cshape, points);
     cshape->getVertexArray()->setPrimitiveType(PrimitiveType::LineStrip);
+    if (layerID == 1)
+        cshape->setFillColor(Color::Red);
+    else if (layerID == 2)
+        cshape->setFillColor(Color::Green);
     renderer->add(cshape);
 #endif
 }

@@ -78,7 +78,12 @@ int Pinball::getLayerID() {
 
 void Pinball::setLayerID(int layerID) {
     m_currentLayerID = layerID;
-#if !DEBUG
+#if DEBUG
+    if (layerID == 1)
+        m_shape->setFillColor(Color::White);
+    if (layerID == 2)
+        m_shape->setFillColor(Color::Cyan);
+#else
     // Multiply by 2 because rendering layers have a gap so the pinball
     // can be rendered above the layer it is on.
     m_texture->setLayer(m_currentLayerID * 2 + 1);
