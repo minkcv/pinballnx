@@ -10,7 +10,7 @@ using namespace std;
 
 class BallLock {
     public:
-        BallLock(C2DRenderer* renderer, b2World& world);
+        BallLock(C2DRenderer* renderer, b2World& world, int layerID);
         b2Fixture* getFixture();
     private:
         int m_layerID;

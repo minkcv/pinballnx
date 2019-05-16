@@ -17,6 +17,8 @@ Plunger::Plunger(C2DRenderer* renderer, b2World& world) {
     b2FixtureDef fd;
     fd.shape = &boxShape;
     fd.density = 1.0f;
+    fd.filter.maskBits = 1 << 1;
+    fd.filter.categoryBits = 0xFFFF;
     m_body->CreateFixture(&fd);
 
     // Give the constraint the same box and fixture, not that it matters.

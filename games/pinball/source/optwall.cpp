@@ -26,6 +26,8 @@ OptWall::OptWall(C2DRenderer* renderer, b2World& world, int optWallId, int layer
     m_shapeEnabled = new ConvexShape();
     addPointsToShape(m_shapeEnabled, points);
     m_shapeEnabled->getVertexArray()->setPrimitiveType(PrimitiveType::LineStrip);
+    if (layerID == 3)
+        m_shapeEnabled->setFillColor(Color::Red);
     renderer->add(m_shapeEnabled);
     m_shapeEnabled->setLayer(layerID * 2 + 1);
 #else

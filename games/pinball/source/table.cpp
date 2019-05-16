@@ -8,8 +8,7 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     m_scoreboard(renderer),
     m_leftFlipper(renderer, world, false),
     m_rightFlipper(renderer, world, true),
-    m_plunger(renderer, world),
-    m_ballLock(renderer, world)
+    m_plunger(renderer, world)
 {
     m_b2world = &world;
     m_renderer = renderer;
@@ -18,84 +17,110 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     m_lockedBalls = 0;
     world.SetContactListener(this);
 
-    Layer launchTubeLayer(renderer, world, 0);
+    Layer underLayer(renderer, world, 0);
+    m_layers.push_back(underLayer);
+
+    Layer launchTubeLayer(renderer, world, 1);
     m_layers.push_back(launchTubeLayer);
 
-    Layer mainTableLayer(renderer, world, 1);
+    Layer mainTableLayer(renderer, world, 2);
     m_layers.push_back(mainTableLayer);
 
     // Rails
-    Layer layer2(renderer, world, 2);
+    Layer layer2(renderer, world, 3);
     m_layers.push_back(layer2);
 
     // Ramps for main layer
-    Ramp ramp1(renderer, world, 0, 2);
+    Ramp ramp1(renderer, world, 0, 3);
     m_ramps.push_back(ramp1);
 
-    Ramp ramp1up2(renderer, world, 1, 2);
+    Ramp ramp1up2(renderer, world, 1, 3);
     m_ramps.push_back(ramp1up2);
 
-    Ramp ramp1Down(renderer, world, 2, 1);
+    Ramp ramp1Down(renderer, world, 2, 2);
     m_ramps.push_back(ramp1Down);
 
-    Ramp hole1(renderer, world, 3, 1);
+    Ramp hole1(renderer, world, 3, 2);
     m_ramps.push_back(hole1);
 
-    Ramp rightRamp(renderer, world, 4, 2);
+    Ramp rightRamp(renderer, world, 4, 3);
     m_ramps.push_back(rightRamp);
 
-    Ramp rightRampUp2(renderer, world, 5, 2);
+    Ramp rightRampUp2(renderer, world, 5, 3);
     m_ramps.push_back(rightRampUp2);
 
-    Ramp rightRampDown(renderer, world, 6, 1);
+    Ramp rightRampDown(renderer, world, 6, 2);
     m_ramps.push_back(rightRampDown);
     
-    Ramp hole2(renderer, world, 7, 1);
+    Ramp hole2(renderer, world, 7, 2);
     m_ramps.push_back(hole2);
 
-    Ramp ramp3(renderer, world, 8, 2);
+    Ramp ramp3(renderer, world, 8, 3);
     m_ramps.push_back(ramp3);
 
-    Ramp ramp3Down(renderer, world, 9, 1);
+    Ramp ramp3Down(renderer, world, 9, 2);
     m_ramps.push_back(ramp3Down);
 
-    Ramp ramp3up2(renderer, world, 10, 2);
+    Ramp ramp3up2(renderer, world, 10, 3);
     m_ramps.push_back(ramp3up2);
 
-    Ramp ramp1DownMid(renderer, world, 11, 1);
+    Ramp ramp1DownMid(renderer, world, 11, 2);
     m_ramps.push_back(ramp1DownMid);
 
-    Ramp backdoorDown(renderer, world, 12, 1);
+    Ramp backdoorDown(renderer, world, 12, 2);
     m_ramps.push_back(backdoorDown);
 
-    OptWall* leftRailWall = new OptWall(renderer, world, 0, 2);
+    Ramp tunnelDown(renderer, world, 13, 0);
+    m_ramps.push_back(tunnelDown);
+
+    BallLock* ballLock = new BallLock(renderer, world, 2);
+    m_ballLocks.push_back(ballLock);
+
+    BallLock* underBallLock = new BallLock(renderer, world, 0);
+    m_ballLocks.push_back(underBallLock);
+
+    OptWall* leftRailWall = new OptWall(renderer, world, 0, 3);
     m_optWalls.push_back(leftRailWall);
 
-    Trigger* leftTrigger = new Trigger(renderer, world, 0, 1, leftRailWall);
+    OptWall* underLayerLock = new OptWall(renderer, world, 1, 2);
+    underLayerLock->enable();
+    m_optWalls.push_back(underLayerLock);
+
+    Trigger* leftTrigger = new Trigger(renderer, world, 0, 2, leftRailWall);
     m_triggers.push_back(leftTrigger);
 
     // Circle bumpers at the top left
-    Bumper* bumper1 = new Bumper(renderer, world, 1, -1, 8.6, 2.1);
+    Bumper* bumper1 = new Bumper(renderer, world, 2, -1, 8.6, 2.1);
     m_bumpers.push_back(bumper1);
 
-    Bumper* bumper2 = new Bumper(renderer, world, 1, -1, 9.9, 2.1);
+    Bumper* bumper2 = new Bumper(renderer, world, 2, -1, 9.9, 2.1);
     m_bumpers.push_back(bumper2);
 
-    Bumper* bumper3 = new Bumper(renderer, world, 1, -1, 9.25, 3.0);
+    Bumper* bumper3 = new Bumper(renderer, world, 2, -1, 9.25, 3.0);
     m_bumpers.push_back(bumper3);
 
+    // Circle bumpers on underlayer
+    Bumper* bumper4 = new Bumper(renderer, world, 0, -1, 5.6, 2.3);
+    m_bumpers.push_back(bumper4);
+
+    Bumper* bumper5 = new Bumper(renderer, world, 0, -1, 4.6, 3.6);
+    m_bumpers.push_back(bumper5);
+
+    Bumper* bumper6 = new Bumper(renderer, world, 0, -1, 3.4, 2.3);
+    m_bumpers.push_back(bumper6);
+
     // Bumpers for return area bumpers
-    Bumper* bumperLeft = new Bumper(renderer, world, 1, 0);
+    Bumper* bumperLeft = new Bumper(renderer, world, 2, 0);
     m_bumpers.push_back(bumperLeft);
 
-    Bumper* bumperRight = new Bumper(renderer, world, 1, 1);
+    Bumper* bumperRight = new Bumper(renderer, world, 2, 1);
     m_bumpers.push_back(bumperRight);
 
     // Kicker bumpers
-    Bumper* bumperLeftKicker = new Bumper(renderer, world, 1, 2);
+    Bumper* bumperLeftKicker = new Bumper(renderer, world, 2, 2);
     m_bumpers.push_back(bumperLeftKicker);
 
-    Bumper* bumperRightKicker = new Bumper(renderer, world, 1, 3);
+    Bumper* bumperRightKicker = new Bumper(renderer, world, 2, 3);
     m_bumpers.push_back(bumperRightKicker);
 
     Pinball* firstPinball = new Pinball(renderer, &world);
@@ -143,8 +168,10 @@ void Table::update(unsigned int keys) {
                 Pinball* nextPinball = new Pinball(m_renderer, m_b2world);
                 m_pinballs.push_back(nextPinball);
             }
-            if (m_lockedBalls == -1)
+            if (m_lockedBalls == -1) {
                 m_lockedBalls = 0; // End previous multiball
+                m_optWalls.at(1)->enable(); // Close the secret.
+            }
         }
     }
     for (size_t i = 0; i < m_pinballs.size(); i++) {
@@ -185,6 +212,7 @@ void Table::update(unsigned int keys) {
         }
     }
     if (m_lockBallTimers.size() > 0 && m_lockedBalls == 3) { // Trigger multiball
+        m_optWalls.at(1)->disable(); // Open the secret.
         m_score += 10000;
         m_lockedBalls = -1;
         m_lockBallTimers.clear();
@@ -261,17 +289,20 @@ void Table::BeginContact(b2Contact* contact) {
             pinball->removeFromWorld();
         }
 
-        if (m_lockBallTimers.size() == 0 && (
-            (fixtureA == m_ballLock.getFixture() && fixtureB == pinball->getFixture()) ||
-            (fixtureA == pinball->getFixture() && fixtureB == m_ballLock.getFixture()))) {
-            pinball->removeFromWorld();
-            if (m_lockedBalls >= 0 && m_lockedBalls < 3)
-                m_lockedBalls++;
-            // This queues a ball to be created in table update.
-            // The table makes sure to check this value before ending the game
-            // or loading the next ball.
-            m_lockBallTimers.push_back(m_lockBallDelay);
-            m_score += 1000;
+        for (size_t b = 0; b < m_ballLocks.size(); b++) {
+            BallLock* ballLock = m_ballLocks.at(b);
+            if (m_lockBallTimers.size() == 0 && (
+                (fixtureA == ballLock->getFixture() && fixtureB == pinball->getFixture()) ||
+                (fixtureA == pinball->getFixture() && fixtureB == ballLock->getFixture()))) {
+                pinball->removeFromWorld();
+                if (m_lockedBalls >= 0 && m_lockedBalls < 3)
+                    m_lockedBalls++;
+                // This queues a ball to be created in table update.
+                // The table makes sure to check this value before ending the game
+                // or loading the next ball.
+                m_lockBallTimers.push_back(m_lockBallDelay);
+                m_score += 1000;
+            }
         }
 
         // If the ball has gone out of bounds and been deleted or locked, then don't
@@ -361,5 +392,9 @@ void Table::cleanup() {
     for (size_t t = 0; t < m_triggers.size(); t++) {
         Trigger* trigger = m_triggers.at(t);
         delete trigger;
+    }
+    for (size_t b = 0; b < m_ballLocks.size(); b++) {
+        BallLock* ballLock = m_ballLocks.at(b);
+        delete ballLock;
     }
 }

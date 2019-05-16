@@ -52,6 +52,8 @@ Bumper::Bumper(C2DRenderer* renderer, b2World& world, int layerID, int shapeID, 
         CircleShape* shape = new CircleShape(m_radius * g_graphicsScale);
         shape->setOrigin(Origin::Center);
         shape->setPosition(x * g_graphicsScale, y * g_graphicsScale);
+        if (layerID == 0)
+            shape->setFillColor(Color::Cyan);
         renderer->add(shape);
     }
     else {

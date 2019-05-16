@@ -6,8 +6,9 @@ Pinball::Pinball(C2DRenderer* renderer, b2World* world, int iStartPos) {
     b2BodyDef circleBodyDef;
     circleBodyDef.type = b2_dynamicBody;
     if (iStartPos > 0) {
-        m_currentLayerID = 1;
+        m_currentLayerID = 2;
     }
+
     float startX = m_startPositions.at(iStartPos * 2);
     float startY = m_startPositions.at(iStartPos * 2 + 1);
     circleBodyDef.position.Set(startX, startY);
@@ -79,10 +80,12 @@ int Pinball::getLayerID() {
 void Pinball::setLayerID(int layerID) {
     m_currentLayerID = layerID;
 #if DEBUG
-    if (layerID == 1)
-        m_shape->setFillColor(Color::White);
-    if (layerID == 2)
+    if (layerID == 0)
         m_shape->setFillColor(Color::Cyan);
+    if (layerID == 2)
+        m_shape->setFillColor(Color::White);
+    if (layerID == 3)
+        m_shape->setFillColor(Color::Red);
 #else
     // Multiply by 2 because rendering layers have a gap so the pinball
     // can be rendered above the layer it is on.

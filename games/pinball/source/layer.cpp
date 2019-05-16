@@ -36,8 +36,10 @@ void Layer::loadShape(std::vector<float> points, C2DRenderer* renderer, b2World&
     ConvexShape* cshape = new ConvexShape();
     addPointsToShape(cshape, points);
     cshape->getVertexArray()->setPrimitiveType(PrimitiveType::LineStrip);
-    if (layerID == 2)
+    if (layerID == 0)
         cshape->setFillColor(Color::Cyan);
+    if (layerID == 3)
+        cshape->setFillColor(Color::Red);
     renderer->add(cshape);
 #endif
 }

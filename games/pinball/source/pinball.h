@@ -25,7 +25,7 @@ class Pinball {
         b2Fixture* m_fixture;
         CircleShape* m_shape;
         C2DTexture* m_texture;
-        int m_currentLayerID = 0;
+        int m_currentLayerID = 1;
 
         // Box2D works best with objects between 0.1m and 10m in size.
         // A pinball is normally 0.027 meters in diameter, but this is too small for Box2D.

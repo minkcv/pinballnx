@@ -43,11 +43,11 @@ class Table : public b2ContactListener {
         vector<Bumper*> m_bumpers;
         vector<Pinball*> m_pinballs;
         vector<int> m_lockBallTimers;
+        vector<BallLock*> m_ballLocks;
         Scoreboard m_scoreboard;
         Flipper m_leftFlipper;
         Flipper m_rightFlipper;
         Plunger m_plunger;
-        BallLock m_ballLock;
         C2DRenderer* m_renderer;
         // The width of the table, which is the height of the screen.
         float m_width = 720;
