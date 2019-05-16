@@ -103,7 +103,7 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     Bumper* bumper4 = new Bumper(renderer, world, 0, -1, 5.6, 2.3);
     m_bumpers.push_back(bumper4);
 
-    Bumper* bumper5 = new Bumper(renderer, world, 0, -1, 4.6, 3.6);
+    Bumper* bumper5 = new Bumper(renderer, world, 0, -1, 5.6, 3.6);
     m_bumpers.push_back(bumper5);
 
     Bumper* bumper6 = new Bumper(renderer, world, 0, -1, 2.3, 2.4);
