@@ -106,7 +106,7 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     Bumper* bumper5 = new Bumper(renderer, world, 0, -1, 4.6, 3.6);
     m_bumpers.push_back(bumper5);
 
-    Bumper* bumper6 = new Bumper(renderer, world, 0, -1, 3.4, 2.3);
+    Bumper* bumper6 = new Bumper(renderer, world, 0, -1, 2.3, 2.4);
     m_bumpers.push_back(bumper6);
 
     // Bumpers for return area bumpers
@@ -364,6 +364,7 @@ void Table::newGame() {
     for (size_t opt = 0; opt < m_optWalls.size(); opt++) {
         m_optWalls.at(opt)->disable();
     }
+    m_optWalls.at(1)->enable(); // Close the secret.
 }
 
 void Table::updateScoreboard(bool paused) {
