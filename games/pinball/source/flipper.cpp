@@ -38,6 +38,7 @@ Flipper::Flipper(C2DRenderer* renderer, b2World& world, bool rightFlipper) {
     // Flipper body
     bd.type = b2_dynamicBody;
     bd.position.Set(m_x, m_y);
+    bd.bullet = true;
     m_body = world.CreateBody(&bd);
 
     if (rightFlipper)
