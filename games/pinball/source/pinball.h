@@ -29,8 +29,8 @@ class Pinball {
 
         // Box2D works best with objects between 0.1m and 10m in size.
         // A pinball is normally 0.027 meters in diameter, but this is too small for Box2D.
-        // We simulate a pinball with a diameter of 0.2m and scale the pinball machine around this.
-        float m_radius = 0.1;
+        // We simulate a pinball with a diameter of 0.22m and scale the pinball machine around this.
+        float m_radius = 0.11;
 
         // Coordinates for the launch tube.
         float m_startX = 2.0f;
@@ -40,7 +40,7 @@ class Pinball {
         float m_lockStartY = 6.0;
         vector<float> m_startPositions = {
             2.0f, 6.9f, // Launch tube
-            6.94f, 6.0f, // Right lock ball ejector
+            6.94f, 6.02f, // Right lock ball ejector
             7.4f, 4.3f, // Middle lock ball ejector
             10.2f, 0.5f // Left lock ball ejector
         };
