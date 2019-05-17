@@ -8,7 +8,6 @@
 using namespace c2d;
 
 int main(int argc, char **argv) {
-    srand(100);
     // create the main renderer
     auto *renderer = new C2DRenderer({C2D_SCREEN_WIDTH, C2D_SCREEN_HEIGHT});
 

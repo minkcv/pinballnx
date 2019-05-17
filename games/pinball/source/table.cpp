@@ -200,7 +200,7 @@ void Table::update(unsigned int keys) {
             timer--;
             m_lockBallTimers.at(i) = timer;
             if (timer < 0) {
-                int iSpawnPos = rand() % 3 + 1; // Value in the range 1 to 3
+                int iSpawnPos = getNextBallRelease();
                 Pinball* lockBallRelease = new Pinball(m_renderer, m_b2world, iSpawnPos);
                 m_pinballs.push_back(lockBallRelease);
                 m_lockBallTimers.erase(m_lockBallTimers.begin() + i);
@@ -223,9 +223,9 @@ void Table::update(unsigned int keys) {
         m_pinballs.push_back(launchedBall);
         int iPreviousSpawn = -1;
         for (int i = 0; i < 2; i++) {
-            int iSpawnPos = rand() % 3 + 1; // Value in the range 1 to 3
+            int iSpawnPos = getNextBallRelease();
             while (iSpawnPos == iPreviousSpawn) {
-                iSpawnPos = rand() % 3 + 1;
+                iSpawnPos = getNextBallRelease();
             }
             iPreviousSpawn = iSpawnPos;
             Pinball* multiBall = new Pinball(m_renderer, m_b2world, iSpawnPos);
@@ -354,6 +354,7 @@ bool Table::isGameOver() {
 
 void Table::newGame() {
     m_currentBall = 1;
+    m_lockBallLocation = 1;
     Pinball* nextPinball = new Pinball(m_renderer, m_b2world);
     m_pinballs.push_back(nextPinball);
     m_score = 0;
@@ -369,6 +370,12 @@ void Table::newGame() {
 
 void Table::updateScoreboard(bool paused) {
     m_scoreboard.update(m_currentBall, m_score, m_lockedBalls, paused);
+}
+
+int Table::getNextBallRelease() {
+    if (m_lockBallLocation > 3)
+        m_lockBallLocation = 1;
+    return m_lockBallLocation++;
 }
 
 void Table::cleanup() {

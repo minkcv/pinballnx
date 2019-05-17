@@ -36,6 +36,7 @@ class Table : public b2ContactListener {
         void updateScoreboard(bool paused);
         void cleanup();
     private:
+        int getNextBallRelease();
         vector<Layer> m_layers;
         vector<Ramp> m_ramps;
         vector<OptWall*> m_optWalls;
@@ -60,6 +61,7 @@ class Table : public b2ContactListener {
         int m_score;
         int m_lockedBalls;
         int m_lockBallDelay = 1920 / g_displayFrameRate;
+        int m_lockBallLocation = 1;
         int m_tiltCooldown = 6000  / g_displayFrameRate;
         int m_tiltTimer = m_tiltCooldown;
 };
