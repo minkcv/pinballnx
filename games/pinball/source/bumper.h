@@ -30,8 +30,8 @@ class Bumper {
         float m_sensorRadius = 0.32;
         int m_flashFrames = 16;
         int m_flashFrameCurrent = m_flashFrames;
-        vector<float> m_leftCenter = {130, 130};
-        vector<float> m_rightCenter = {130, 550};
+        vector<float> m_leftCenter = {130, 140};
+        vector<float> m_rightCenter = {130, 540};
         vector<float> m_leftKickerCenter = {-20, 32};
         vector<float> m_rightKickerCenter = {-20, 640};
         vector<vector<float>> m_centers = {m_leftCenter, m_rightCenter, m_leftKickerCenter, m_rightKickerCenter};
