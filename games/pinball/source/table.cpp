@@ -219,7 +219,7 @@ void Table::update(unsigned int keys) {
         Pinball* launchedBall = new Pinball(m_renderer, m_b2world, 0);
         // Launch the ball up the launch tube. Some machines actually do this.
         // We do this instead of launching all 3 release slots to give the player more time to deal with all the balls.
-        launchedBall->getBody()->ApplyForce(b2Vec2(30, 0), launchedBall->getBody()->GetWorldVector(b2Vec2(0, 0)), true);
+        launchedBall->getBody()->ApplyForce(b2Vec2(30 * g_displayFrameRate / 60, 0), launchedBall->getBody()->GetWorldVector(b2Vec2(0, 0)), true);
         m_pinballs.push_back(launchedBall);
         int iPreviousSpawn = -1;
         for (int i = 0; i < 2; i++) {
