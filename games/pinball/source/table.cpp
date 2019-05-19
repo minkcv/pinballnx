@@ -332,7 +332,7 @@ void Table::BeginContact(b2Contact* contact) {
             b2Fixture* bumperFixture = bumper->getFixture();
             if ((fixtureA == bumperFixture && fixtureB == pinball->getFixture()) ||
                 (fixtureA == pinball->getFixture() && fixtureB == bumperFixture)) {
-                m_score += 50;
+                m_score += 200;
                 bumper->setHit();
 
                 // Push the pinball. This has to be queued here and applied in udpate because we're in BeginContact right now.

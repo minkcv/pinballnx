@@ -17,7 +17,7 @@ Scoreboard::Scoreboard(C2DRenderer* renderer) {
     m_ballsLeftText->setRotation(90);
     renderer->add(m_ballsLeftText);
 
-    m_scoreText = new C2DText("SCORE 0");
+    m_scoreText = new C2DText("SCORE");
     m_scoreText->setFont(*m_font);
     m_scoreText->setCharacterSize(40);
     m_scoreText->setPosition(1268, 10);
@@ -57,11 +57,21 @@ void Scoreboard::update(int currentBall, int score, int lockedBalls, bool paused
         }
     }
 
-    // There is proabaly a cleaner way to do this zero padding.
-    char buffer[255];
-    sprintf(buffer, "%08d", score);
-    std::string scoreString(buffer);
-    m_scoreText->setString("SCORE " + scoreString);
+    // Format score as "123,456,789" or "      1,234"
+    std::string numWithCommas = std::to_string(score);
+    int numCommas = 0;
+    int insertPosition = numWithCommas.length() - 3;
+    while (insertPosition > 0) {
+        numWithCommas.insert(insertPosition, ",");
+        insertPosition-=3;
+        numCommas++;
+    }
+    size_t lengthWithPadding = 12;
+    size_t spacesToAdd = lengthWithPadding - numWithCommas.length();
+    for (size_t i = 0; i < spacesToAdd; i++) {
+        numWithCommas.insert(0, " ");
+    }
+    m_scoreText->setString("SCORE " + numWithCommas);
 }
 
 Scoreboard::~Scoreboard() {
