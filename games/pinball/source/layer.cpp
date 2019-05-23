@@ -25,7 +25,7 @@ void Layer::loadShape(std::vector<float> points, C2DRenderer* renderer, b2World&
     b2FixtureDef fixtureDef;
     fixtureDef.shape = &chain;
     fixtureDef.density = 0.0f;
-    fixtureDef.friction = 0.3f;
+    fixtureDef.friction = 0.1f;
     fixtureDef.filter.maskBits = 0xFFFF;
     fixtureDef.filter.categoryBits = 1 << layerID;
     body->CreateFixture(&fixtureDef);
