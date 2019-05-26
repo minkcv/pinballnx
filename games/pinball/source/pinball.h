@@ -42,7 +42,7 @@ class Pinball {
             2.0f, 6.9f, // Launch tube
             6.94f, 6.02f, // Right lock ball ejector
             7.4f, 4.3f, // Middle lock ball ejector
-            10.2f, 0.5f // Left lock ball ejector
+            10.4f, 0.5f // Left lock ball ejector
         };
         bool m_ballOut = false;
         bool m_removed = false;
