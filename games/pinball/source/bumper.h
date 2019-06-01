@@ -30,17 +30,21 @@ class Bumper {
         float m_sensorRadius = 0.32;
         int m_flashFrames = 16;
         int m_flashFrameCurrent = m_flashFrames;
-        vector<float> m_leftCenter = {140, 120};
-        vector<float> m_rightCenter = {140, 560};
+        vector<float> m_leftCenterUpper = {200, 120};
+        vector<float> m_leftCenterLower = {150, 120};
+        vector<float> m_rightCenterUpper = {200, 560};
+        vector<float> m_rightCenterLower = {150, 560};
         vector<float> m_leftKickerCenter = {-20, 32};
         vector<float> m_rightKickerCenter = {-20, 640};
-        vector<vector<float>> m_centers = {m_leftCenter, m_rightCenter, m_leftKickerCenter, m_rightKickerCenter};
-        vector<float> m_leftBumperShape = {214.0, 140.1, 181.5, 157.2, 164.5, 165.7, 147.5, 174.2, 145.8, 175.8, 144.0, 177.3, 144.0, 179.2, 144.0, 181.1, 145.4, 181.6, 146.8, 182.1, 172.7, 171.0, 198.5, 159.8, 201.4, 158.3, 204.4, 156.8, 228.2, 141.2, 252.1, 125.7, 251.7, 124.6, 251.3, 123.5, 248.9, 123.2, 246.5, 123.0, 214.0, 140.1};
-        vector<float> m_rightBumperShape = {144.3, 491.6, 143.7, 493.3, 144.7, 494.9, 145.6, 496.5, 155.1, 501.3, 164.5, 506.2, 205.7, 527.7, 246.9, 549.2, 249.1, 548.8, 251.3, 548.5, 251.7, 547.4, 252.1, 546.3, 228.2, 530.8, 204.4, 515.2, 201.4, 513.7, 198.5, 512.2, 172.8, 501.1, 147.2, 490.0, 146.1, 490.0, 144.9, 490.0, 144.3, 491.6};
+        vector<vector<float>> m_centers = {m_leftCenterUpper, m_leftCenterLower, m_rightCenterUpper, m_rightCenterLower, m_leftKickerCenter, m_rightKickerCenter};
+        vector<float> m_leftBumperUpper = {226.8, 133.3, 207.0, 143.5, 207.0, 149.3, 207.0, 155.0, 215.3, 149.7, 223.5, 144.3, 237.8, 135.0, 252.1, 125.7, 251.7, 124.6, 251.3, 123.5, 248.9, 123.3, 246.5, 123.0, 226.8, 133.3};
+        vector<float> m_leftBumperLower = {176.9, 159.3, 147.3, 174.5, 145.6, 175.9, 144.0, 177.2, 144.0, 179.2, 144.0, 181.1, 145.4, 181.6, 146.9, 182.2, 174.5, 170.1, 202.2, 158.1, 204.6, 156.5, 207.0, 155.0, 207.0, 149.5, 207.0, 144.0, 176.9, 159.3};
+        vector<float> m_rightBumperUpper = {207.0, 522.7, 207.0, 528.5, 227.0, 538.8, 247.0, 549.1, 249.2, 548.8, 251.3, 548.5, 251.7, 547.4, 252.1, 546.3, 237.8, 537.0, 223.5, 527.7, 215.3, 522.3, 207.0, 517.0, 207.0, 522.7};
+        vector<float> m_rightBumperLower = {144.7, 490.6, 144.0, 491.3, 144.0, 493.0, 144.0, 494.7, 145.8, 496.2, 147.5, 497.7, 177.3, 512.9, 207.0, 528.0, 207.0, 522.5, 207.0, 517.0, 204.6, 515.5, 202.2, 513.9, 175.9, 502.4, 149.5, 490.9, 147.5, 490.4, 145.4, 489.9, 144.7, 490.6};
         vector<float> m_leftKicker = {10.0, 31.0, 10.0, 44.0, 23.5, 44.0, 37.0, 44.0, 37.0, 31.0, 37.0, 18.0, 23.5, 18.0, 10.0, 18.0, 10.0, 31.0};
         vector<float> m_rightKicker = {10.0, 640.5, 10.0, 654.0, 23.5, 654.0, 37.0, 654.0, 37.0, 640.5, 37.0, 627.0, 23.5, 627.0, 10.0, 627.0, 10.0, 640.5};
         vector<vector<float>> m_shapes = {
-            m_leftBumperShape, m_rightBumperShape, m_leftKicker, m_rightKicker
+            m_leftBumperUpper, m_leftBumperLower, m_rightBumperUpper, m_rightBumperLower, m_leftKicker, m_rightKicker
         };
 };
 #endif

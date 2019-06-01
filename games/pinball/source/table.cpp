@@ -110,17 +110,23 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     m_bumpers.push_back(bumper6);
 
     // Bumpers for return area bumpers
-    Bumper* bumperLeft = new Bumper(renderer, world, 2, 0);
-    m_bumpers.push_back(bumperLeft);
+    Bumper* bumperLeftUpper = new Bumper(renderer, world, 2, 0);
+    m_bumpers.push_back(bumperLeftUpper);
 
-    Bumper* bumperRight = new Bumper(renderer, world, 2, 1);
-    m_bumpers.push_back(bumperRight);
+    Bumper* bumperLeftLower = new Bumper(renderer, world, 2, 1);
+    m_bumpers.push_back(bumperLeftLower);
+
+    Bumper* bumperRightUpper = new Bumper(renderer, world, 2, 2);
+    m_bumpers.push_back(bumperRightUpper);
+
+    Bumper* bumperRightLower = new Bumper(renderer, world, 2, 3);
+    m_bumpers.push_back(bumperRightLower);
 
     // Kicker bumpers
-    Bumper* bumperLeftKicker = new Bumper(renderer, world, 2, 2);
+    Bumper* bumperLeftKicker = new Bumper(renderer, world, 2, 4);
     m_bumpers.push_back(bumperLeftKicker);
 
-    Bumper* bumperRightKicker = new Bumper(renderer, world, 2, 3);
+    Bumper* bumperRightKicker = new Bumper(renderer, world, 2, 5);
     m_bumpers.push_back(bumperRightKicker);
 
     Pinball* firstPinball = new Pinball(renderer, &world);
