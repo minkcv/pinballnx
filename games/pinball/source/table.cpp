@@ -291,9 +291,8 @@ void Table::BeginContact(b2Contact* contact) {
 
         for (size_t b = 0; b < m_ballLocks.size(); b++) {
             BallLock* ballLock = m_ballLocks.at(b);
-            if (m_lockBallTimers.size() == 0 && (
-                (fixtureA == ballLock->getFixture() && fixtureB == pinball->getFixture()) ||
-                (fixtureA == pinball->getFixture() && fixtureB == ballLock->getFixture()))) {
+            if ((fixtureA == ballLock->getFixture() && fixtureB == pinball->getFixture()) ||
+                (fixtureA == pinball->getFixture() && fixtureB == ballLock->getFixture())) {
                 pinball->removeFromWorld();
                 if (m_lockedBalls >= 0 && m_lockedBalls < 3)
                     m_lockedBalls++;
