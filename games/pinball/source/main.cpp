@@ -15,7 +15,7 @@ int main(int argc, char **argv) {
     renderer->getInput()->setRepeatDelay(0);
 
     // Gravity to the left
-    b2Vec2 gravity(-6.2f, 0.0f);
+    b2Vec2 gravity(-6.5f, 0.0f);
     b2World world(gravity);
 
     // See important info in util.h about g_displayFrameRate

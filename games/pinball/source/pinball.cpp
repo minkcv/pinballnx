@@ -17,7 +17,7 @@ Pinball::Pinball(C2DRenderer* renderer, b2World* world, int iStartPos) {
     b2FixtureDef circleFixtureDef;
     circleFixtureDef.shape = &circle;
     circleFixtureDef.density = 1.0f;
-    circleFixtureDef.friction = 0.1f;
+    circleFixtureDef.friction = 0.0f;
     circleFixtureDef.restitution = 0.3;
     circleFixtureDef.filter.maskBits = 1 << m_currentLayerID;
     circleFixtureDef.filter.categoryBits = 0xFFFF;
