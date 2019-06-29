@@ -100,14 +100,8 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     m_bumpers.push_back(bumper3);
 
     // Circle bumpers on underlayer
-    Bumper* bumper4 = new Bumper(renderer, world, 0, -1, 5.6, 2.3);
+    Bumper* bumper4 = new Bumper(renderer, world, 0, -1, 4.7, 3.2);
     m_bumpers.push_back(bumper4);
-
-    Bumper* bumper5 = new Bumper(renderer, world, 0, -1, 5.6, 3.6);
-    m_bumpers.push_back(bumper5);
-
-    Bumper* bumper6 = new Bumper(renderer, world, 0, -1, 2.3, 2.4);
-    m_bumpers.push_back(bumper6);
 
     // Bumpers for return area bumpers
     Bumper* bumperLeftUpper = new Bumper(renderer, world, 2, 0);
