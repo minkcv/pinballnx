@@ -20,6 +20,7 @@ class Pinball {
         void removeFromWorld();
         void setBumpVelocity(float x, float y);
         bool cleanupDone();
+	bool isOut();
     private:
         b2Body* m_body;
         b2Fixture* m_fixture;

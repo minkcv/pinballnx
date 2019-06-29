@@ -109,3 +109,7 @@ void Pinball::setBumpVelocity(float x, float y) {
 bool Pinball::cleanupDone() {
     return m_removed;
 }
+
+bool Pinball::isOut() {
+    return m_ballOut;
+}
