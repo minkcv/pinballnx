@@ -25,10 +25,15 @@ int main(int argc, char **argv) {
 
     Table table(renderer, world);
     InfoScreen infoScreen(renderer);
+    // Start paused.
+    infoScreen.show();
+    // Do an update so all the graphics update their 
+    // positions and rotations to the box2d positions and rotations.
+    table.update(0);
 
-    // main loop
-    bool paused = false;
+    bool paused = true;
     bool pauseReleased = true;
+    // main loop
     while (true) {
 
         unsigned int keys = renderer->getInput()->getKeys();
@@ -36,7 +41,7 @@ int main(int argc, char **argv) {
         if (keys & EV_QUIT) {
             break;
         }
-        // exit if START or SELECT is pressed (+/- on switch)
+        // exit if + is pressed
         if (keys & Input::Key::Start) {
             break;
         }
