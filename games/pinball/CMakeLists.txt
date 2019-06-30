@@ -5,7 +5,7 @@ project(pinball)
 
 set(PROJECT_AUTHOR "Will Smith")
 set(VERSION_MAJOR "0")
-set(VERSION_MINOR "5")
+set(VERSION_MINOR "6")
 # ps vita
 set(TITLE_ID "CROSS0001")
 
