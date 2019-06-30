@@ -31,10 +31,10 @@ Trigger::Trigger(C2DRenderer* renderer, b2World& world, int triggerID, int layer
     cshape->getVertexArray()->setPrimitiveType(PrimitiveType::LineStrip);
     renderer->add(cshape);
 #else
-    m_textureEnabled = new C2DTexture(renderer->getIo()->getDataReadPath() + "trigger" + std::to_string(triggerID) + "enabled.png");
+    m_textureEnabled = new C2DTexture(renderer->getIo()->getDataReadPath() + "pinballnx/trigger" + std::to_string(triggerID) + "enabled.png");
     m_textureEnabled->setLayer(layerID * 2 + 1);
     renderer->add(m_textureEnabled);
-    m_textureDisabled = new C2DTexture(renderer->getIo()->getDataReadPath() + "trigger" + std::to_string(triggerID) + "disabled.png");
+    m_textureDisabled = new C2DTexture(renderer->getIo()->getDataReadPath() + "pinballnx/trigger" + std::to_string(triggerID) + "disabled.png");
     m_textureDisabled->setLayer(-99);
     renderer->add(m_textureDisabled);
 #endif

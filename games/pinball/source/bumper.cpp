@@ -6,8 +6,8 @@ Bumper::Bumper(C2DRenderer* renderer, b2World& world, int layerID, int shapeID, 
     string activeTextureName;
     m_bumpForce = 14.0 * g_displayFrameRate / 60;
     if (shapeID == -1) {
-        inactiveTextureName = "bumper1.png";
-        activeTextureName = "bumper2.png";
+        inactiveTextureName = "pinballnx/bumper1.png";
+        activeTextureName = "pinballnx/bumper2.png";
         b2CircleShape circle;
         circle.m_radius = m_radius;
         b2BodyDef circleBodyDef;
@@ -28,8 +28,8 @@ Bumper::Bumper(C2DRenderer* renderer, b2World& world, int layerID, int shapeID, 
         float startY = m_centers.at(shapeID).at(1);
         if (shapeID > 1) // kickers
             m_bumpForce = 18.0 * g_displayFrameRate / 60;
-        inactiveTextureName = "bumpershape" + std::to_string(shapeID) + "off.png";
-        activeTextureName = "bumpershape" + std::to_string(shapeID) + "on.png";
+        inactiveTextureName = "pinballnx/bumpershape" + std::to_string(shapeID) + "off.png";
+        activeTextureName = "pinballnx/bumpershape" + std::to_string(shapeID) + "on.png";
         vector<float> points = m_shapes.at(shapeID);
         b2Vec2* vs = getVertexArray(points, startX, startY);
         b2ChainShape chain;

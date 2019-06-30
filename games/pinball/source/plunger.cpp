@@ -40,7 +40,7 @@ Plunger::Plunger(C2DRenderer* renderer, b2World& world) {
     m_shape = new RectangleShape(Vector2f(m_halfWidth * 2 * g_graphicsScale, m_halfHeight * 2 * g_graphicsScale));
     renderer->add(m_shape);
 #else
-    m_texture = new C2DTexture(renderer->getIo()->getDataReadPath() + "plunger.png");
+    m_texture = new C2DTexture(renderer->getIo()->getDataReadPath() + "pinballnx/plunger.png");
     m_texture->setLayer(6);
     renderer->add(m_texture);
 #endif

@@ -31,10 +31,10 @@ OptWall::OptWall(C2DRenderer* renderer, b2World& world, int optWallId, int layer
     renderer->add(m_shapeEnabled);
     m_shapeEnabled->setLayer(layerID * 2 + 1);
 #else
-    m_textureEnabled = new C2DTexture(renderer->getIo()->getDataReadPath() + "optwall" + std::to_string(optWallId) + "enabled.png");
+    m_textureEnabled = new C2DTexture(renderer->getIo()->getDataReadPath() + "pinballnx/optwall" + std::to_string(optWallId) + "enabled.png");
     renderer->add(m_textureEnabled);
     m_textureEnabled->setLayer(layerID * 2 + 1);
-    m_textureDisabled = new C2DTexture(renderer->getIo()->getDataReadPath() + "optwall" + std::to_string(optWallId) + "disabled.png");
+    m_textureDisabled = new C2DTexture(renderer->getIo()->getDataReadPath() + "pinballnx/optwall" + std::to_string(optWallId) + "disabled.png");
     renderer->add(m_textureDisabled);
     m_textureDisabled->setLayer(-100);
 #endif
