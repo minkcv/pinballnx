@@ -46,8 +46,10 @@ void Scoreboard::update(int currentBall, int score, int lockedBalls, bool paused
         m_multiBallText->setString("LOCKED " + std::to_string(lockedBalls) + "/3");
     }
 
-    if (paused) 
+    if (paused) {
         m_ballsLeftText->setString("PAUSED");
+        m_multiBallText->setLayer(-100);
+    }
     else {
         if (currentBall < 5)
             m_ballsLeftText->setString("BALL " + std::to_string(currentBall) + "/4");
