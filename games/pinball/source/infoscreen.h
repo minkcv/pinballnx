@@ -15,6 +15,5 @@ class InfoScreen {
     private:
         vector<C2DText*> m_textLines;
         C2DRectangle* m_shape;
-        Font* m_font;
 };
 #endif
