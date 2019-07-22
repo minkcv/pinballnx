@@ -48,7 +48,7 @@ Plunger::Plunger(C2DRenderer* renderer, b2World& world) {
 
 void Plunger::update(unsigned int keys) {
     if (keys & Input::Key::Down) {
-        m_joint->SetMotorSpeed(-5.0f);
+        m_joint->SetMotorSpeed(-2.0f);
     }
     else {
         m_joint->SetMotorSpeed(25.0f);
