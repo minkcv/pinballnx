@@ -88,11 +88,14 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     OptWall* leftRailWall = new OptWall(renderer, world, 0, 3);
     m_optWalls.push_back(leftRailWall);
 
-    OptWall* underLayerLock = new OptWall(renderer, world, 1, 2);
-    underLayerLock->enable();
-    m_optWalls.push_back(underLayerLock);
+    OptWall* underLayerLock1 = new OptWall(renderer, world, 1, 2);
+    underLayerLock1->enable();
+    m_optWalls.push_back(underLayerLock1);
 
-    Trigger* leftTrigger = new Trigger(renderer, world, 0, 2, leftRailWall);
+    OptWall* underLayerLock2 = new OptWall(renderer, world, 2, 0);
+    m_optWalls.push_back(underLayerLock2);
+
+    Trigger* leftTrigger = new Trigger(renderer, world, 0, 2, leftRailWall, underLayerLock2);
     m_triggers.push_back(leftTrigger);
 
     // Circle bumpers at the top left

@@ -8,7 +8,7 @@
 
 class Trigger {
     public:
-        Trigger(C2DRenderer* renderer, b2World& world, int triggerID, int layerID, OptWall* wallToChange);
+        Trigger(C2DRenderer* renderer, b2World& world, int triggerID, int layerID, OptWall* wallToChange, OptWall* wall2);
         b2Fixture* getFixture();
         void update();
         void press();
@@ -17,7 +17,7 @@ class Trigger {
         int m_layerID;
         b2Fixture* m_fixture;
         bool m_isPressed;
-        OptWall* m_wallToChange;
+        vector<OptWall*> m_wallsToChange;
         C2DTexture* m_textureEnabled;
         C2DTexture* m_textureDisabled;
         int m_hitFrames = 1920 / g_displayFrameRate;

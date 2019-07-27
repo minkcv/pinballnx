@@ -1,9 +1,10 @@
 #include "trigger.h"
 
-Trigger::Trigger(C2DRenderer* renderer, b2World& world, int triggerID, int layerID, OptWall* wallToChange) {
+Trigger::Trigger(C2DRenderer* renderer, b2World& world, int triggerID, int layerID, OptWall* wallToChange, OptWall* wall2) {
     m_layerID = layerID;
     m_isPressed = false;
-    m_wallToChange = wallToChange;
+    m_wallsToChange.push_back(wallToChange);
+    m_wallsToChange.push_back(wall2);
 
     vector<float> points = m_triggerShapes.at(triggerID);
 
@@ -67,10 +68,14 @@ void Trigger::press() {
     m_isPressed = true;
 
     // Change the thing we trigger;
-    if (m_wallToChange->isEnabled())
-        m_wallToChange->disable();
-    else
-        m_wallToChange->enable();
+    for (size_t i = 0; i < m_wallsToChange.size(); i++) {
+        OptWall* wall = m_wallsToChange.at(i);
+        if (wall->isEnabled())
+            wall->disable();
+        else
+            wall->enable();
+    }
+    
     
 #if !DEBUG
     // Change graphics.
