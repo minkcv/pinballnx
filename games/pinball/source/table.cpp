@@ -73,11 +73,17 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     Ramp tunnelDown(renderer, world, 13, 0);
     m_ramps.push_back(tunnelDown);
 
-    BallLock* ballLock = new BallLock(renderer, world, 2);
+    BallLock* ballLock = new BallLock(renderer, world, 2, 0);
     m_ballLocks.push_back(ballLock);
 
-    BallLock* underBallLock = new BallLock(renderer, world, 0);
-    m_ballLocks.push_back(underBallLock);
+    BallLock* underBallLock1 = new BallLock(renderer, world, 0, 1);
+    m_ballLocks.push_back(underBallLock1);
+
+    BallLock* underBallLock2 = new BallLock(renderer, world, 0, 2);
+    m_ballLocks.push_back(underBallLock2);
+
+    BallLock* underBallLock3 = new BallLock(renderer, world, 0, 3);
+    m_ballLocks.push_back(underBallLock3);
 
     OptWall* leftRailWall = new OptWall(renderer, world, 0, 3);
     m_optWalls.push_back(leftRailWall);
