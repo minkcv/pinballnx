@@ -27,5 +27,8 @@ class Trigger {
         vector<vector<float>> m_triggerShapes = {
             m_leftInletTrigger
         };
+        vector<float> m_positions = {
+            616, 17
+        };
 };
 #endif
