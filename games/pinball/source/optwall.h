@@ -28,6 +28,11 @@ class OptWall {
         vector<vector<float>> m_WallShapes = {
             m_leftRailWall, m_underLayerLock1, m_underLayerLock2
         };
+        vector<float> m_positions = {
+            972, 301,
+            704, 14,
+            481, 246
+        };
 };
 
 #endif

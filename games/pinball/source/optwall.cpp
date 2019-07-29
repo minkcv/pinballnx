@@ -34,9 +34,11 @@ OptWall::OptWall(C2DRenderer* renderer, b2World& world, int optWallId, int layer
     m_textureEnabled = new C2DTexture(renderer->getIo()->getDataReadPath() + "pinballnx/optwall" + std::to_string(optWallId) + "enabled.png");
     renderer->add(m_textureEnabled);
     m_textureEnabled->setLayer(layerID * 2 + 1);
+    m_textureEnabled->setPosition(m_positions.at(optWallId * 2), m_positions.at(optWallId * 2 + 1));
     m_textureDisabled = new C2DTexture(renderer->getIo()->getDataReadPath() + "pinballnx/optwall" + std::to_string(optWallId) + "disabled.png");
     renderer->add(m_textureDisabled);
     m_textureDisabled->setLayer(-100);
+    m_textureDisabled->setPosition(m_positions.at(optWallId * 2), m_positions.at(optWallId * 2 + 1));
 #endif
     // Default state is disabled
     disable();
