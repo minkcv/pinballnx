@@ -68,7 +68,6 @@ Flipper::Flipper(C2DRenderer* renderer, b2World& world, bool rightFlipper) {
     renderer->add(m_cshape);
 #else
     m_texture = new C2DTexture(renderer->getIo()->getDataReadPath() + "pinballnx/flipper.png");
-    m_texture->setOrigin(Origin::Top);
     m_texture->setLayer(6);
     renderer->add(m_texture);
 #endif
@@ -98,6 +97,7 @@ void Flipper::update(unsigned int keys) {
     b2Vec2 pivotPosition = m_pivot->GetPosition();
     m_pivotShape->setPosition(pivotPosition.x * g_graphicsScale, pivotPosition.y * g_graphicsScale);
 #else
+    m_texture->setOriginVector(16.0f, 16.0f);
     m_texture->setPosition(position.x * g_graphicsScale, position.y * g_graphicsScale);
     m_texture->setRotation(angle * 180 / M_PI);
 #endif
