@@ -73,6 +73,8 @@ Bumper::Bumper(C2DRenderer* renderer, b2World& world, int layerID, int shapeID, 
         m_texture1->setOrigin(Origin::Center);
     m_texture1->setLayer(layerID * 2 + 1);
     m_texture1->setPosition(x * g_graphicsScale, y * g_graphicsScale);
+    if (shapeID != -1)
+        m_texture1->setPosition(m_positions.at(shapeID * 2), m_positions.at(shapeID * 2 + 1));
     renderer->add(m_texture1);
 
     m_texture2 = new C2DTexture(renderer->getIo()->getDataReadPath() + activeTextureName);
@@ -80,6 +82,8 @@ Bumper::Bumper(C2DRenderer* renderer, b2World& world, int layerID, int shapeID, 
         m_texture2->setOrigin(Origin::Center);
     m_texture2->setLayer(-99);
     m_texture2->setPosition(x * g_graphicsScale, y * g_graphicsScale);
+    if (shapeID != -1)
+        m_texture2->setPosition(m_positions.at(shapeID * 2), m_positions.at(shapeID * 2 + 1));
     renderer->add(m_texture2);
 #endif
 }
