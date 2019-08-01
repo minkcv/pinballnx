@@ -28,6 +28,8 @@ OptWall::OptWall(C2DRenderer* renderer, b2World& world, int optWallId, int layer
     m_shapeEnabled->getVertexArray()->setPrimitiveType(PrimitiveType::LineStrip);
     if (layerID == 3)
         m_shapeEnabled->setFillColor(Color::Red);
+    if (layerID == 0)
+        m_shapeEnabled->setFillColor(Color::Cyan);
     renderer->add(m_shapeEnabled);
     m_shapeEnabled->setLayer(layerID * 2 + 1);
 #else

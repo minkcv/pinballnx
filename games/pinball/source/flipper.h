@@ -10,7 +10,7 @@ using namespace std;
 
 class Flipper {
     public:
-        Flipper(C2DRenderer* renderer, b2World& world, bool rightFlipper);
+        Flipper(C2DRenderer* renderer, b2World& world, int flipperID);
         void update(unsigned int keys);
     private:
         float m_rotateDirection;
@@ -24,6 +24,12 @@ class Flipper {
         float m_x;
         float m_y;
         vector<float> m_points = {-16, 0, -10, 93, -6, 99, -2.5, 100, 2.5, 100, 6, 99, 10, 93, 16, 0};
+        vector<float> m_positions = {
+            0.68f, 2.19f,
+            0.68f, 4.51f,
+            3.6f, 1.78f,
+            3.6f, 5.35f
+        };
         b2RevoluteJoint* m_joint;
         ConvexShape* m_cshape;
         C2DTexture* m_texture;
