@@ -100,7 +100,7 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     OptWall* rightKickerLock = new OptWall(renderer, world, 4, 2);
     m_optWalls.push_back(rightKickerLock);
 
-    Trigger* leftTrigger = new Trigger(renderer, world, 0, 2, leftRailWall, underLayerLock2);
+    Trigger* leftTrigger = new Trigger(renderer, world, 0, 2, leftRailWall, underLayerLock2, leftKickerLock, rightKickerLock);
     m_triggers.push_back(leftTrigger);
 
     // Circle bumpers at the top left

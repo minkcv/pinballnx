@@ -1,10 +1,12 @@
 #include "trigger.h"
 
-Trigger::Trigger(C2DRenderer* renderer, b2World& world, int triggerID, int layerID, OptWall* wallToChange, OptWall* wall2) {
+Trigger::Trigger(C2DRenderer* renderer, b2World& world, int triggerID, int layerID, OptWall* wallToChange, OptWall* wall2, OptWall* wall3, OptWall* wall4) {
     m_layerID = layerID;
     m_isPressed = false;
     m_wallsToChange.push_back(wallToChange);
     m_wallsToChange.push_back(wall2);
+    m_wallsToChange.push_back(wall3);
+    m_wallsToChange.push_back(wall4);
 
     vector<float> points = m_triggerShapes.at(triggerID);
 
@@ -69,13 +71,19 @@ void Trigger::press() {
     m_hitFrameCurrent = 0;
     m_isPressed = true;
 
-    // Change the thing we trigger;
+    // Change the optwalls
     for (size_t i = 0; i < m_wallsToChange.size(); i++) {
         OptWall* wall = m_wallsToChange.at(i);
-        if (wall->isEnabled())
+        if (i < 2) {
+            if (wall->isEnabled())
+                wall->disable();
+            else
+                wall->enable();
+        }
+        else {
+            // Reset the kicker locks
             wall->disable();
-        else
-            wall->enable();
+        }
     }
     
     

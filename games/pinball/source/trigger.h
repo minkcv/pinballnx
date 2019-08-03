@@ -8,7 +8,7 @@
 
 class Trigger {
     public:
-        Trigger(C2DRenderer* renderer, b2World& world, int triggerID, int layerID, OptWall* wallToChange, OptWall* wall2);
+        Trigger(C2DRenderer* renderer, b2World& world, int triggerID, int layerID, OptWall* wallToChange, OptWall* wall2, OptWall* wall3, OptWall* wall4);
         b2Fixture* getFixture();
         void update();
         void press();
