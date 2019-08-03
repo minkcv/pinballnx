@@ -137,10 +137,11 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     m_bumpers.push_back(bumperRightLower);
 
     // Kicker bumpers
-    Bumper* bumperLeftKicker = new Bumper(renderer, world, 2, 4, leftKickerLock);
+    // HACK: the x and y args aren't used if we pass a positive ShapeId so we just pass 0
+    Bumper* bumperLeftKicker = new Bumper(renderer, world, 2, 4, 0, 0, leftKickerLock);
     m_bumpers.push_back(bumperLeftKicker);
 
-    Bumper* bumperRightKicker = new Bumper(renderer, world, 2, 5, rightKickerLock);
+    Bumper* bumperRightKicker = new Bumper(renderer, world, 2, 5, 0, 0, rightKickerLock);
     m_bumpers.push_back(bumperRightKicker);
 
     Pinball* firstPinball = new Pinball(renderer, &world);
@@ -192,6 +193,10 @@ void Table::update(unsigned int keys) {
                 m_lockedBalls = 0; // End previous multiball
                 m_optWalls.at(1)->enable(); // Close the secret.
             }
+            // Disable the kicker locks when starting a new ball.
+            // This is pretty forgiving. I like it.
+            m_optWalls.at(3)->disable();
+            m_optWalls.at(4)->disable();
         }
     }
     for (size_t i = 0; i < m_pinballs.size(); i++) {

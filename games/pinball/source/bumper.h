@@ -6,6 +6,7 @@
 #include "util.h"
 #include <list>
 #include <string>
+#include "optwall.h"
 
 using namespace c2d;
 using namespace std;
@@ -31,6 +32,8 @@ class Bumper {
         float m_sensorRadius = 0.32;
         int m_flashFrames = 16;
         int m_flashFrameCurrent = m_flashFrames;
+        int m_lockDelay = 16;
+        int m_lockDelayCurrent = m_lockDelay + 1;
         vector<float> m_leftCenterUpper = {200, 120};
         vector<float> m_leftCenterLower = {150, 120};
         vector<float> m_rightCenterUpper = {200, 560};

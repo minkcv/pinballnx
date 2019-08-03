@@ -89,13 +89,19 @@ Bumper::Bumper(C2DRenderer* renderer, b2World& world, int layerID, int shapeID, 
 }
 
 void Bumper::update() {
+    if (m_lockDelayCurrent < m_lockDelay) {
+        m_lockDelayCurrent++;
+    }
+    else if (m_lockDelayCurrent == m_lockDelay) {
+        if (m_optwall != nullptr) {
+            m_optwall->enable();
+            m_lockDelayCurrent = m_lockDelay + 1;
+        }
+    }
     if (m_flashFrameCurrent < m_flashFrames) {
         m_flashFrameCurrent++;
     }
     else {
-        if (m_optwall != nullptr) {
-            m_optwall->enable();
-        }
 #if !DEBUG
         m_texture1->setLayer(m_layerID * 2 + 1);
         m_texture2->setLayer(-99);
@@ -116,6 +122,7 @@ void Bumper::setHit() {
     m_texture1->setLayer(-99);
     m_texture2->setLayer(m_layerID * 2 + 1);
     m_flashFrameCurrent = 0;
+    m_lockDelayCurrent = 0;
 #endif
 }
 
