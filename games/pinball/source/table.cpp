@@ -6,8 +6,10 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     m_bumpers(),
     m_pinballs(),
     m_scoreboard(renderer),
-    m_leftFlipper(renderer, world, false),
-    m_rightFlipper(renderer, world, true),
+    m_leftFlipper(renderer, world, 0),
+    m_rightFlipper(renderer, world, 1),
+    m_leftFlipper2(renderer, world, 2),
+    m_rightFlipper2(renderer, world, 3),
     m_plunger(renderer, world)
 {
     m_b2world = &world;
@@ -82,9 +84,6 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     BallLock* underBallLock2 = new BallLock(renderer, world, 0, 2);
     m_ballLocks.push_back(underBallLock2);
 
-    BallLock* underBallLock3 = new BallLock(renderer, world, 0, 3);
-    m_ballLocks.push_back(underBallLock3);
-
     OptWall* leftRailWall = new OptWall(renderer, world, 0, 3);
     m_optWalls.push_back(leftRailWall);
 
@@ -107,6 +106,13 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
 
     Bumper* bumper3 = new Bumper(renderer, world, 2, -1, 9.25, 3.0);
     m_bumpers.push_back(bumper3);
+
+    // Under layer bumpers
+    Bumper* bumper4 = new Bumper(renderer, world, 0, -1, 6.1, 2.5);
+    m_bumpers.push_back(bumper4);
+
+    Bumper* bumper5 = new Bumper(renderer, world, 0, -1, 6.1, 4.5);
+    m_bumpers.push_back(bumper5);
 
     // Bumpers for return area bumpers
     Bumper* bumperLeftUpper = new Bumper(renderer, world, 2, 0);
@@ -243,6 +249,8 @@ void Table::update(unsigned int keys) {
     
     m_leftFlipper.update(keys);
     m_rightFlipper.update(keys);
+    m_leftFlipper2.update(keys);
+    m_rightFlipper2.update(keys);
     m_plunger.update(keys);
     
 

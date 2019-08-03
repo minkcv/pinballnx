@@ -47,5 +47,14 @@ class Bumper {
         vector<vector<float>> m_shapes = {
             m_leftBumperUpper, m_leftBumperLower, m_rightBumperUpper, m_rightBumperLower, m_leftKicker, m_rightKicker
         };
+        // sprite positions (x, y)
+        vector<float> m_positions {
+            144, 130,
+            144, 130,
+            144, 485,
+            144, 485,
+            10, 18,
+            10, 628
+        };
 };
 #endif

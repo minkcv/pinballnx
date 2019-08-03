@@ -34,9 +34,11 @@ Trigger::Trigger(C2DRenderer* renderer, b2World& world, int triggerID, int layer
 #else
     m_textureEnabled = new C2DTexture(renderer->getIo()->getDataReadPath() + "pinballnx/trigger" + std::to_string(triggerID) + "enabled.png");
     m_textureEnabled->setLayer(layerID * 2 + 1);
+    m_textureEnabled->setPosition(m_positions.at(triggerID * 2), m_positions.at(triggerID * 2 + 1));
     renderer->add(m_textureEnabled);
     m_textureDisabled = new C2DTexture(renderer->getIo()->getDataReadPath() + "pinballnx/trigger" + std::to_string(triggerID) + "disabled.png");
     m_textureDisabled->setLayer(-99);
+    m_textureDisabled->setPosition(m_positions.at(triggerID * 2), m_positions.at(triggerID * 2 + 1));
     renderer->add(m_textureDisabled);
 #endif
 }

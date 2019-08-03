@@ -1,19 +1,17 @@
 #include "flipper.h"
 
-Flipper::Flipper(C2DRenderer* renderer, b2World& world, bool rightFlipper) {
-    float yOffset = rightFlipper ? 0.02: -0.02;
-    if (rightFlipper) {
-        m_key = Input::Key::Fire6;
-        m_x = m_rightX;
-        m_y = m_rightY;
-        m_rotateDirection = -1.0f;
-    }
-    else {
+Flipper::Flipper(C2DRenderer* renderer, b2World& world, int flipperID) {
+    float yOffset = flipperID ? 0.02: -0.02;
+    if (flipperID % 2 == 0) {
         m_key = Input::Key::Fire5;
-        m_x = m_leftX;
-        m_y = m_leftY;
         m_rotateDirection = 1.0f;
     }
+    else {
+        m_key = Input::Key::Fire6;
+        m_rotateDirection = -1.0f;
+    }
+    m_x = m_positions.at(flipperID * 2);
+    m_y = m_positions.at(flipperID * 2 + 1);
     b2BodyDef bd;
     bd.position.Set(m_x, m_y + yOffset);
     m_pivot = world.CreateBody(&bd);
@@ -24,6 +22,8 @@ Flipper::Flipper(C2DRenderer* renderer, b2World& world, bool rightFlipper) {
 #if DEBUG
     m_pivotShape = new CircleShape(0.18f * g_graphicsScale);
     m_pivotShape->setOrigin(Origin::Center);
+    if (flipperID > 1)
+        m_pivotShape->setFillColor(Color::Cyan);
     renderer->add(m_pivotShape);
 #endif
 
@@ -31,8 +31,14 @@ Flipper::Flipper(C2DRenderer* renderer, b2World& world, bool rightFlipper) {
     fd.friction = 0.6f;
     fd.density = 1.0f;
     fd.shape = &circleShape;
-    fd.filter.maskBits = 0xFFFF;
-    fd.filter.categoryBits = 0xFFFF;
+    if (flipperID > 1) {
+        fd.filter.maskBits = 1;
+        fd.filter.categoryBits = 1;
+    }
+    else {
+        fd.filter.maskBits = 1 << 2;
+        fd.filter.categoryBits = 1 << 2;
+    }
     m_pivot->CreateFixture(&fd);
 
     // Flipper body
@@ -41,7 +47,7 @@ Flipper::Flipper(C2DRenderer* renderer, b2World& world, bool rightFlipper) {
     bd.bullet = true;
     m_body = world.CreateBody(&bd);
 
-    if (rightFlipper)
+    if (flipperID % 2 == 1)
         m_body->SetTransform(bd.position, -M_PI);
 
     b2Vec2* vs = getVertexArray(m_points);
@@ -65,11 +71,15 @@ Flipper::Flipper(C2DRenderer* renderer, b2World& world, bool rightFlipper) {
     m_cshape = new ConvexShape();
     m_cshape->getVertexArray()->setPrimitiveType(PrimitiveType::LineStrip);
     addPointsToShape(m_cshape, m_points);
+    if (flipperID > 1)
+        m_cshape->setFillColor(Color::Cyan);
     renderer->add(m_cshape);
 #else
     m_texture = new C2DTexture(renderer->getIo()->getDataReadPath() + "pinballnx/flipper.png");
-    m_texture->setOrigin(Origin::Top);
-    m_texture->setLayer(6);
+    if (flipperID > 1)
+        m_texture->setLayer(2);
+    else
+        m_texture->setLayer(6);
     renderer->add(m_texture);
 #endif
 }
@@ -98,6 +108,7 @@ void Flipper::update(unsigned int keys) {
     b2Vec2 pivotPosition = m_pivot->GetPosition();
     m_pivotShape->setPosition(pivotPosition.x * g_graphicsScale, pivotPosition.y * g_graphicsScale);
 #else
+    m_texture->setOriginVector(16.0f, 16.0f);
     m_texture->setPosition(position.x * g_graphicsScale, position.y * g_graphicsScale);
     m_texture->setRotation(angle * 180 / M_PI);
 #endif
