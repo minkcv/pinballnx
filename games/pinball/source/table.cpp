@@ -114,6 +114,9 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     Bumper* bumper5 = new Bumper(renderer, world, 0, -1, 6.1, 4.5);
     m_bumpers.push_back(bumper5);
 
+    Bumper* bumper6 = new Bumper(renderer, world, 0, -1, 5.5, 3.5);
+    m_bumpers.push_back(bumper6);
+
     // Bumpers for return area bumpers
     Bumper* bumperLeftUpper = new Bumper(renderer, world, 2, 0);
     m_bumpers.push_back(bumperLeftUpper);
