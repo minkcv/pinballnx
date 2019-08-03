@@ -1,10 +1,11 @@
 #include "bumper.h"
 
-Bumper::Bumper(C2DRenderer* renderer, b2World& world, int layerID, int shapeID, float x, float y) {
+Bumper::Bumper(C2DRenderer* renderer, b2World& world, int layerID, int shapeID, float x, float y, OptWall* optwall) {
     m_layerID = layerID;
     string inactiveTextureName;
     string activeTextureName;
     m_bumpForce = 14.0 * g_displayFrameRate / 60;
+    m_optwall = optwall;
     if (shapeID == -1) {
         inactiveTextureName = "pinballnx/bumper1.png";
         activeTextureName = "pinballnx/bumper2.png";
@@ -89,6 +90,9 @@ void Bumper::update() {
         m_flashFrameCurrent++;
     }
     else {
+        if (m_optwall != nullptr) {
+            m_optwall->enable();
+        }
 #if !DEBUG
         m_texture1->setLayer(m_layerID * 2 + 1);
         m_texture2->setLayer(-99);

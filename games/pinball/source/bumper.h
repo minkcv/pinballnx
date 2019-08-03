@@ -13,7 +13,7 @@ using namespace std;
 class Bumper {
     public:
         // -1 for shapeID creates circle
-        Bumper(C2DRenderer* renderer, b2World& world, int layerID, int shapeID, float x = 0, float y = 0);
+        Bumper(C2DRenderer* renderer, b2World& world, int layerID, int shapeID, float x = 0, float y = 0, OptWall* optwall = nullptr);
         b2Fixture* getFixture();
         b2Body* getBody();
         void update();
@@ -25,6 +25,7 @@ class Bumper {
         b2Body* m_body;
         C2DTexture* m_texture1;
         C2DTexture* m_texture2;
+        OptWall* m_optwall;
         float m_bumpForce;
         float m_radius = 0.3;
         float m_sensorRadius = 0.32;
