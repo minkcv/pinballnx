@@ -33,7 +33,9 @@ class OptWall {
         vector<float> m_positions = {
             972, 301,
             704, 14,
-            208, 207
+            208, 207,
+            73, 18,
+            72, 624
         };
 };
 

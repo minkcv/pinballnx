@@ -94,6 +94,12 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     OptWall* underLayerLock2 = new OptWall(renderer, world, 2, 0);
     m_optWalls.push_back(underLayerLock2);
 
+    OptWall* leftKickerLock = new OptWall(renderer, world, 3, 2);
+    m_optWalls.push_back(leftKickerLock);
+
+    OptWall* rightKickerLock = new OptWall(renderer, world, 4, 2);
+    m_optWalls.push_back(rightKickerLock);
+
     Trigger* leftTrigger = new Trigger(renderer, world, 0, 2, leftRailWall, underLayerLock2);
     m_triggers.push_back(leftTrigger);
 
@@ -128,10 +134,10 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     m_bumpers.push_back(bumperRightLower);
 
     // Kicker bumpers
-    Bumper* bumperLeftKicker = new Bumper(renderer, world, 2, 4);
+    Bumper* bumperLeftKicker = new Bumper(renderer, world, 2, 4, leftKickerLock);
     m_bumpers.push_back(bumperLeftKicker);
 
-    Bumper* bumperRightKicker = new Bumper(renderer, world, 2, 5);
+    Bumper* bumperRightKicker = new Bumper(renderer, world, 2, 5, rightKickerLock);
     m_bumpers.push_back(bumperRightKicker);
 
     Pinball* firstPinball = new Pinball(renderer, &world);
