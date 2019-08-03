@@ -1,14 +1,9 @@
 #include "balllock.h"
 
-BallLock::BallLock(C2DRenderer* renderer, b2World& world, int layerID) {
+BallLock::BallLock(C2DRenderer* renderer, b2World& world, int layerID, int shapeID) {
     m_layerID = layerID;
 
-    vector<float> points;
-    if (layerID == 2)
-        points = {843.5, 532.5, 835.8, 540.9, 834.4, 543.6, 833.0, 546.2, 833.0, 548.1, 833.0, 549.9, 850.2, 564.0, 867.4, 578.0, 869.5, 578.0, 871.5, 578.0, 881.8, 567.7, 892.0, 557.5, 892.0, 555.2, 892.0, 553.0, 873.8, 538.5, 855.5, 524.0, 853.3, 524.0, 851.2, 524.0, 843.5, 532.5};
-    else if (layerID == 0)
-        points = {107.0, 241.0, 107.0, 260.0, 118.5, 260.0, 130.0, 260.0, 130.0, 241.0, 130.0, 222.0, 118.5, 222.0, 107.0, 222.0, 107.0, 241.0};
-
+    vector<float> points = m_points.at(shapeID);
     b2Vec2* vs = getVertexArray(points);
     b2ChainShape chain;
     chain.CreateChain(vs, points.size() / 2);

@@ -27,9 +27,15 @@ int main(int argc, char **argv) {
     InfoScreen infoScreen(renderer);
     // Start paused.
     infoScreen.show();
-    // Do an update so all the graphics update their 
-    // positions and rotations to the box2d positions and rotations.
+
+    // Do 10 ticks so that the physics objects can settle and 
+    // the graphics can update positions and rotations to the physics objects.
     table.update(0);
+    for (int i = 0; i < 10; i++) {
+        table.update(0);
+        world.Step(timeStep, velocityIterations, positionIterations);
+        renderer->flip(); // Necessary to have graphics transforms work correctly.
+    }
 
     bool paused = true;
     bool pauseReleased = true;

@@ -1,10 +1,11 @@
 #include "bumper.h"
 
-Bumper::Bumper(C2DRenderer* renderer, b2World& world, int layerID, int shapeID, float x, float y) {
+Bumper::Bumper(C2DRenderer* renderer, b2World& world, int layerID, int shapeID, float x, float y, OptWall* optwall) {
     m_layerID = layerID;
     string inactiveTextureName;
     string activeTextureName;
     m_bumpForce = 14.0 * g_displayFrameRate / 60;
+    m_optwall = optwall;
     if (shapeID == -1) {
         inactiveTextureName = "pinballnx/bumper1.png";
         activeTextureName = "pinballnx/bumper2.png";
@@ -26,8 +27,7 @@ Bumper::Bumper(C2DRenderer* renderer, b2World& world, int layerID, int shapeID, 
     else {
         float startX = m_centers.at(shapeID).at(0);
         float startY = m_centers.at(shapeID).at(1);
-        if (shapeID > 1) // kickers
-            m_bumpForce = 18.0 * g_displayFrameRate / 60;
+        m_bumpForce = 18.0 * g_displayFrameRate / 60;
         inactiveTextureName = "pinballnx/bumpershape" + std::to_string(shapeID) + "off.png";
         activeTextureName = "pinballnx/bumpershape" + std::to_string(shapeID) + "on.png";
         vector<float> points = m_shapes.at(shapeID);
@@ -73,6 +73,8 @@ Bumper::Bumper(C2DRenderer* renderer, b2World& world, int layerID, int shapeID, 
         m_texture1->setOrigin(Origin::Center);
     m_texture1->setLayer(layerID * 2 + 1);
     m_texture1->setPosition(x * g_graphicsScale, y * g_graphicsScale);
+    if (shapeID != -1)
+        m_texture1->setPosition(m_positions.at(shapeID * 2), m_positions.at(shapeID * 2 + 1));
     renderer->add(m_texture1);
 
     m_texture2 = new C2DTexture(renderer->getIo()->getDataReadPath() + activeTextureName);
@@ -80,11 +82,22 @@ Bumper::Bumper(C2DRenderer* renderer, b2World& world, int layerID, int shapeID, 
         m_texture2->setOrigin(Origin::Center);
     m_texture2->setLayer(-99);
     m_texture2->setPosition(x * g_graphicsScale, y * g_graphicsScale);
+    if (shapeID != -1)
+        m_texture2->setPosition(m_positions.at(shapeID * 2), m_positions.at(shapeID * 2 + 1));
     renderer->add(m_texture2);
 #endif
 }
 
 void Bumper::update() {
+    if (m_lockDelayCurrent < m_lockDelay) {
+        m_lockDelayCurrent++;
+    }
+    else if (m_lockDelayCurrent == m_lockDelay) {
+        if (m_optwall != nullptr) {
+            m_optwall->enable();
+            m_lockDelayCurrent = m_lockDelay + 1;
+        }
+    }
     if (m_flashFrameCurrent < m_flashFrames) {
         m_flashFrameCurrent++;
     }
@@ -109,6 +122,7 @@ void Bumper::setHit() {
     m_texture1->setLayer(-99);
     m_texture2->setLayer(m_layerID * 2 + 1);
     m_flashFrameCurrent = 0;
+    m_lockDelayCurrent = 0;
 #endif
 }
 

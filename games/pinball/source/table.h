@@ -48,6 +48,8 @@ class Table : public b2ContactListener {
         Scoreboard m_scoreboard;
         Flipper m_leftFlipper;
         Flipper m_rightFlipper;
+        Flipper m_leftFlipper2;
+        Flipper m_rightFlipper2;
         Plunger m_plunger;
         C2DRenderer* m_renderer;
         // The width of the table, which is the height of the screen.

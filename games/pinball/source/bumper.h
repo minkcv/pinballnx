@@ -6,6 +6,7 @@
 #include "util.h"
 #include <list>
 #include <string>
+#include "optwall.h"
 
 using namespace c2d;
 using namespace std;
@@ -13,7 +14,7 @@ using namespace std;
 class Bumper {
     public:
         // -1 for shapeID creates circle
-        Bumper(C2DRenderer* renderer, b2World& world, int layerID, int shapeID, float x = 0, float y = 0);
+        Bumper(C2DRenderer* renderer, b2World& world, int layerID, int shapeID, float x = 0, float y = 0, OptWall* optwall = nullptr);
         b2Fixture* getFixture();
         b2Body* getBody();
         void update();
@@ -25,11 +26,14 @@ class Bumper {
         b2Body* m_body;
         C2DTexture* m_texture1;
         C2DTexture* m_texture2;
+        OptWall* m_optwall;
         float m_bumpForce;
         float m_radius = 0.3;
         float m_sensorRadius = 0.32;
         int m_flashFrames = 16;
         int m_flashFrameCurrent = m_flashFrames;
+        int m_lockDelay = 16;
+        int m_lockDelayCurrent = m_lockDelay + 1;
         vector<float> m_leftCenterUpper = {200, 120};
         vector<float> m_leftCenterLower = {150, 120};
         vector<float> m_rightCenterUpper = {200, 560};
@@ -45,6 +49,15 @@ class Bumper {
         vector<float> m_rightKicker = {10.0, 640.5, 10.0, 654.0, 23.5, 654.0, 37.0, 654.0, 37.0, 640.5, 37.0, 627.0, 23.5, 627.0, 10.0, 627.0, 10.0, 640.5};
         vector<vector<float>> m_shapes = {
             m_leftBumperUpper, m_leftBumperLower, m_rightBumperUpper, m_rightBumperLower, m_leftKicker, m_rightKicker
+        };
+        // sprite positions (x, y)
+        vector<float> m_positions {
+            144, 130,
+            144, 130,
+            144, 485,
+            144, 485,
+            10, 18,
+            10, 628
         };
 };
 #endif

@@ -6,8 +6,10 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     m_bumpers(),
     m_pinballs(),
     m_scoreboard(renderer),
-    m_leftFlipper(renderer, world, false),
-    m_rightFlipper(renderer, world, true),
+    m_leftFlipper(renderer, world, 0),
+    m_rightFlipper(renderer, world, 1),
+    m_leftFlipper2(renderer, world, 2),
+    m_rightFlipper2(renderer, world, 3),
     m_plunger(renderer, world)
 {
     m_b2world = &world;
@@ -73,20 +75,32 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     Ramp tunnelDown(renderer, world, 13, 0);
     m_ramps.push_back(tunnelDown);
 
-    BallLock* ballLock = new BallLock(renderer, world, 2);
+    BallLock* ballLock = new BallLock(renderer, world, 2, 0);
     m_ballLocks.push_back(ballLock);
 
-    BallLock* underBallLock = new BallLock(renderer, world, 0);
-    m_ballLocks.push_back(underBallLock);
+    BallLock* underBallLock1 = new BallLock(renderer, world, 0, 1);
+    m_ballLocks.push_back(underBallLock1);
+
+    BallLock* underBallLock2 = new BallLock(renderer, world, 0, 2);
+    m_ballLocks.push_back(underBallLock2);
 
     OptWall* leftRailWall = new OptWall(renderer, world, 0, 3);
     m_optWalls.push_back(leftRailWall);
 
-    OptWall* underLayerLock = new OptWall(renderer, world, 1, 2);
-    underLayerLock->enable();
-    m_optWalls.push_back(underLayerLock);
+    OptWall* underLayerLock1 = new OptWall(renderer, world, 1, 2);
+    underLayerLock1->enable();
+    m_optWalls.push_back(underLayerLock1);
 
-    Trigger* leftTrigger = new Trigger(renderer, world, 0, 2, leftRailWall);
+    OptWall* underLayerLock2 = new OptWall(renderer, world, 2, 0);
+    m_optWalls.push_back(underLayerLock2);
+
+    OptWall* leftKickerLock = new OptWall(renderer, world, 3, 2);
+    m_optWalls.push_back(leftKickerLock);
+
+    OptWall* rightKickerLock = new OptWall(renderer, world, 4, 2);
+    m_optWalls.push_back(rightKickerLock);
+
+    Trigger* leftTrigger = new Trigger(renderer, world, 0, 2, leftRailWall, underLayerLock2);
     m_triggers.push_back(leftTrigger);
 
     // Circle bumpers at the top left
@@ -99,9 +113,15 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     Bumper* bumper3 = new Bumper(renderer, world, 2, -1, 9.25, 3.0);
     m_bumpers.push_back(bumper3);
 
-    // Circle bumpers on underlayer
-    Bumper* bumper4 = new Bumper(renderer, world, 0, -1, 4.7, 3.2);
+    // Under layer bumpers
+    Bumper* bumper4 = new Bumper(renderer, world, 0, -1, 6.1, 2.5);
     m_bumpers.push_back(bumper4);
+
+    Bumper* bumper5 = new Bumper(renderer, world, 0, -1, 6.1, 4.5);
+    m_bumpers.push_back(bumper5);
+
+    Bumper* bumper6 = new Bumper(renderer, world, 0, -1, 5.5, 3.5);
+    m_bumpers.push_back(bumper6);
 
     // Bumpers for return area bumpers
     Bumper* bumperLeftUpper = new Bumper(renderer, world, 2, 0);
@@ -117,10 +137,11 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     m_bumpers.push_back(bumperRightLower);
 
     // Kicker bumpers
-    Bumper* bumperLeftKicker = new Bumper(renderer, world, 2, 4);
+    // HACK: the x and y args aren't used if we pass a positive ShapeId so we just pass 0
+    Bumper* bumperLeftKicker = new Bumper(renderer, world, 2, 4, 0, 0, leftKickerLock);
     m_bumpers.push_back(bumperLeftKicker);
 
-    Bumper* bumperRightKicker = new Bumper(renderer, world, 2, 5);
+    Bumper* bumperRightKicker = new Bumper(renderer, world, 2, 5, 0, 0, rightKickerLock);
     m_bumpers.push_back(bumperRightKicker);
 
     Pinball* firstPinball = new Pinball(renderer, &world);
@@ -172,6 +193,10 @@ void Table::update(unsigned int keys) {
                 m_lockedBalls = 0; // End previous multiball
                 m_optWalls.at(1)->enable(); // Close the secret.
             }
+            // Disable the kicker locks when starting a new ball.
+            // This is pretty forgiving. I like it.
+            m_optWalls.at(3)->disable();
+            m_optWalls.at(4)->disable();
         }
     }
     for (size_t i = 0; i < m_pinballs.size(); i++) {
@@ -238,6 +263,8 @@ void Table::update(unsigned int keys) {
     
     m_leftFlipper.update(keys);
     m_rightFlipper.update(keys);
+    m_leftFlipper2.update(keys);
+    m_rightFlipper2.update(keys);
     m_plunger.update(keys);
     
 
