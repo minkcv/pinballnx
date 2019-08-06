@@ -11,6 +11,11 @@ int main(int argc, char **argv) {
     // create the main renderer
     auto *renderer = new C2DRenderer({C2D_SCREEN_WIDTH, C2D_SCREEN_HEIGHT});
 
+    // Portrait graphics on desktop:
+    //auto *renderer = new C2DRenderer({C2D_SCREEN_HEIGHT, C2D_SCREEN_WIDTH});
+    //renderer->setPosition(-265, 640);
+    //renderer->setRotation(-45.0);
+
     // disable key repeat
     renderer->getInput()->setRepeatDelay(0);
 
