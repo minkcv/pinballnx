@@ -4,7 +4,7 @@ Bumper::Bumper(C2DRenderer* renderer, b2World& world, int layerID, int shapeID, 
     m_layerID = layerID;
     string inactiveTextureName;
     string activeTextureName;
-    m_bumpForce = 14.0 * g_displayFrameRate / 60;
+    m_bumpForce = 24.0 * g_displayFrameRate / 60;
     m_optwall = optwall;
     if (shapeID == -1) {
         inactiveTextureName = "pinballnx/bumper1.png";
@@ -27,7 +27,7 @@ Bumper::Bumper(C2DRenderer* renderer, b2World& world, int layerID, int shapeID, 
     else {
         float startX = m_centers.at(shapeID).at(0);
         float startY = m_centers.at(shapeID).at(1);
-        m_bumpForce = 18.0 * g_displayFrameRate / 60;
+        m_bumpForce = 24.0 * g_displayFrameRate / 60;
         inactiveTextureName = "pinballnx/bumpershape" + std::to_string(shapeID) + "off.png";
         activeTextureName = "pinballnx/bumpershape" + std::to_string(shapeID) + "on.png";
         vector<float> points = m_shapes.at(shapeID);

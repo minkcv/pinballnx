@@ -41,7 +41,7 @@ class Pinball {
         float m_lockStartY = 6.0;
         vector<float> m_startPositions = {
             2.0f, 6.9f, // Launch tube
-            6.94f, 6.02f, // Right lock ball ejector
+            6.94f, 6.0f, // Right lock ball ejector
             7.4f, 4.3f, // Middle lock ball ejector
             10.4f, 0.5f // Left lock ball ejector
         };
