@@ -34,9 +34,9 @@ class Bumper {
         int m_flashFrameCurrent = m_flashFrames;
         int m_lockDelay = 16;
         int m_lockDelayCurrent = m_lockDelay + 1;
-        vector<float> m_leftCenterUpper = {200, 125};
+        vector<float> m_leftCenterUpper = {205, 120};
         vector<float> m_leftCenterLower = {150, 120};
-        vector<float> m_rightCenterUpper = {200, 555};
+        vector<float> m_rightCenterUpper = {205, 560};
         vector<float> m_rightCenterLower = {150, 560};
         vector<float> m_leftKickerCenter = {-20, 32};
         vector<float> m_rightKickerCenter = {-20, 640};
