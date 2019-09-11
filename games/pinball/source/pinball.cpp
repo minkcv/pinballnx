@@ -6,7 +6,7 @@ Pinball::Pinball(C2DRenderer* renderer, b2World* world, int iStartPos) {
     b2BodyDef circleBodyDef;
     circleBodyDef.type = b2_dynamicBody;
     if (iStartPos > 0) {
-        m_currentLayerID = 2;
+        //m_currentLayerID = 2;
     }
 
     float startX = m_startPositions.at(iStartPos * 2);
