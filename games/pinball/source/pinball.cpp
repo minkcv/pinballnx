@@ -26,6 +26,7 @@ Pinball::Pinball(C2DRenderer* renderer, b2World* world, int iStartPos) {
 #if DEBUG
     m_shape = new CircleShape(m_radius * g_graphicsScale);
     m_shape->setOrigin(Origin::Center);
+    m_shape->setFillColor(Color::Green);
     renderer->add(m_shape);
 #else
     m_texture = new C2DTexture(renderer->getIo()->getDataReadPath() + "pinballnx/pinball.png");
@@ -82,6 +83,8 @@ void Pinball::setLayerID(int layerID) {
 #if DEBUG
     if (layerID == 0)
         m_shape->setFillColor(Color::Cyan);
+    if (layerID == 1)
+        m_shape->setFillColor(Color::Green);
     if (layerID == 2)
         m_shape->setFillColor(Color::White);
     if (layerID == 3)
