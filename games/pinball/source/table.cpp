@@ -75,6 +75,15 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     Ramp tunnelDown(renderer, world, 13, 0);
     m_ramps.push_back(tunnelDown);
 
+    Ramp newballEntrance1(renderer, world, 14, 2);
+    m_ramps.push_back(newballEntrance1);
+
+    Ramp newballEntrance2(renderer, world, 15, 2);
+    m_ramps.push_back(newballEntrance2);
+
+    Ramp newballEntrance3(renderer, world, 16, 2);
+    m_ramps.push_back(newballEntrance3);
+
     BallLock* ballLock = new BallLock(renderer, world, 2, 0);
     m_ballLocks.push_back(ballLock);
 
@@ -307,6 +316,8 @@ void Table::BeginContact(b2Contact* contact) {
     b2Fixture* fixtureB = contact->GetFixtureB();
 
     for (size_t i = 0; i < m_pinballs.size(); i++) {
+        // If the ball has gone out of bounds and been deleted or locked, then don't
+        // Try to check collisions with it with anything.
         Pinball* pinball = m_pinballs.at(i);
         if (pinball == NULL)
             continue;
@@ -330,11 +341,6 @@ void Table::BeginContact(b2Contact* contact) {
                 m_score += 1000;
             }
         }
-
-        // If the ball has gone out of bounds and been deleted or locked, then don't
-        // Try to check collisions with it with any ramps.
-        if (pinball == NULL)
-            continue;
 
         for (size_t r = 0; r < m_ramps.size(); r++) {
             b2Fixture* rampFixture = m_ramps.at(r).getFixture();
