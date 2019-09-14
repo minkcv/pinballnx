@@ -22,7 +22,7 @@ class Conveyor {
         C2DTexture* m_textureEnabled;
         C2DTexture* m_textureDisabled;
         ConvexShape* m_shape;
-        vector<float> m_topConveyor = {1100, 250, 1145, 250, 1145, 480, 1100, 480};
+        vector<float> m_topConveyor = {1100, 250, 1145, 250, 1145, 495, 1100, 495};
         vector<vector<float>> m_shapes = {
             m_topConveyor
         };

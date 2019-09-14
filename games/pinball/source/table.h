@@ -46,7 +46,7 @@ class Table : public b2ContactListener {
         vector<Pinball*> m_pinballs;
         vector<int> m_lockBallTimers;
         vector<BallLock*> m_ballLocks;
-        vector<Conveyor> m_conveyors;
+        vector<Conveyor*> m_conveyors;
         Scoreboard m_scoreboard;
         Flipper m_leftFlipper;
         Flipper m_rightFlipper;

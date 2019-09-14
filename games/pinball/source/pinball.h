@@ -4,6 +4,7 @@
 #include "cross2d/c2d.h"
 #include "Box2D/Box2D.h"
 #include "util.h"
+#include "conveyor.h"
 #include <vector>
 
 using namespace c2d;
@@ -19,7 +20,7 @@ class Pinball {
         void setLayerID(int layerID);
         void removeFromWorld();
         void setBumpVelocity(float x, float y);
-        void setConveyorVelocity(float x, float y);
+        void setConveyor(Conveyor* conveyor);
         bool cleanupDone();
 	bool isOut();
     private:
@@ -27,6 +28,7 @@ class Pinball {
         b2Fixture* m_fixture;
         CircleShape* m_shape;
         C2DTexture* m_texture;
+        Conveyor* m_conveyor;
         int m_currentLayerID = 1;
 
         // Box2D works best with objects between 0.1m and 10m in size.
@@ -50,7 +52,5 @@ class Pinball {
         bool m_removed = false;
         float m_bumpX = 0;
         float m_bumpY = 0;
-        float m_conveyorX = 0;
-        float m_conveyorY = 0;
 };
 #endif

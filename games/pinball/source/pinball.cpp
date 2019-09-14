@@ -1,6 +1,7 @@
 #include "pinball.h"
 
 Pinball::Pinball(C2DRenderer* renderer, b2World* world, int iStartPos) {
+    m_conveyor = NULL;
     b2CircleShape circle;
     circle.m_radius = m_radius;
     b2BodyDef circleBodyDef;
@@ -61,8 +62,10 @@ void Pinball::update(C2DRenderer* renderer, b2World* world) {
         m_bumpX = 0;
         m_bumpY = 0;
     }
-    b2Vec2 conveyorVec(m_conveyorX, m_conveyorY);
-    m_body->ApplyForce(conveyorVec, m_body->GetWorldVector(b2Vec2(0, 0)), true);
+    if (m_conveyor != NULL) {
+        b2Vec2 conveyorVec = m_conveyor->getDirection();
+        m_body->ApplyForce(conveyorVec, m_body->GetWorldVector(b2Vec2(0, 0)), true);
+    }
 }
 
 b2Fixture* Pinball::getFixture() {
@@ -108,9 +111,8 @@ void Pinball::setBumpVelocity(float x, float y) {
     m_bumpY = y;
 }
 
-void Pinball::setConveyorVelocity(float x, float y) {
-    m_conveyorX = x;
-    m_conveyorY = y;
+void Pinball::setConveyor(Conveyor* conveyor) {
+    m_conveyor = conveyor;
 }
 
 bool Pinball::cleanupDone() {

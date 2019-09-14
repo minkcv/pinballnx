@@ -156,8 +156,8 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     Bumper* bumperRightKicker = new Bumper(renderer, world, 2, 5, 0, 0, rightKickerLock);
     m_bumpers.push_back(bumperRightKicker);
 
-    Conveyor conveyor(renderer, world, 0, 2);
-    conveyor.setDirection(b2Vec2(0, 1.0));
+    Conveyor* conveyor = new Conveyor(renderer, world, 0, 2);
+    conveyor->setDirection(b2Vec2(0, 1.0));
     m_conveyors.push_back(conveyor);
 
     Pinball* firstPinball = new Pinball(renderer, &world);
@@ -283,10 +283,10 @@ void Table::update(unsigned int keys) {
     m_rightFlipper2.update(keys);
     m_plunger.update(keys);
     if (Input::Key::Fire5 & keys) {
-        m_conveyors.at(0).setDirection(b2Vec2(0, -1.0));
+        m_conveyors.at(0)->setDirection(b2Vec2(0, -1.0));
     }
     if (Input::Key::Fire6 & keys) {
-        m_conveyors.at(0).setDirection(b2Vec2(0, 1.0));
+        m_conveyors.at(0)->setDirection(b2Vec2(0, 1.0));
     }
     
 
@@ -391,11 +391,10 @@ void Table::BeginContact(b2Contact* contact) {
         }
 
         for (size_t c = 0; c < m_conveyors.size(); c++) {
-            b2Fixture* conveyorFixture = m_conveyors.at(c).getFixture();
+            b2Fixture* conveyorFixture = m_conveyors.at(c)->getFixture();
             if ((fixtureA == conveyorFixture && fixtureB == pinball->getFixture()) || 
                 (fixtureA == pinball->getFixture() && fixtureB == conveyorFixture)) {
-                b2Vec2 vec = m_conveyors.at(c).getDirection();
-                pinball->setConveyorVelocity(vec.x, vec.y);
+                pinball->setConveyor(m_conveyors.at(c));
             }
         }
     }
@@ -412,10 +411,10 @@ void Table::EndContact(b2Contact* contact) {
             continue;
 
         for (size_t c = 0; c < m_conveyors.size(); c++) {
-            b2Fixture* conveyorFixture = m_conveyors.at(c).getFixture();
+            b2Fixture* conveyorFixture = m_conveyors.at(c)->getFixture();
             if ((fixtureA == conveyorFixture && fixtureB == pinball->getFixture()) || 
                 (fixtureA == pinball->getFixture() && fixtureB == conveyorFixture)) {
-                pinball->setConveyorVelocity(0, 0);
+                pinball->setConveyor(NULL);
             }
         }
     }
