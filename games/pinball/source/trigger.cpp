@@ -21,7 +21,7 @@ Trigger::Trigger(C2DRenderer* renderer, b2World& world, int triggerID, int layer
     b2FixtureDef fixtureDef;
     fixtureDef.shape = &chain;
     fixtureDef.density = 0.0f;
-    fixtureDef.friction = 0.3f;
+    fixtureDef.friction = 0.0f;
     fixtureDef.isSensor = true;
     fixtureDef.filter.maskBits = 1 << layerID;
     fixtureDef.filter.categoryBits = 1 << layerID;

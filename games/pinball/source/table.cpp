@@ -153,6 +153,10 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     Bumper* bumperRightKicker = new Bumper(renderer, world, 2, 5, 0, 0, rightKickerLock);
     m_bumpers.push_back(bumperRightKicker);
 
+    Conveyor conveyor(renderer, world, 0, 2);
+    conveyor.setDirection(b2Vec2(0, 1.0));
+    m_conveyors.push_back(conveyor);
+
     Pinball* firstPinball = new Pinball(renderer, &world);
     m_pinballs.push_back(firstPinball);
 
@@ -275,6 +279,12 @@ void Table::update(unsigned int keys) {
     m_leftFlipper2.update(keys);
     m_rightFlipper2.update(keys);
     m_plunger.update(keys);
+    if (Input::Key::Fire5 & keys) {
+        m_conveyors.at(0).setDirection(b2Vec2(0, -1.0));
+    }
+    if (Input::Key::Fire6 & keys) {
+        m_conveyors.at(0).setDirection(b2Vec2(0, 1.0));
+    }
     
 
     for (size_t i = 0; i < m_bumpers.size(); i++) {
@@ -285,10 +295,7 @@ void Table::update(unsigned int keys) {
         Trigger* trigger = m_triggers.at(t);
         trigger->update();
     }
-    if (m_tiltTimer < m_tiltCooldown) {
-        m_tiltTimer++;
-    }
-    else if (m_tiltTimer == m_tiltCooldown) {
+    if (m_tiltTimer == m_tiltCooldown || DEBUG) {
         if (Input::Key::Left & keys || Input::Key::Right & keys) {
             double leftOrRight = Input::Key::Left & keys ? -0.9 : 0.9;
             m_tiltTimer = 0;
@@ -300,6 +307,9 @@ void Table::update(unsigned int keys) {
                 }
             }
         }
+    }
+    else {
+        m_tiltTimer++;
     }
 
     // Multi ball in debug mode at the press of a key
@@ -376,11 +386,38 @@ void Table::BeginContact(b2Contact* contact) {
                 pinball->setBumpVelocity(vec.x * multiply, vec.y * multiply);
             }
         }
+
+        for (size_t c = 0; c < m_conveyors.size(); c++) {
+            b2Fixture* conveyorFixture = m_conveyors.at(c).getFixture();
+            if ((fixtureA == conveyorFixture && fixtureB == pinball->getFixture()) || 
+                (fixtureA == pinball->getFixture() && fixtureB == conveyorFixture)) {
+                b2Vec2 vec = m_conveyors.at(c).getDirection();
+                printf("%f %f\n", vec.x, vec.y);
+                pinball->setConveyorVelocity(vec.x, vec.y);
+            }
+        }
     }
 }
 
 void Table::EndContact(b2Contact* contact) {
+    b2Fixture* fixtureA = contact->GetFixtureA();
+    b2Fixture* fixtureB = contact->GetFixtureB();
+    for (size_t i = 0; i < m_pinballs.size(); i++) {
+        // If the ball has gone out of bounds and been deleted or locked, then don't
+        // Try to check collisions with it with anything.
+        Pinball* pinball = m_pinballs.at(i);
+        if (pinball == NULL)
+            continue;
 
+        for (size_t c = 0; c < m_conveyors.size(); c++) {
+            b2Fixture* conveyorFixture = m_conveyors.at(c).getFixture();
+            if ((fixtureA == conveyorFixture && fixtureB == pinball->getFixture()) || 
+                (fixtureA == pinball->getFixture() && fixtureB == conveyorFixture)) {
+                printf("end conveyor\n");
+                pinball->setConveyorVelocity(0, 0);
+            }
+        }
+    }
 }
 
 bool Table::isGameOver() {

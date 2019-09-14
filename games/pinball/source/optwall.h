@@ -1,7 +1,7 @@
 #ifndef OPTWALL_H_
 #define OPTWALL_H_
 
-#include<vector>
+#include <vector>
 #include "cross2d/c2d.h"
 #include "Box2D/Box2D.h"
 #include "util.h"

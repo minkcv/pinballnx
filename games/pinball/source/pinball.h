@@ -19,6 +19,7 @@ class Pinball {
         void setLayerID(int layerID);
         void removeFromWorld();
         void setBumpVelocity(float x, float y);
+        void setConveyorVelocity(float x, float y);
         bool cleanupDone();
 	bool isOut();
     private:
@@ -49,5 +50,7 @@ class Pinball {
         bool m_removed = false;
         float m_bumpX = 0;
         float m_bumpY = 0;
+        float m_conveyorX = 0;
+        float m_conveyorY = 0;
 };
 #endif
