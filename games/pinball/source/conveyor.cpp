@@ -5,15 +5,13 @@ Conveyor::Conveyor(C2DRenderer* renderer, b2World& world, int conveyorID, int la
     vector<float> points = m_shapes.at(conveyorID);
 
     b2Vec2* vs = getVertexArray(points);
-    b2ChainShape chain;
-    chain.CreateChain(vs, points.size() / 2);
-    free(vs);
-    vs = NULL;
+    b2PolygonShape poly;
+    poly.Set(vs, 4);
 
     b2BodyDef bodyDef;
     b2Body* body = world.CreateBody(&bodyDef);
     b2FixtureDef fixtureDef;
-    fixtureDef.shape = &chain;
+    fixtureDef.shape = &poly;
     fixtureDef.density = 0.0f;
     fixtureDef.friction = 0.0f;
     fixtureDef.isSensor = true;

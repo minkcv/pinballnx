@@ -72,16 +72,19 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     Ramp backdoorDown(renderer, world, 12, 2);
     m_ramps.push_back(backdoorDown);
 
-    Ramp tunnelDown(renderer, world, 13, 0);
+    Ramp backdoorDown2(renderer, world, 13, 2);
+    m_ramps.push_back(backdoorDown2);
+
+    Ramp tunnelDown(renderer, world, 14, 0);
     m_ramps.push_back(tunnelDown);
 
-    Ramp newballEntrance1(renderer, world, 14, 2);
+    Ramp newballEntrance1(renderer, world, 15, 2);
     m_ramps.push_back(newballEntrance1);
 
-    Ramp newballEntrance2(renderer, world, 15, 2);
+    Ramp newballEntrance2(renderer, world, 16, 2);
     m_ramps.push_back(newballEntrance2);
 
-    Ramp newballEntrance3(renderer, world, 16, 2);
+    Ramp newballEntrance3(renderer, world, 17, 2);
     m_ramps.push_back(newballEntrance3);
 
     BallLock* ballLock = new BallLock(renderer, world, 2, 0);
@@ -327,7 +330,7 @@ void Table::BeginContact(b2Contact* contact) {
 
     for (size_t i = 0; i < m_pinballs.size(); i++) {
         // If the ball has gone out of bounds and been deleted or locked, then don't
-        // Try to check collisions with it with anything.
+        // try to check collisions with it with anything.
         Pinball* pinball = m_pinballs.at(i);
         if (pinball == NULL)
             continue;
@@ -392,7 +395,6 @@ void Table::BeginContact(b2Contact* contact) {
             if ((fixtureA == conveyorFixture && fixtureB == pinball->getFixture()) || 
                 (fixtureA == pinball->getFixture() && fixtureB == conveyorFixture)) {
                 b2Vec2 vec = m_conveyors.at(c).getDirection();
-                printf("%f %f\n", vec.x, vec.y);
                 pinball->setConveyorVelocity(vec.x, vec.y);
             }
         }
@@ -404,7 +406,7 @@ void Table::EndContact(b2Contact* contact) {
     b2Fixture* fixtureB = contact->GetFixtureB();
     for (size_t i = 0; i < m_pinballs.size(); i++) {
         // If the ball has gone out of bounds and been deleted or locked, then don't
-        // Try to check collisions with it with anything.
+        // try to check collisions with it with anything.
         Pinball* pinball = m_pinballs.at(i);
         if (pinball == NULL)
             continue;
@@ -413,7 +415,6 @@ void Table::EndContact(b2Contact* contact) {
             b2Fixture* conveyorFixture = m_conveyors.at(c).getFixture();
             if ((fixtureA == conveyorFixture && fixtureB == pinball->getFixture()) || 
                 (fixtureA == pinball->getFixture() && fixtureB == conveyorFixture)) {
-                printf("end conveyor\n");
                 pinball->setConveyorVelocity(0, 0);
             }
         }
