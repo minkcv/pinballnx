@@ -194,7 +194,7 @@ void Table::update(unsigned int keys) {
         // lock ball mechanism, so only do this if we don't have any lock ball timers.
         if (m_pinballs.size() < 1) {
             m_currentBall++;
-            if (m_currentBall < 5) {
+            if (m_currentBall < m_maxBalls + 1) {
                 Pinball* nextPinball = new Pinball(m_renderer, m_b2world);
                 m_pinballs.push_back(nextPinball);
             }
@@ -303,7 +303,7 @@ void Table::update(unsigned int keys) {
     }
 
     // Multi ball in debug mode at the press of a key
-#if DEBUG
+#if 1
     if (Input::Key::Fire1 & keys) {
         Pinball* nextPinball = new Pinball(m_renderer, m_b2world);
         m_pinballs.push_back(nextPinball);
@@ -334,6 +334,8 @@ void Table::BeginContact(b2Contact* contact) {
                 pinball->removeFromWorld();
                 if (m_lockedBalls >= 0 && m_lockedBalls < 3)
                     m_lockedBalls++;
+                if (b == 1 && m_maxBalls < 10)
+                    m_maxBalls++; // Earn an extra ball, up to 10, for the left under ball lock.
                 // This queues a ball to be created in table update.
                 // The table makes sure to check this value before ending the game
                 // or loading the next ball.
@@ -387,6 +389,7 @@ bool Table::isGameOver() {
 
 void Table::newGame() {
     m_currentBall = 1;
+    m_maxBalls = 4;
     m_lockBallLocation = 1;
     Pinball* nextPinball = new Pinball(m_renderer, m_b2world);
     m_pinballs.push_back(nextPinball);
@@ -402,7 +405,7 @@ void Table::newGame() {
 }
 
 void Table::updateScoreboard(bool paused) {
-    m_scoreboard.update(m_currentBall, m_score, m_lockedBalls, paused);
+    m_scoreboard.update(m_currentBall, m_maxBalls, m_score, m_lockedBalls, paused);
 }
 
 int Table::getNextBallRelease() {

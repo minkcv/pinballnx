@@ -8,7 +8,7 @@ using namespace c2d;
 class Scoreboard {
     public:
         Scoreboard(C2DRenderer* renderer);
-        void update(int currentBall, int score, int lockedBalls, bool paused);
+        void update(int currentBall, int maxBalls, int score, int lockedBalls, bool paused);
         ~Scoreboard();
     private:
         C2DText* m_ballsLeftText;

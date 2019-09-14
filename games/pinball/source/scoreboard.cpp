@@ -33,7 +33,7 @@ Scoreboard::Scoreboard(C2DRenderer* renderer) {
     m_multiBallText->setLayer(-100);
 }
 
-void Scoreboard::update(int currentBall, int score, int lockedBalls, bool paused) {
+void Scoreboard::update(int currentBall, int maxBalls, int score, int lockedBalls, bool paused) {
     if (lockedBalls == 0) {
         m_multiBallText->setLayer(-100);
     }
@@ -51,8 +51,8 @@ void Scoreboard::update(int currentBall, int score, int lockedBalls, bool paused
         m_multiBallText->setLayer(-100);
     }
     else {
-        if (currentBall < 5)
-            m_ballsLeftText->setString("BALL " + std::to_string(currentBall) + "/4");
+        if (currentBall < maxBalls + 1)
+            m_ballsLeftText->setString("BALL " + std::to_string(currentBall) + "/" + std::to_string(maxBalls));
         else {
             m_ballsLeftText->setString("GAME OVER");
             m_multiBallText->setLayer(-100);
