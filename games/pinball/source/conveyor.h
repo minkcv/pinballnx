@@ -27,7 +27,7 @@ class Conveyor {
             m_topConveyor
         };
         vector<float> m_positions = {
-            11.03, 2.1
+            1100, 250
         };
 };
 
