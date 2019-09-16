@@ -157,7 +157,6 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     m_bumpers.push_back(bumperRightKicker);
 
     Conveyor* conveyor = new Conveyor(renderer, world, 0, 2);
-    conveyor->setDirection(b2Vec2(0, 1.0));
     m_conveyors.push_back(conveyor);
 
     Pinball* firstPinball = new Pinball(renderer, &world);
@@ -282,12 +281,7 @@ void Table::update(unsigned int keys) {
     m_leftFlipper2.update(keys);
     m_rightFlipper2.update(keys);
     m_plunger.update(keys);
-    if (Input::Key::Fire5 & keys) {
-        m_conveyors.at(0)->setDirection(b2Vec2(0, -1.0));
-    }
-    if (Input::Key::Fire6 & keys) {
-        m_conveyors.at(0)->setDirection(b2Vec2(0, 1.0));
-    }
+    m_conveyors.at(0)->update(keys);
     
 
     for (size_t i = 0; i < m_bumpers.size(); i++) {
@@ -439,6 +433,7 @@ void Table::newGame() {
         m_optWalls.at(opt)->disable();
     }
     m_optWalls.at(1)->enable(); // Close the secret.
+    m_conveyors[0]->resetDirection();
 }
 
 void Table::updateScoreboard(bool paused) {

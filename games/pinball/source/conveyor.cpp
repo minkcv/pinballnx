@@ -2,6 +2,7 @@
 
 Conveyor::Conveyor(C2DRenderer* renderer, b2World& world, int conveyorID, int layerID) {
     m_layerID = layerID;
+    resetDirection();
     vector<float> points = m_shapes.at(conveyorID);
 
     b2Vec2* vs = getVertexArray(points);
@@ -27,14 +28,47 @@ Conveyor::Conveyor(C2DRenderer* renderer, b2World& world, int conveyorID, int la
     renderer->add(m_shape);
     m_shape->setLayer(layerID * 2 + 1);
 #else
-    m_textureEnabled = new C2DTexture(renderer->getIo()->getDataReadPath() + "pinballnx/conveyor" + std::to_string(conveyorID) + "enabled.png");
-    m_textureEnabled->setLayer(layerID * 2);
-    m_textureEnabled->setPosition(m_positions.at(conveyorID * 2), m_positions.at(conveyorID * 2 + 1));
-    renderer->add(m_textureEnabled);
-    m_textureDisabled = new C2DTexture(renderer->getIo()->getDataReadPath() + "pinballnx/conveyor" + std::to_string(conveyorID) + "disabled.png");
-    m_textureDisabled->setLayer(-99);
-    m_textureDisabled->setPosition(m_positions.at(conveyorID * 2), m_positions.at(conveyorID * 2 + 1));
-    renderer->add(m_textureDisabled);
+    for (int f = 0; f < m_frames; f++) {
+        m_textureEnabled[f] = new C2DTexture(renderer->getIo()->getDataReadPath() + "pinballnx/conveyor" + std::to_string(conveyorID) + "enabled" + std::to_string(f) + ".png");
+        m_textureEnabled[f]->setLayer(-99);
+        m_textureEnabled[f]->setPosition(m_positions.at(conveyorID * 2), m_positions.at(conveyorID * 2 + 1));
+        renderer->add(m_textureEnabled[f]);
+        m_textureDisabled[f] = new C2DTexture(renderer->getIo()->getDataReadPath() + "pinballnx/conveyor" + std::to_string(conveyorID) + "disabled" + std::to_string(f) + ".png");
+        m_textureDisabled[f]->setLayer(-99);
+        m_textureDisabled[f]->setPosition(m_positions.at(conveyorID * 2), m_positions.at(conveyorID * 2 + 1));
+        renderer->add(m_textureDisabled[f]);
+    }
+    m_textureEnabled[m_currentFrame]->setLayer(layerID * 2);
+#endif
+}
+
+void Conveyor::update(unsigned int keys) {
+    if (Input::Key::Fire5 & keys) {
+        m_direction = b2Vec2(0, -1.0);
+    }
+    if (Input::Key::Fire6 & keys) {
+        m_direction = b2Vec2(0, 1.0);
+    }
+#if !DEBUG
+    if (m_frameTimer < m_frameDuration) {
+        m_frameTimer++;
+    }
+    else {
+        m_currentFrame++;
+        if (m_currentFrame >= m_frames)
+            m_currentFrame = 0;
+        m_frameTimer = 0;
+    }
+    for (int f = 0; f < m_frames; f++) {
+        m_textureEnabled[f]->setLayer(-99);
+        m_textureDisabled[f]->setLayer(-99);
+    }
+    if (m_direction.y > 0) {
+        m_textureDisabled[m_currentFrame]->setLayer(m_layerID * 2);
+    }
+    else {
+        m_textureEnabled[m_currentFrame]->setLayer(m_layerID * 2);
+    }
 #endif
 }
 
@@ -42,22 +76,11 @@ b2Fixture* Conveyor::getFixture() {
     return m_fixture;
 }
 
-void Conveyor::setDirection(b2Vec2 vec) {
-    m_direction = vec;
-#if !DEBUG
-    // Change graphics.
-    if (vec.y > 0) {
-        m_textureEnabled->setLayer(-99);
-        m_textureDisabled->setLayer(m_layerID * 2);
-    }
-    else {
-        m_textureEnabled->setLayer(m_layerID * 2);
-        m_textureDisabled->setLayer(-99);
-    }
-#endif
-}
-
 b2Vec2 Conveyor::getDirection() {
     return m_direction;
+}
+
+void Conveyor::resetDirection() {
+    m_direction = b2Vec2(0, -1.0);
 }
 

@@ -12,22 +12,27 @@ using namespace std;
 class Conveyor {
     public:
         Conveyor(C2DRenderer* renderer, b2World& world, int conveyorID, int layerID);
+        void update(unsigned int keys);
         b2Fixture* getFixture();
-        void setDirection(b2Vec2);
         b2Vec2 getDirection();
+        void resetDirection();
     private:
         b2Fixture* m_fixture;
         int m_layerID;
         b2Vec2 m_direction;
-        C2DTexture* m_textureEnabled;
-        C2DTexture* m_textureDisabled;
+        static const int m_frames = 7;
+        int m_currentFrame = 0;
+        int m_frameDuration = 30 / g_displayFrameRate;
+        int m_frameTimer = 0;
+        C2DTexture* m_textureEnabled[m_frames];
+        C2DTexture* m_textureDisabled[m_frames];
         ConvexShape* m_shape;
         vector<float> m_topConveyor = {1100, 250, 1145, 250, 1145, 495, 1100, 495};
         vector<vector<float>> m_shapes = {
             m_topConveyor
         };
         vector<float> m_positions = {
-            1100, 250
+            1100, 248
         };
 };
 
