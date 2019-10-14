@@ -60,6 +60,7 @@ class Table : public b2ContactListener {
         b2Body* m_ballOutArea;
         b2Fixture* m_ballOutSensor;
         int m_currentBall;
+        int m_maxBalls = 4;
         int m_score;
         int m_lockedBalls;
         int m_lockBallDelay = 1920 / g_displayFrameRate;
