@@ -113,13 +113,13 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     m_triggers.push_back(leftTrigger);
 
     // Circle bumpers at the top left
-    Bumper* bumper1 = new Bumper(renderer, world, 2, -1, 8.6, 2.1);
+    Bumper* bumper1 = new Bumper(renderer, world, 2, -1, 9.5, 2.1);
     m_bumpers.push_back(bumper1);
 
-    Bumper* bumper2 = new Bumper(renderer, world, 2, -1, 9.9, 2.1);
+    Bumper* bumper2 = new Bumper(renderer, world, 2, -1, 10.1, 3.1);
     m_bumpers.push_back(bumper2);
 
-    Bumper* bumper3 = new Bumper(renderer, world, 2, -1, 9.25, 3.0);
+    Bumper* bumper3 = new Bumper(renderer, world, 2, -1, 8.9, 3.1);
     m_bumpers.push_back(bumper3);
 
     // Under layer bumpers
