@@ -31,7 +31,7 @@ class OptWall {
             m_leftRailWall, m_underLayerLock1, m_underLayerLock2, m_leftKickerLock, m_rightKickerLock
         };
         vector<float> m_positions = {
-            972, 301,
+            970, 293,
             704, 14,
             208, 207,
             73, 18,
