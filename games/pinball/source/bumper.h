@@ -28,8 +28,7 @@ class Bumper {
         C2DTexture* m_texture2;
         OptWall* m_optwall;
         float m_bumpForce;
-        float m_radius = 0.3;
-        float m_sensorRadius = 0.32;
+        float m_radius = 0.25;
         int m_flashFrames = 16;
         int m_flashFrameCurrent = m_flashFrames;
         int m_lockDelay = 16;
