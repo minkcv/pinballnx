@@ -1,7 +1,8 @@
 #include "balllock.h"
 
-BallLock::BallLock(C2DRenderer* renderer, b2World& world, int layerID, int shapeID) {
+BallLock::BallLock(C2DRenderer* renderer, b2World& world, int layerID, int shapeID, int releaseLocation) {
     m_layerID = layerID;
+    m_releaseLocation = releaseLocation;
 
     vector<float> points = m_points.at(shapeID);
     b2Vec2* vs = getVertexArray(points);
@@ -33,4 +34,8 @@ BallLock::BallLock(C2DRenderer* renderer, b2World& world, int layerID, int shape
 
 b2Fixture* BallLock::getFixture() {
     return m_fixture;
+}
+
+int BallLock::getLocation() {
+    return m_releaseLocation;
 }

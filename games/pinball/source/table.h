@@ -36,7 +36,6 @@ class Table : public b2ContactListener {
         void updateScoreboard(bool paused);
         void cleanup();
     private:
-        int getNextBallRelease();
         vector<Layer> m_layers;
         vector<Ramp> m_ramps;
         vector<OptWall*> m_optWalls;
@@ -44,6 +43,7 @@ class Table : public b2ContactListener {
         vector<Bumper*> m_bumpers;
         vector<Pinball*> m_pinballs;
         vector<int> m_lockBallTimers;
+        vector<int> m_lockBallLocations;
         vector<BallLock*> m_ballLocks;
         Scoreboard m_scoreboard;
         Flipper m_leftFlipper;

@@ -33,64 +33,70 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     m_layers.push_back(layer2);
 
     // Ramps for main layer
-    Ramp ramp1(renderer, world, 0, 3);
+    Ramp ramp1(renderer, world, 0, 1, 3);
     m_ramps.push_back(ramp1);
 
-    Ramp ramp1up2(renderer, world, 1, 3);
+    Ramp ramp1up2(renderer, world, 1, 2, 3);
     m_ramps.push_back(ramp1up2);
 
-    Ramp ramp1Down(renderer, world, 2, 2);
+    Ramp ramp1Down(renderer, world, 2, 3, 2);
     m_ramps.push_back(ramp1Down);
 
-    Ramp hole1(renderer, world, 3, 2);
+    Ramp hole1(renderer, world, 3, 3, 2);
     m_ramps.push_back(hole1);
 
-    Ramp rightRamp(renderer, world, 4, 3);
+    Ramp rightRamp(renderer, world, 4, 2, 3);
     m_ramps.push_back(rightRamp);
 
-    Ramp rightRampUp2(renderer, world, 5, 3);
+    Ramp rightRampUp2(renderer, world, 5, 2, 3);
     m_ramps.push_back(rightRampUp2);
 
-    Ramp rightRampDown(renderer, world, 6, 2);
+    Ramp rightRampDown(renderer, world, 6, 3, 2);
     m_ramps.push_back(rightRampDown);
     
-    Ramp hole2(renderer, world, 7, 2);
+    Ramp hole2(renderer, world, 7, 3, 2);
     m_ramps.push_back(hole2);
 
-    Ramp ramp3(renderer, world, 8, 3);
+    Ramp ramp3(renderer, world, 8, 2, 3);
     m_ramps.push_back(ramp3);
 
-    Ramp ramp3Down(renderer, world, 9, 2);
+    Ramp ramp3Down(renderer, world, 9, 3, 2);
     m_ramps.push_back(ramp3Down);
 
-    Ramp ramp3up2(renderer, world, 10, 3);
+    Ramp ramp3up2(renderer, world, 10, 2, 3);
     m_ramps.push_back(ramp3up2);
 
-    Ramp ramp1DownMid(renderer, world, 11, 2);
+    Ramp ramp1DownMid(renderer, world, 11, 3, 2);
     m_ramps.push_back(ramp1DownMid);
 
-    Ramp backdoorDown(renderer, world, 12, 2);
+    Ramp backdoorDown(renderer, world, 12, 1, 2);
     m_ramps.push_back(backdoorDown);
 
-    Ramp tunnelDown(renderer, world, 13, 0);
+    Ramp tunnelDown(renderer, world, 13, 2, 0);
     m_ramps.push_back(tunnelDown);
 
-    Ramp newballEntrance1(renderer, world, 14, 2);
+    Ramp newballEntrance1(renderer, world, 14, 1, 2);
     m_ramps.push_back(newballEntrance1);
 
-    Ramp newballEntrance2(renderer, world, 15, 2);
+    Ramp newballEntrance2(renderer, world, 15, 1, 2);
     m_ramps.push_back(newballEntrance2);
 
-    Ramp newballEntrance3(renderer, world, 16, 2);
+    Ramp newballEntrance3(renderer, world, 16, 1, 2);
     m_ramps.push_back(newballEntrance3);
 
-    BallLock* ballLock = new BallLock(renderer, world, 2, 0);
+    BallLock* ballLock = new BallLock(renderer, world, 2, 0, 1);
     m_ballLocks.push_back(ballLock);
 
-    BallLock* underBallLock1 = new BallLock(renderer, world, 0, 1);
+    BallLock* leftLock = new BallLock(renderer, world, 2, 1, 3);
+    m_ballLocks.push_back(leftLock);
+
+    BallLock* middleLock = new BallLock(renderer, world, 2, 2, 2);
+    m_ballLocks.push_back(middleLock);
+
+    BallLock* underBallLock1 = new BallLock(renderer, world, 0, 3, 2);
     m_ballLocks.push_back(underBallLock1);
 
-    BallLock* underBallLock2 = new BallLock(renderer, world, 0, 2);
+    BallLock* underBallLock2 = new BallLock(renderer, world, 0, 4, 3);
     m_ballLocks.push_back(underBallLock2);
 
     OptWall* leftRailWall = new OptWall(renderer, world, 0, 3);
@@ -234,41 +240,34 @@ void Table::update(unsigned int keys) {
             timer--;
             m_lockBallTimers.at(i) = timer;
             if (timer < 0) {
-                int iSpawnPos = getNextBallRelease();
+                int iSpawnPos = m_lockBallLocations.at(i);
                 Pinball* lockBallRelease = new Pinball(m_renderer, m_b2world, iSpawnPos);
                 m_pinballs.push_back(lockBallRelease);
                 m_lockBallTimers.erase(m_lockBallTimers.begin() + i);
-                // Shoot downwards
-                b2Vec2 vec(-4.0, 0);
+                m_lockBallLocations.erase(m_lockBallLocations.begin() + i);
+                b2Vec2 vec = lockBallRelease->getStartVelocity(iSpawnPos);
                 lockBallRelease->getBody()->ApplyForce(vec, lockBallRelease->getBody()->GetWorldVector(b2Vec2(0, 0)), true);
                 break;
             }
         }
     }
-    if (m_lockBallTimers.size() > 0 && m_lockedBalls == 3) { // Trigger multiball
-        m_optWalls.at(1)->disable(); // Open the secret.
+    // Trigger multiball
+    /*
+    if (m_lockBallTimers.size() > 0 && m_lockedBalls == 3) {
+        // Open the secret.
+        m_optWalls.at(1)->disable();
         m_score += 10000;
         m_lockedBalls = -1;
         m_lockBallTimers.clear();
-        Pinball* launchedBall = new Pinball(m_renderer, m_b2world, 0);
-        // Launch the ball up the launch tube. Some machines actually do this.
-        // We do this instead of launching all 3 release slots to give the player more time to deal with all the balls.
-        launchedBall->getBody()->ApplyForce(b2Vec2(30 * g_displayFrameRate / 60, 0), launchedBall->getBody()->GetWorldVector(b2Vec2(0, 0)), true);
-        m_pinballs.push_back(launchedBall);
-        int iPreviousSpawn = -1;
+        m_lockBallLocations.clear();
         for (int i = 0; i < 2; i++) {
-            int iSpawnPos = getNextBallRelease();
-            while (iSpawnPos == iPreviousSpawn) {
-                iSpawnPos = getNextBallRelease();
-            }
-            iPreviousSpawn = iSpawnPos;
-            Pinball* multiBall = new Pinball(m_renderer, m_b2world, iSpawnPos);
+            Pinball* multiBall = new Pinball(m_renderer, m_b2world, i + 1);
             m_pinballs.push_back(multiBall);
-            // Shoot downwards
-            b2Vec2 vec(-4.0, 0);
+            b2Vec2 vec = multiBall->getStartVelocity(iSpawnPos);
             multiBall->getBody()->ApplyForce(vec, multiBall->getBody()->GetWorldVector(b2Vec2(0, 0)), true);
         }
     }
+    */
     
     m_leftFlipper.update(keys);
     m_rightFlipper.update(keys);
@@ -303,7 +302,7 @@ void Table::update(unsigned int keys) {
     }
 
     // Multi ball in debug mode at the press of a key
-#if 1
+#if DEBUG
     if (Input::Key::Fire1 & keys) {
         Pinball* nextPinball = new Pinball(m_renderer, m_b2world);
         m_pinballs.push_back(nextPinball);
@@ -332,14 +331,15 @@ void Table::BeginContact(b2Contact* contact) {
             if (!(pinball->isOut()) && ((fixtureA == ballLock->getFixture() && fixtureB == pinball->getFixture()) ||
                 (fixtureA == pinball->getFixture() && fixtureB == ballLock->getFixture()))) {
                 pinball->removeFromWorld();
-                if (m_lockedBalls >= 0 && m_lockedBalls < 3)
-                    m_lockedBalls++;
-                if (b == 1 && m_maxBalls < 10)
-                    m_maxBalls++; // Earn an extra ball, up to 10, for the left under ball lock.
+                //if (m_lockedBalls >= 0 && m_lockedBalls < 3)
+                //    m_lockedBalls++;
+                //if (b == 1 && m_maxBalls < 10)
+                //    m_maxBalls++; // Earn an extra ball, up to 10, for the left under ball lock.
                 // This queues a ball to be created in table update.
                 // The table makes sure to check this value before ending the game
                 // or loading the next ball.
                 m_lockBallTimers.push_back(m_lockBallDelay);
+                m_lockBallLocations.push_back(ballLock->getLocation());
                 m_score += 1000;
             }
         }
@@ -411,12 +411,6 @@ void Table::newGame() {
 
 void Table::updateScoreboard(bool paused) {
     m_scoreboard.update(m_currentBall, m_maxBalls, m_score, m_lockedBalls, paused);
-}
-
-int Table::getNextBallRelease() {
-    if (m_lockBallLocation > 3)
-        m_lockBallLocation = 1;
-    return m_lockBallLocation++;
 }
 
 void Table::cleanup() {

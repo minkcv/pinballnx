@@ -19,8 +19,9 @@ class Pinball {
         void setLayerID(int layerID);
         void removeFromWorld();
         void setBumpVelocity(float x, float y);
+        b2Vec2 getStartVelocity(int iSpawnPos);
         bool cleanupDone();
-	bool isOut();
+        bool isOut();
     private:
         b2Body* m_body;
         b2Fixture* m_fixture;
@@ -32,18 +33,17 @@ class Pinball {
         // A pinball is normally 0.027 meters in diameter, but this is too small for Box2D.
         // We simulate a pinball with a diameter of 0.22m and scale the pinball machine around this.
         float m_radius = 0.11;
-
-        // Coordinates for the launch tube.
-        float m_startX = 2.0f;
-        float m_startY = 6.9f;
-        // Coordinates for up above after a ball is locked.
-        float m_lockStartX = 6.9;
-        float m_lockStartY = 6.0;
         vector<float> m_startPositions = {
             2.0f, 6.9f, // Launch tube
             7.1f, 6.03f, // Right lock ball ejector
-            7.8f, 4.35f, // Middle lock ball ejector
-            10.8f, 0.4f // Left lock ball ejector
+            7.7f, 2.37f, // Middle lock ball ejector
+            11.3f, 0.28f // Left lock ball ejector
+        };
+        vector<float> m_startVelocities = {
+            0.0f, 0.0f,
+            -10.0f, 0.0f,
+            -10.0f, 3.5f,
+            -10.0f, 0.0f,
         };
         bool m_ballOut = false;
         bool m_removed = false;

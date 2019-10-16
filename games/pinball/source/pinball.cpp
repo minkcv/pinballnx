@@ -106,6 +106,13 @@ void Pinball::setBumpVelocity(float x, float y) {
     m_bumpY = y;
 }
 
+b2Vec2 Pinball::getStartVelocity(int iSpawnPos) {
+    float x = m_startVelocities.at(iSpawnPos * 2);
+    float y = m_startVelocities.at(iSpawnPos * 2 + 1);
+    b2Vec2 vec(x, y);
+    return vec;
+}
+
 bool Pinball::cleanupDone() {
     return m_removed;
 }

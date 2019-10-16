@@ -1,7 +1,7 @@
 #include "ramp.h"
 
-Ramp::Ramp(C2DRenderer* renderer, b2World& world, int rampID, int layerID) {
-    m_layerID = layerID;
+Ramp::Ramp(C2DRenderer* renderer, b2World& world, int rampID, int fromLayer, int toLayer) {
+    m_layerID = toLayer;
 
     vector<float> points = m_rampShapes.at(rampID);
 
@@ -18,7 +18,7 @@ Ramp::Ramp(C2DRenderer* renderer, b2World& world, int rampID, int layerID) {
     fixtureDef.density = 0.0f;
     fixtureDef.friction = 0.3f;
     fixtureDef.isSensor = true;
-    fixtureDef.filter.maskBits = 0xFFFF;
+    fixtureDef.filter.maskBits = 1 << fromLayer;
     fixtureDef.filter.categoryBits = 0xFFFF;
     m_fixture = body->CreateFixture(&fixtureDef);
 
@@ -28,9 +28,9 @@ Ramp::Ramp(C2DRenderer* renderer, b2World& world, int rampID, int layerID) {
     ConvexShape* cshape = new ConvexShape();
     addPointsToShape(cshape, points);
     cshape->getVertexArray()->setPrimitiveType(PrimitiveType::LineStrip);
-    if (layerID == 2)
+    if (toLayer == 2)
         cshape->setFillColor(Color::Green);
-    else if (layerID == 3)
+    else if (toLayer == 3)
         cshape->setFillColor(Color::Magenta);
     renderer->add(cshape);
 #endif
