@@ -33,7 +33,7 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     m_layers.push_back(layer2);
 
     // Ramps for main layer
-    Ramp ramp1(renderer, world, 0, 1, 3);
+    Ramp ramp1(renderer, world, 0, 2, 3);
     m_ramps.push_back(ramp1);
 
     Ramp ramp1up2(renderer, world, 1, 2, 3);
@@ -119,13 +119,13 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     m_triggers.push_back(leftTrigger);
 
     // Circle bumpers at the top left
-    Bumper* bumper1 = new Bumper(renderer, world, 2, -1, 9.5, 2.1);
+    Bumper* bumper1 = new Bumper(renderer, world, 2, -1, 8.8, 2.7);
     m_bumpers.push_back(bumper1);
 
-    Bumper* bumper2 = new Bumper(renderer, world, 2, -1, 10.1, 3.1);
+    Bumper* bumper2 = new Bumper(renderer, world, 2, -1, 9.6, 1.9);
     m_bumpers.push_back(bumper2);
 
-    Bumper* bumper3 = new Bumper(renderer, world, 2, -1, 8.9, 3.1);
+    Bumper* bumper3 = new Bumper(renderer, world, 2, -1, 9.9, 3.0);
     m_bumpers.push_back(bumper3);
 
     // Under layer bumpers
