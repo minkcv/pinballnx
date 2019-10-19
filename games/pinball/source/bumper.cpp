@@ -121,9 +121,9 @@ void Bumper::setHit() {
 #if !DEBUG
     m_texture1->setLayer(-99);
     m_texture2->setLayer(m_layerID * 2 + 1);
+#endif
     m_flashFrameCurrent = 0;
     m_lockDelayCurrent = 0;
-#endif
 }
 
 float Bumper::getBumpForce() {
