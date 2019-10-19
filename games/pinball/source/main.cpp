@@ -9,13 +9,14 @@ using namespace c2d;
 
 int main(int argc, char **argv) {
     // create the main renderer
+#ifdef __SWITCH__
     auto *renderer = new C2DRenderer({C2D_SCREEN_WIDTH, C2D_SCREEN_HEIGHT});
-
+#else
     // Portrait graphics on desktop:
-    //auto *renderer = new C2DRenderer({C2D_SCREEN_HEIGHT, C2D_SCREEN_WIDTH});
-    //renderer->setPosition(-265, 640);
-    //renderer->setRotation(-45.0);
-
+    auto *renderer = new C2DRenderer({C2D_SCREEN_HEIGHT, C2D_SCREEN_WIDTH});
+    renderer->setPosition(-265, 640);
+    renderer->setRotation(-45.0);
+#endif
     // disable key repeat
     renderer->getInput()->setRepeatDelay(0);
 
