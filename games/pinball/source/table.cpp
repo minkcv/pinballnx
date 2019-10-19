@@ -93,10 +93,13 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     BallLock* middleLock = new BallLock(renderer, world, 2, 2, 2);
     m_ballLocks.push_back(middleLock);
 
-    BallLock* underBallLock1 = new BallLock(renderer, world, 0, 3, 2);
+    BallLock* upperMiddleLock = new BallLock(renderer, world, 2, 3, 2);
+    m_ballLocks.push_back(upperMiddleLock);
+
+    BallLock* underBallLock1 = new BallLock(renderer, world, 0, 4, 2);
     m_ballLocks.push_back(underBallLock1);
 
-    BallLock* underBallLock2 = new BallLock(renderer, world, 0, 4, 3);
+    BallLock* underBallLock2 = new BallLock(renderer, world, 0, 5, 3);
     m_ballLocks.push_back(underBallLock2);
 
     OptWall* leftRailWall = new OptWall(renderer, world, 0, 3);
