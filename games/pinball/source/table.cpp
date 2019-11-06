@@ -378,7 +378,7 @@ void Table::BeginContact(b2Contact* contact) {
                 // Counteract the pinballs current direction, this makes the bumper have more of a "push" effect
                 b2Vec2 current = pinball->getBody()->GetLinearVelocity();
                 current.Normalize();
-                vec = vec - (0.5 * current);
+                vec = vec - (1.0 * current);
                 vec.Normalize();
                 float multiply = bumper->getBumpForce();
                 pinball->setBumpVelocity(vec.x * multiply, vec.y * multiply);

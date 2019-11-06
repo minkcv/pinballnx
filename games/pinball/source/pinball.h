@@ -42,7 +42,7 @@ class Pinball {
         vector<float> m_startVelocities = {
             0.0f, 0.0f,
             -10.0f, 0.0f,
-            -10.0f, 3.8f,
+            -10.0f, 6.0f,
             -10.0f, 0.0f,
         };
         bool m_ballOut = false;
