@@ -48,6 +48,12 @@ while True:
     # substract here because the y is inverted in the svg (see transform)
     yTotal += -float(y) / 10.0
 
+    fuzzyzero = 0.001
+    if xTotal < fuzzyzero and xTotal > -fuzzyzero:
+        xTotal = 0
+    if yTotal < fuzzyzero and yTotal > -fuzzyzero:
+        yTotal = 0
+
     # ignore small changes that box2d can't handle
     # you might have to fuss with this value depending on 
     # how jagged or smooth your shapes are
