@@ -170,12 +170,12 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     // the bottom of the pinball table so that there is a delay before
     // the ball is reset. The sensor box is very tall to avoid missing balls.
     b2BodyDef bd;
-    bd.position.Set(-7, m_width / g_graphicsScale);
+    bd.position.Set(-7, 2 * m_width / g_graphicsScale);
     bd.type = b2_staticBody;
     m_ballOutArea = world.CreateBody(&bd);
 
     b2PolygonShape box;
-    box.SetAsBox(5, m_width / g_graphicsScale);
+    box.SetAsBox(5, 2 * m_width / g_graphicsScale);
 
     b2FixtureDef fd;
     fd.isSensor = true;
