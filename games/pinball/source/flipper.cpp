@@ -22,7 +22,7 @@ Flipper::Flipper(C2DRenderer* renderer, b2World& world, int flipperID) {
 #if DEBUG
     m_pivotShape = new CircleShape(0.18f * g_graphicsScale);
     m_pivotShape->setOrigin(Origin::Center);
-    if (flipperID > 1)
+    if (flipperID > 2)
         m_pivotShape->setFillColor(Color::Cyan);
     renderer->add(m_pivotShape);
 #endif
@@ -31,7 +31,7 @@ Flipper::Flipper(C2DRenderer* renderer, b2World& world, int flipperID) {
     fd.friction = 0.6f;
     fd.density = 1.0f;
     fd.shape = &circleShape;
-    if (flipperID > 1) {
+    if (flipperID > 2) {
         fd.filter.maskBits = 1;
         fd.filter.categoryBits = 1;
     }
@@ -71,12 +71,12 @@ Flipper::Flipper(C2DRenderer* renderer, b2World& world, int flipperID) {
     m_cshape = new ConvexShape();
     m_cshape->getVertexArray()->setPrimitiveType(PrimitiveType::LineStrip);
     addPointsToShape(m_cshape, m_points);
-    if (flipperID > 1)
+    if (flipperID > 2)
         m_cshape->setFillColor(Color::Cyan);
     renderer->add(m_cshape);
 #else
     m_texture = new C2DTexture(renderer->getIo()->getDataReadPath() + "pinballnx/flipper.png");
-    if (flipperID > 1)
+    if (flipperID > 2)
         m_texture->setLayer(2);
     else
         m_texture->setLayer(6);
