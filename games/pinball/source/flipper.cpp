@@ -62,6 +62,10 @@ Flipper::Flipper(C2DRenderer* renderer, b2World& world, int flipperID) {
     jd.enableMotor = true;
     jd.maxMotorTorque = 2000.0f;
     jd.motorSpeed = 0.0f;
+    if (flipperID == 2) {
+        m_lowerLimit += M_PI * 3 / 16;
+        m_upperLimit += M_PI * 3 / 16;
+    }
     jd.lowerAngle = m_lowerLimit;
     jd.upperAngle = m_upperLimit;
     jd.enableLimit = true;

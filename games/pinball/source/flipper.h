@@ -27,7 +27,7 @@ class Flipper {
         vector<float> m_positions = {
             0.68f, 2.19f,
             0.68f, 4.51f,
-            4.97f, 0.88f,
+            5.87f, 0.80f,
             3.6f, 5.35f
         };
         b2RevoluteJoint* m_joint;
