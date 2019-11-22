@@ -39,15 +39,19 @@ class Bumper {
         vector<float> m_rightCenterLower = {120, 720};
         vector<float> m_leftKickerCenter = {-20, 32};
         vector<float> m_rightKickerCenter = {-20, 640};
-        vector<vector<float>> m_centers = {m_leftCenterUpper, m_leftCenterLower, m_rightCenterUpper, m_rightCenterLower, m_leftKickerCenter, m_rightKickerCenter};
+        vector<float> m_underBumperCenter = {358, 264};
+        vector<float> m_underBumperCenter2 = {238, 402};
+        vector<vector<float>> m_centers = {m_leftCenterUpper, m_leftCenterLower, m_rightCenterUpper, m_rightCenterLower, m_leftKickerCenter, m_rightKickerCenter, m_underBumperCenter, m_underBumperCenter2};
         vector<float> m_leftBumperUpper = {226.8, 133.3, 207.0, 143.5, 207.0, 149.3, 207.0, 155.1, 207.8, 154.7, 208.5, 154.3, 231.2, 141.1, 253.9, 127.8, 252.3, 125.4, 250.8, 123.0, 248.6, 123.0, 246.5, 123.1, 226.8, 133.3};
         vector<float> m_leftBumperLower = {176.7, 159.5, 146.8, 174.8, 145.3, 176.3, 143.8, 177.8, 144.5, 180.9, 145.2, 184.0, 161.1, 176.6, 176.5, 169.3, 190.7, 163.1, 204.9, 156.8, 206.0, 155.5, 207.1, 154.2, 206.8, 149.2, 206.5, 144.2, 176.7, 159.5};
         vector<float> m_rightBumperUpper = {207.0, 522.7, 207.0, 528.5, 226.9, 538.7, 246.7, 549.0, 248.8, 549.0, 250.8, 549.0, 252.3, 546.6, 253.9, 544.2, 231.2, 531.0, 208.5, 517.7, 207.8, 517.3, 207.0, 516.9, 207.0, 522.7};
         vector<float> m_rightBumperLower = {144.5, 491.1, 143.8, 494.2, 145.6, 496.0, 147.5, 497.7, 177.3, 512.9, 207.0, 528.0, 207.0, 522.5, 207.0, 517.0, 204.7, 515.5, 202.4, 514.0, 188.4, 507.9, 174.5, 501.8, 160.1, 494.9, 145.7, 488.0, 144.5, 491.1};
         vector<float> m_leftKicker = {10.0, 31.0, 10.0, 44.0, 23.5, 44.0, 37.0, 44.0, 37.0, 31.0, 37.0, 18.0, 23.5, 18.0, 10.0, 18.0, 10.0, 31.0};
         vector<float> m_rightKicker = {10.0, 640.5, 10.0, 654.0, 23.5, 654.0, 37.0, 654.0, 37.0, 640.5, 37.0, 627.0, 23.5, 627.0, 10.0, 627.0, 10.0, 640.5};
+        vector<float> m_underBumper = {385.8, 233.0, 380.1, 236.0, 379.5, 237.9, 378.9, 239.9, 385.5, 252.9, 392.0, 266.0, 394.3, 266.0, 396.5, 265.9, 402.5, 262.7, 408.5, 259.5, 408.8, 256.8, 409.1, 254.2, 403.0, 242.1, 397.0, 230.0, 394.2, 230.0, 391.5, 230.1, 385.8, 233.0};
+        vector<float> m_underBumper2 = {280.0, 399.1, 278.9, 401.1, 271.9, 416.8, 265.0, 432.5, 265.0, 434.8, 265.0, 437.1, 272.7, 440.6, 280.3, 444.1, 282.9, 443.8, 285.5, 443.5, 293.2, 426.5, 300.8, 409.5, 300.9, 406.8, 301.0, 404.0, 294.0, 400.5, 287.0, 397.0, 284.1, 397.0, 281.1, 397.0, 280.0, 399.1};
         vector<vector<float>> m_shapes = {
-            m_leftBumperUpper, m_leftBumperLower, m_rightBumperUpper, m_rightBumperLower, m_leftKicker, m_rightKicker
+            m_leftBumperUpper, m_leftBumperLower, m_rightBumperUpper, m_rightBumperLower, m_leftKicker, m_rightKicker, m_underBumper, m_underBumper2
         };
         // sprite positions (x, y)
         vector<float> m_positions {
@@ -56,7 +60,8 @@ class Bumper {
             144, 485,
             144, 485,
             10, 18,
-            10, 628
+            10, 628,
+            0, 0 // TODO
         };
 };
 #endif

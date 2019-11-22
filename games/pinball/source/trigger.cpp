@@ -74,13 +74,14 @@ void Trigger::press() {
     // Change the optwalls
     for (size_t i = 0; i < m_wallsToChange.size(); i++) {
         OptWall* wall = m_wallsToChange.at(i);
-        if (i < 2) {
-            if (wall->isEnabled())
-                wall->disable();
-            else
-                wall->enable();
-        }
-        else {
+        //if (i < 2) {
+        //    if (wall->isEnabled())
+        //        wall->disable();
+        //    else
+        //        wall->enable();
+        //}
+        //else {
+        {
             // Reset the kicker locks
             wall->disable();
         }
