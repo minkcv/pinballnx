@@ -69,10 +69,6 @@ Flipper::Flipper(C2DRenderer* renderer, b2World& world, int flipperID) {
         m_lowerLimit += M_PI * 3 / 16;
         m_upperLimit += M_PI * 3 / 16;
     }
-    else if (flipperID == 3) {
-        m_lowerLimit -= M_PI * 1 / 16;
-        m_upperLimit -= M_PI * 1 / 16;
-    }
     jd.lowerAngle = m_lowerLimit;
     jd.upperAngle = m_upperLimit;
     jd.enableLimit = true;
