@@ -227,7 +227,7 @@ void Table::update(unsigned int keys) {
             m_optWalls.at(3)->disable();
             m_optWalls.at(4)->disable();
             // Reset the underlayer optwall
-            m_optWalls.at(5)->disable();
+            m_optWalls.at(2)->disable();
         }
     }
     for (size_t i = 0; i < m_pinballs.size(); i++) {
