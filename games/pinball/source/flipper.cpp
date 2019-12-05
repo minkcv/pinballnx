@@ -47,10 +47,11 @@ Flipper::Flipper(C2DRenderer* renderer, b2World& world, int flipperID) {
     bd.bullet = true;
     m_body = world.CreateBody(&bd);
 
+    b2Vec2* vs;
     if (flipperID % 2 == 1)
-        m_body->SetTransform(bd.position, -M_PI);
-
-    b2Vec2* vs = getVertexArray(m_points);
+        vs = getVertexArray(m_rightPoints);
+    else
+        vs = getVertexArray(m_leftPoints);
     fd.density = 10.0f;
     b2PolygonShape shape;
     shape.Set(vs, 8);
@@ -58,13 +59,19 @@ Flipper::Flipper(C2DRenderer* renderer, b2World& world, int flipperID) {
     m_body->CreateFixture(&fd);
 
     b2RevoluteJointDef jd;
-    jd.Initialize(m_pivot, m_body, m_pivot->GetWorldCenter());
+    jd.bodyA = m_pivot;
+    jd.bodyB = m_body;
+    jd.referenceAngle = 0;
     jd.enableMotor = true;
     jd.maxMotorTorque = 2000.0f;
     jd.motorSpeed = 0.0f;
     if (flipperID == 2) {
         m_lowerLimit += M_PI * 3 / 16;
         m_upperLimit += M_PI * 3 / 16;
+    }
+    else if (flipperID == 3) {
+        m_lowerLimit -= M_PI * 1 / 16;
+        m_upperLimit -= M_PI * 1 / 16;
     }
     jd.lowerAngle = m_lowerLimit;
     jd.upperAngle = m_upperLimit;
@@ -74,7 +81,10 @@ Flipper::Flipper(C2DRenderer* renderer, b2World& world, int flipperID) {
 #if DEBUG
     m_cshape = new ConvexShape();
     m_cshape->getVertexArray()->setPrimitiveType(PrimitiveType::LineStrip);
-    addPointsToShape(m_cshape, m_points);
+    if (flipperID % 2 == 1)
+        addPointsToShape(m_cshape, m_rightPoints);
+    else
+        addPointsToShape(m_cshape, m_leftPoints);
     if (flipperID > 2)
         m_cshape->setFillColor(Color::Cyan);
     renderer->add(m_cshape);
@@ -89,18 +99,14 @@ Flipper::Flipper(C2DRenderer* renderer, b2World& world, int flipperID) {
 }
 
 void Flipper::update(unsigned int keys) {
-    float jointAngle = m_joint->GetJointAngle();
+    //float jointAngle = m_joint->GetJointAngle();
+    //printf("%f %f %f\n", jointAngle, m_lowerLimit, m_upperLimit);
+        
     if (keys & m_key) {
-        if (jointAngle * m_rotateDirection < m_lowerLimit)
-            m_joint->SetMotorSpeed(0.0f);
-        else
-            m_joint->SetMotorSpeed(-20.0f * m_rotateDirection);
-    }
-    else if (jointAngle * m_rotateDirection < m_upperLimit) {
-        m_joint->SetMotorSpeed(20.0f * m_rotateDirection);
+        m_joint->SetMotorSpeed(-20.0f * m_rotateDirection);
     }
     else {
-        m_joint->SetMotorSpeed(0.0f);
+        m_joint->SetMotorSpeed(20.0f * m_rotateDirection);
     }
 
     b2Vec2 position = m_body->GetPosition();
