@@ -44,9 +44,10 @@ class Ramp {
         vector<float> m_newballEntrance1 = {634.0, 561.6, 632.7, 563.1, 639.5, 588.8, 646.3, 614.5, 647.8, 616.2, 649.3, 618.0, 664.5, 618.0, 679.8, 618.0, 681.1, 616.4, 682.3, 614.9, 676.2, 588.8, 670.0, 562.7, 668.9, 561.4, 667.8, 560.0, 651.5, 560.0, 635.2, 560.0, 634.0, 561.6};
         vector<float> m_newballEntrance2 = {742.6, 345.5, 726.6, 349.9, 725.4, 351.2, 724.2, 352.5, 719.4, 374.9, 714.6, 397.3, 716.6, 398.7, 718.5, 400.1, 732.8, 410.7, 747.2, 421.4, 748.8, 420.3, 750.5, 419.3, 750.5, 417.4, 750.5, 415.5, 737.0, 405.3, 723.5, 395.1, 723.2, 394.2, 722.9, 393.3, 726.8, 375.1, 730.8, 356.9, 746.5, 352.1, 761.4, 348.0, 762.9, 346.5, 764.5, 345.0, 763.4, 343.2, 762.3, 341.5, 760.4, 341.3, 758.5, 341.1, 742.6, 345.5};
         vector<float> m_newballEntrance3 = {1034.2, 23.3, 1032.0, 25.6, 1032.0, 27.6, 1032.0, 29.7, 1034.3, 31.8, 1036.6, 34.0, 1045.6, 34.0, 1054.7, 34.0, 1056.8, 31.7, 1059.0, 29.4, 1059.0, 27.4, 1059.0, 25.3, 1056.7, 23.2, 1054.4, 21.0, 1045.4, 21.0, 1036.3, 21.0, 1034.2, 23.3};
+        vector<float> m_underLayerUp = {737.2, 18.7, 736.5, 20.5, 736.5, 29.5, 736.5, 38.5, 754.0, 38.5, 771.5, 38.5, 771.5, 28.0, 771.5, 17.5, 754.7, 17.2, 738.0, 17.0, 737.2, 18.7};
         // Access this vector by index of rampID to get the collision shape for that ramp
         vector<vector<float>> m_rampShapes = {
-            m_ramp1, m_ramp1up2, m_ramp1Down, m_hole1, m_ramp2, m_ramp2up2, m_ramp2Down, m_hole2, m_ramp3, m_ramp3Down, m_ramp3up2, m_ramp1DownMid, m_backdoorDown, m_tunnelDown, m_newballEntrance1, m_newballEntrance2, m_newballEntrance3
+            m_ramp1, m_ramp1up2, m_ramp1Down, m_hole1, m_ramp2, m_ramp2up2, m_ramp2Down, m_hole2, m_ramp3, m_ramp3Down, m_ramp3up2, m_ramp1DownMid, m_backdoorDown, m_tunnelDown, m_newballEntrance1, m_newballEntrance2, m_newballEntrance3, m_underLayerUp
         };
 };
 

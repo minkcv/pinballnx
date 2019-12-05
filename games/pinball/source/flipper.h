@@ -28,7 +28,7 @@ class Flipper {
             0.68f, 2.19f,
             0.68f, 4.51f,
             5.87f, 0.80f,
-            4.68f, 4.32f
+            3.48f, 3.92f
         };
         b2RevoluteJoint* m_joint;
         ConvexShape* m_cshape;

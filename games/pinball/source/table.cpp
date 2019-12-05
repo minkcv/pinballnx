@@ -84,6 +84,9 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     Ramp newballEntrance3(renderer, world, 16, 1, 2);
     m_ramps.push_back(newballEntrance3);
 
+    Ramp underLayerUp(renderer, world, 17, 0, 2);
+    m_ramps.push_back(underLayerUp);
+
     BallLock* ballLock = new BallLock(renderer, world, 2, 0, 1);
     m_ballLocks.push_back(ballLock);
 
@@ -118,7 +121,7 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     OptWall* rightKickerLock = new OptWall(renderer, world, 4, 2);
     m_optWalls.push_back(rightKickerLock);
 
-    Trigger* leftTrigger = new Trigger(renderer, world, 0, 2, underLayerLock1, underLayerLock2, leftKickerLock, rightKickerLock);
+    Trigger* leftTrigger = new Trigger(renderer, world, 0, 2, underLayerLock1, leftKickerLock, rightKickerLock);
     m_triggers.push_back(leftTrigger);
 
     // Circle bumpers at the top left
@@ -132,16 +135,18 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     m_bumpers.push_back(bumper3);
 
     // Under layer bumpers
-    //Bumper* bumper4 = new Bumper(renderer, world, 0, -1, 6.1, 2.5);
-    //m_bumpers.push_back(bumper4);
+    // Circle bumpers
+    Bumper* bumper4 = new Bumper(renderer, world, 0, -1, 4.6, 2.4);
+    m_bumpers.push_back(bumper4);
 
-    //Bumper* bumper5 = new Bumper(renderer, world, 0, -1, 6.1, 4.5);
-    //m_bumpers.push_back(bumper5);
+    Bumper* bumper5 = new Bumper(renderer, world, 0, -1, 5.30, 3.30);
+    m_bumpers.push_back(bumper5);
 
     //Bumper* bumper6 = new Bumper(renderer, world, 0, -1, 5.5, 3.5);
     //m_bumpers.push_back(bumper6);
 
-    Bumper* underBumper = new Bumper(renderer, world, 0, 6, 0, 0);
+    // Kicker bumpers
+    Bumper* underBumper = new Bumper(renderer, world, 0, 6, 0, 0, underLayerLock2);
     m_bumpers.push_back(underBumper);
 
     Bumper* underBumper2 = new Bumper(renderer, world, 0, 7, 0, 0);
@@ -221,6 +226,8 @@ void Table::update(unsigned int keys) {
             // This is pretty forgiving. I like it.
             m_optWalls.at(3)->disable();
             m_optWalls.at(4)->disable();
+            // Reset the underlayer optwall
+            m_optWalls.at(5)->disable();
         }
     }
     for (size_t i = 0; i < m_pinballs.size(); i++) {
@@ -293,10 +300,7 @@ void Table::update(unsigned int keys) {
         Trigger* trigger = m_triggers.at(t);
         trigger->update();
     }
-    if (m_tiltTimer < m_tiltCooldown) {
-        m_tiltTimer++;
-    }
-    else if (m_tiltTimer == m_tiltCooldown) {
+    if (m_tiltTimer == m_tiltCooldown || DEBUG) {
         if (Input::Key::Left & keys || Input::Key::Right & keys) {
             double leftOrRight = Input::Key::Left & keys ? -0.9 : 0.9;
             m_tiltTimer = 0;
@@ -308,6 +312,9 @@ void Table::update(unsigned int keys) {
                 }
             }
         }
+    }
+    else {
+        m_tiltTimer++;
     }
 
     // Multi ball in debug mode at the press of a key
