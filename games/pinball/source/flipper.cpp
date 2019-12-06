@@ -116,6 +116,8 @@ void Flipper::update(unsigned int keys) {
 #else
     m_texture->setOriginVector(16.0f, 16.0f);
     m_texture->setPosition(position.x * g_graphicsScale, position.y * g_graphicsScale);
+    if (m_rotateDirection < 0)
+        angle += M_PI;
     m_texture->setRotation(angle * 180 / M_PI);
 #endif
 }
