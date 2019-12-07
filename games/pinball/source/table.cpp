@@ -357,6 +357,9 @@ void Table::BeginContact(b2Contact* contact) {
                 m_lockBallTimers.push_back(m_lockBallDelay);
                 m_lockBallLocations.push_back(ballLock->getLocation());
                 m_score += 1000;
+                if (b == 5) {
+                    m_optWalls.at(2)->disable();
+                }
             }
         }
 
