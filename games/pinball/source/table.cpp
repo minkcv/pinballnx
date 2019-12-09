@@ -367,16 +367,21 @@ void Table::BeginContact(b2Contact* contact) {
             if (!(pinball->isOut()) && ((fixtureA == ballLock->getFixture() && fixtureB == pinball->getFixture()) ||
                 (fixtureA == pinball->getFixture() && fixtureB == ballLock->getFixture()))) {
                 pinball->removeFromWorld();
-                //if (m_lockedBalls >= 0 && m_lockedBalls < 3)
-                //    m_lockedBalls++;
-                //if (b == 1 && m_maxBalls < 10)
-                //    m_maxBalls++; // Earn an extra ball, up to 10, for the left under ball lock.
                 // This queues a ball to be created in table update.
                 // The table makes sure to check this value before ending the game
                 // or loading the next ball.
-                m_lockBallTimers.push_back(m_lockBallDelay);
-                ballLock->trigger();
-                m_lockBallLocations.push_back(ballLock->getLocation());
+                if (b == 5) {
+                    // Underlayer right lock triggers duo ball
+                    m_lockBallTimers.push_back(m_lockBallDelay);
+                    m_lockBallTimers.push_back(m_lockBallDelay);
+                    m_lockBallLocations.push_back(1);
+                    m_lockBallLocations.push_back(4);
+                }
+                else {
+                    m_lockBallTimers.push_back(m_lockBallDelay);
+                    ballLock->trigger();
+                    m_lockBallLocations.push_back(ballLock->getLocation());
+                }
                 m_score += 1000;
                 if (b == 5) {
                     m_optWalls.at(2)->disable();
