@@ -22,7 +22,7 @@ class Trigger {
         C2DTexture* m_textureDisabled;
         int m_hitFrames = 1920 / g_displayFrameRate;
         int m_hitFrameCurrent = m_hitFrames;
-        int m_behavior; // 0 disable, 1 enable
+        int m_behavior; // 0 disable, 1 enable, 2 toggle
 
         vector<float> m_leftInletTrigger = {615.3, 11.0, 613.0, 11.9, 613.0, 32.4, 613.0, 52.9, 615.0, 54.0, 617.1, 55.1, 621.3, 54.8, 625.5, 54.5, 625.5, 32.5, 625.5, 10.5, 621.5, 10.3, 617.5, 10.1, 615.3, 11.0};
         vector<float> m_topRightTrigger = {1004.7, 533.7, 1004.0, 534.3, 1004.0, 536.1, 1004.0, 537.8, 1017.1, 550.2, 1030.2, 562.5, 1032.3, 562.5, 1034.5, 562.5, 1034.8, 560.1, 1035.2, 557.7, 1022.9, 545.4, 1010.5, 533.0, 1007.9, 533.0, 1005.3, 533.0, 1004.7, 533.7};
@@ -32,8 +32,8 @@ class Trigger {
         };
         vector<float> m_positions = {
             616, 17,
-            1002, 531,
-            1031, 89
+            1006, 532,
+            1031, 88
         };
 };
 #endif

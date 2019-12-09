@@ -74,6 +74,13 @@ void OptWall::disable() {
 #endif
 }
 
+void OptWall::toggle() {
+    if (isEnabled())
+        disable();
+    else
+        enable();
+}
+
 bool OptWall::isEnabled() {
     return m_isEnabled;
 }

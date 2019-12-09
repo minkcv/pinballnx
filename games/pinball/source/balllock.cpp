@@ -3,6 +3,7 @@
 BallLock::BallLock(C2DRenderer* renderer, b2World& world, int layerID, int shapeID, int releaseLocation, int releaseLocation2) {
     m_layerID = layerID;
     m_releaseLocation = releaseLocation;
+    m_defaultLocation = m_releaseLocation;
     m_releaseLocation2 = releaseLocation2;
 
     vector<float> points = m_points.at(shapeID);
@@ -37,11 +38,22 @@ b2Fixture* BallLock::getFixture() {
     return m_fixture;
 }
 
-int BallLock::getLocation() {
+void BallLock::trigger() {
     if (m_releaseLocation2 != -1) {
         int temp = m_releaseLocation;
         m_releaseLocation = m_releaseLocation2;
         m_releaseLocation2 = temp;
     }
+}
+
+int BallLock::getLocation() {
     return m_releaseLocation;
+}
+
+void BallLock::resetLocation() {
+    if (m_defaultLocation != m_releaseLocation) {
+        int temp = m_releaseLocation;
+        m_releaseLocation = m_releaseLocation2;
+        m_releaseLocation2 = temp;
+    }
 }

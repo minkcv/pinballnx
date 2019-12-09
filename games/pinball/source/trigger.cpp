@@ -76,9 +76,11 @@ void Trigger::press() {
     for (size_t i = 0; i < m_wallsToChange.size(); i++) {
         OptWall* wall = m_wallsToChange.at(i);
         if (wall != nullptr) {
-            if (m_behavior)
+            if (m_behavior == 2)
+                wall->toggle();
+            else if (m_behavior == 1)
                 wall->enable();
-            else
+            else if (m_behavior == 0)
                 wall->disable();
         }
     }

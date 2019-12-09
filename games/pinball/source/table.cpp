@@ -105,7 +105,7 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     BallLock* underBallLock1 = new BallLock(renderer, world, 0, 4, 2);
     m_ballLocks.push_back(underBallLock1);
 
-    BallLock* underBallLock2 = new BallLock(renderer, world, 0, 5, 3);
+    BallLock* underBallLock2 = new BallLock(renderer, world, 0, 5, 2);
     m_ballLocks.push_back(underBallLock2);
 
     OptWall* leftRailWall = new OptWall(renderer, world, 0, 3);
@@ -128,13 +128,17 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     rightLock->enable();
     m_optWalls.push_back(rightLock);
 
+    OptWall* topLeftLock = new OptWall(renderer, world, 6, 2);
+    topLeftLock->enable();
+    m_optWalls.push_back(topLeftLock);
+
     Trigger* leftTrigger = new Trigger(renderer, world, 0, 2, 0, underLayerLock1, leftKickerLock, rightKickerLock);
     m_triggers.push_back(leftTrigger);
 
     Trigger* topRightTrigger = new Trigger(renderer, world, 1, 2, 0, rightLock);
     m_triggers.push_back(topRightTrigger);
 
-    Trigger* topLeftTrigger = new Trigger(renderer, world, 2, 2, 1, leftRailWall);
+    Trigger* topLeftTrigger = new Trigger(renderer, world, 2, 2, 2, leftRailWall, topLeftLock);
     m_triggers.push_back(topLeftTrigger);
 
     // Circle bumpers at the top left
@@ -243,6 +247,10 @@ void Table::update(unsigned int keys) {
             m_optWalls.at(3)->disable();
             m_optWalls.at(4)->disable();
             m_optWalls.at(5)->enable(); // Close the right ball lock.
+            m_optWalls.at(6)->enable(); // Close the top left ball lock.
+            for (size_t b = 0; b < m_ballLocks.size(); b++) {
+                m_ballLocks.at(b)->resetLocation();
+            }
         }
     }
     for (size_t i = 0; i < m_pinballs.size(); i++) {
@@ -370,6 +378,7 @@ void Table::BeginContact(b2Contact* contact) {
                 // The table makes sure to check this value before ending the game
                 // or loading the next ball.
                 m_lockBallTimers.push_back(m_lockBallDelay);
+                ballLock->trigger();
                 m_lockBallLocations.push_back(ballLock->getLocation());
                 m_score += 1000;
                 if (b == 5) {
@@ -446,6 +455,10 @@ void Table::newGame() {
     }
     m_optWalls.at(1)->enable(); // Close the under layer ramp.
     m_optWalls.at(5)->enable(); // Close the right ball lock.
+    m_optWalls.at(6)->enable(); // Close the top left ball lock.
+    for (size_t b = 0; b < m_ballLocks.size(); b++) {
+        m_ballLocks.at(b)->resetLocation();
+    }
 }
 
 void Table::updateScoreboard(bool paused) {
