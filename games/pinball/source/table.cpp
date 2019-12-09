@@ -248,9 +248,6 @@ void Table::update(unsigned int keys) {
             m_optWalls.at(4)->disable();
             m_optWalls.at(5)->enable(); // Close the right ball lock.
             m_optWalls.at(6)->enable(); // Close the top left ball lock.
-            for (size_t b = 0; b < m_ballLocks.size(); b++) {
-                m_ballLocks.at(b)->resetLocation();
-            }
         }
     }
     for (size_t i = 0; i < m_pinballs.size(); i++) {
