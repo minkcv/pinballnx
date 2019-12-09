@@ -84,10 +84,13 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     Ramp newballEntrance3(renderer, world, 16, 1, 2);
     m_ramps.push_back(newballEntrance3);
 
-    Ramp underLayerUp(renderer, world, 17, 0, 2);
+    Ramp newballEntrance4(renderer, world, 17, 1, 2);
+    m_ramps.push_back(newballEntrance4);
+
+    Ramp underLayerUp(renderer, world, 18, 0, 2);
     m_ramps.push_back(underLayerUp);
 
-    BallLock* ballLock = new BallLock(renderer, world, 2, 0, 1);
+    BallLock* ballLock = new BallLock(renderer, world, 2, 0, 4, 1);
     m_ballLocks.push_back(ballLock);
 
     BallLock* leftLock = new BallLock(renderer, world, 2, 1, 3);
@@ -121,8 +124,18 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     OptWall* rightKickerLock = new OptWall(renderer, world, 4, 2);
     m_optWalls.push_back(rightKickerLock);
 
-    Trigger* leftTrigger = new Trigger(renderer, world, 0, 2, underLayerLock1, leftKickerLock, rightKickerLock);
+    OptWall* rightLock = new OptWall(renderer, world, 5, 2);
+    rightLock->enable();
+    m_optWalls.push_back(rightLock);
+
+    Trigger* leftTrigger = new Trigger(renderer, world, 0, 2, 0, underLayerLock1, leftKickerLock, rightKickerLock);
     m_triggers.push_back(leftTrigger);
+
+    Trigger* topRightTrigger = new Trigger(renderer, world, 1, 2, 0, rightLock);
+    m_triggers.push_back(topRightTrigger);
+
+    Trigger* topLeftTrigger = new Trigger(renderer, world, 2, 2, 1, leftRailWall);
+    m_triggers.push_back(topLeftTrigger);
 
     // Circle bumpers at the top left
     Bumper* bumper1 = new Bumper(renderer, world, 2, -1, 8.8, 2.7);
@@ -221,13 +234,15 @@ void Table::update(unsigned int keys) {
             if (m_lockedBalls == -1) {
                 m_lockedBalls = 0; // End previous multiball
             }
-            m_optWalls.at(1)->enable(); // Close the secret.
+            m_optWalls.at(0)->disable(); // Disable the left rail switch
+            m_optWalls.at(1)->enable(); // Close the underlayer ramp.
+            // Reset the underlayer optwall
+            m_optWalls.at(2)->disable();
             // Disable the kicker locks when starting a new ball.
             // This is pretty forgiving. I like it.
             m_optWalls.at(3)->disable();
             m_optWalls.at(4)->disable();
-            // Reset the underlayer optwall
-            m_optWalls.at(2)->disable();
+            m_optWalls.at(5)->enable(); // Close the right ball lock.
         }
     }
     for (size_t i = 0; i < m_pinballs.size(); i++) {
@@ -360,6 +375,10 @@ void Table::BeginContact(b2Contact* contact) {
                 if (b == 5) {
                     m_optWalls.at(2)->disable();
                 }
+                if (b == 4) {
+                    // Close the underlayer ramp
+                    m_optWalls.at(1)->enable();
+                }
             }
         }
 
@@ -425,7 +444,8 @@ void Table::newGame() {
     for (size_t opt = 0; opt < m_optWalls.size(); opt++) {
         m_optWalls.at(opt)->disable();
     }
-    m_optWalls.at(1)->enable(); // Close the secret.
+    m_optWalls.at(1)->enable(); // Close the under layer ramp.
+    m_optWalls.at(5)->enable(); // Close the right ball lock.
 }
 
 void Table::updateScoreboard(bool paused) {

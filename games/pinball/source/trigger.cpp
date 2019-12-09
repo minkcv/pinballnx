@@ -1,7 +1,8 @@
 #include "trigger.h"
 
-Trigger::Trigger(C2DRenderer* renderer, b2World& world, int triggerID, int layerID, OptWall* wallToChange, OptWall* wall2, OptWall* wall3, OptWall* wall4) {
+Trigger::Trigger(C2DRenderer* renderer, b2World& world, int triggerID, int layerID, int behavior, OptWall* wallToChange, OptWall* wall2, OptWall* wall3, OptWall* wall4) {
     m_layerID = layerID;
+    m_behavior = behavior;
     m_isPressed = false;
     m_wallsToChange.push_back(wallToChange);
     m_wallsToChange.push_back(wall2);
@@ -75,7 +76,10 @@ void Trigger::press() {
     for (size_t i = 0; i < m_wallsToChange.size(); i++) {
         OptWall* wall = m_wallsToChange.at(i);
         if (wall != nullptr) {
-            wall->disable();
+            if (m_behavior)
+                wall->enable();
+            else
+                wall->disable();
         }
     }
     

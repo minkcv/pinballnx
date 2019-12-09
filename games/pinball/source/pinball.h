@@ -35,15 +35,17 @@ class Pinball {
         float m_radius = 0.11;
         vector<float> m_startPositions = {
             2.0f, 6.9f, // Launch tube
-            7.1f, 6.03f, // Right lock ball ejector
+            7.1f, 6.03f, // Right most lock ball ejector
             7.65f, 3.85f, // Middle lock ball ejector
-            10.9f, 0.28f // Left lock ball ejector
+            10.9f, 0.28f, // Left lock ball ejector
+            7.36f, 4.85f // Second to right lock ball ejector
         };
         vector<float> m_startVelocities = {
             0.0f, 0.0f,
             -10.0f, 0.0f,
             -10.0f, 6.0f,
             -10.0f, 0.0f,
+            -10.0f, -6.0f
         };
         bool m_ballOut = false;
         bool m_removed = false;

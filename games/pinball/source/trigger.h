@@ -8,7 +8,7 @@
 
 class Trigger {
     public:
-        Trigger(C2DRenderer* renderer, b2World& world, int triggerID, int layerID, OptWall* wallToChange, OptWall* wall2, OptWall* wall3, OptWall* wall4 = nullptr);
+        Trigger(C2DRenderer* renderer, b2World& world, int triggerID, int layerID, int behavior, OptWall* wallToChange, OptWall* wall2 = nullptr, OptWall* wall3 = nullptr, OptWall* wall4 = nullptr);
         b2Fixture* getFixture();
         void update();
         void press();
@@ -22,13 +22,18 @@ class Trigger {
         C2DTexture* m_textureDisabled;
         int m_hitFrames = 1920 / g_displayFrameRate;
         int m_hitFrameCurrent = m_hitFrames;
+        int m_behavior; // 0 disable, 1 enable
 
-        vector<float> m_leftInletTrigger = {610.6, 8.6, 605.6, 9.9, 604.1, 11.4, 602.6, 12.9, 603.9, 29.2, 605.1, 45.5, 605.7, 50.3, 606.3, 55.1, 608.5, 56.6, 610.8, 58.1, 618.8, 55.5, 626.8, 52.9, 627.8, 51.7, 628.7, 50.5, 629.3, 33.5, 630.0, 16.5, 628.0, 13.2, 626.0, 9.9, 622.5, 8.4, 619.1, 7.0, 617.3, 7.1, 615.5, 7.2, 610.6, 8.6};
+        vector<float> m_leftInletTrigger = {615.3, 11.0, 613.0, 11.9, 613.0, 32.4, 613.0, 52.9, 615.0, 54.0, 617.1, 55.1, 621.3, 54.8, 625.5, 54.5, 625.5, 32.5, 625.5, 10.5, 621.5, 10.3, 617.5, 10.1, 615.3, 11.0};
+        vector<float> m_topRightTrigger = {1004.7, 533.7, 1004.0, 534.3, 1004.0, 536.1, 1004.0, 537.8, 1017.1, 550.2, 1030.2, 562.5, 1032.3, 562.5, 1034.5, 562.5, 1034.8, 560.1, 1035.2, 557.7, 1022.9, 545.4, 1010.5, 533.0, 1007.9, 533.0, 1005.3, 533.0, 1004.7, 533.7};
+        vector<float> m_topLeftTrigger = {1038.1, 97.2, 1031.0, 105.5, 1031.2, 106.9, 1031.5, 108.3, 1033.3, 109.4, 1035.2, 110.5, 1039.2, 106.0, 1043.2, 101.5, 1046.8, 97.2, 1050.4, 92.8, 1049.3, 91.2, 1048.3, 89.5, 1046.8, 89.2, 1045.2, 88.9, 1038.1, 97.2};
         vector<vector<float>> m_triggerShapes = {
-            m_leftInletTrigger
+            m_leftInletTrigger, m_topRightTrigger, m_topLeftTrigger
         };
         vector<float> m_positions = {
-            616, 17
+            616, 17,
+            1002, 531,
+            1031, 89
         };
 };
 #endif
