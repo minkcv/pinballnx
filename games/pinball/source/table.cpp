@@ -135,7 +135,7 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     Trigger* leftTrigger = new Trigger(renderer, world, 0, 2, 0, underLayerLock1, leftKickerLock, rightKickerLock);
     m_triggers.push_back(leftTrigger);
 
-    Trigger* topRightTrigger = new Trigger(renderer, world, 1, 2, 0, rightLock);
+    Trigger* topRightTrigger = new Trigger(renderer, world, 1, 2, 0, rightLock, leftKickerLock, rightKickerLock);
     m_triggers.push_back(topRightTrigger);
 
     Trigger* topLeftTrigger = new Trigger(renderer, world, 2, 2, 2, leftRailWall, topLeftLock);
