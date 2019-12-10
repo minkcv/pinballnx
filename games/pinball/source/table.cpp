@@ -162,11 +162,11 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     //Bumper* bumper6 = new Bumper(renderer, world, 0, -1, 5.5, 3.5);
     //m_bumpers.push_back(bumper6);
 
-    // Kicker bumpers
-    Bumper* underBumper = new Bumper(renderer, world, 0, 6, 0, 0, underLayerLock2);
+    // Underlayer kicker bumpers
+    Bumper* underBumper = new Bumper(renderer, world, 0, 6, 0, 0, underLayerLock2, 1);
     m_bumpers.push_back(underBumper);
 
-    Bumper* underBumper2 = new Bumper(renderer, world, 0, 7, 0, 0);
+    Bumper* underBumper2 = new Bumper(renderer, world, 0, 7, 0, 0, nullptr, 1);
     m_bumpers.push_back(underBumper2);
 
     // Bumpers for return area bumpers
@@ -184,10 +184,10 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
 
     // Kicker bumpers
     // HACK: the x and y args aren't used if we pass a positive ShapeId so we just pass 0
-    Bumper* bumperLeftKicker = new Bumper(renderer, world, 2, 4, 0, 0, leftKickerLock);
+    Bumper* bumperLeftKicker = new Bumper(renderer, world, 2, 4, 0, 0, leftKickerLock, 1);
     m_bumpers.push_back(bumperLeftKicker);
 
-    Bumper* bumperRightKicker = new Bumper(renderer, world, 2, 5, 0, 0, rightKickerLock);
+    Bumper* bumperRightKicker = new Bumper(renderer, world, 2, 5, 0, 0, rightKickerLock, 1);
     m_bumpers.push_back(bumperRightKicker);
 
     Pinball* firstPinball = new Pinball(renderer, &world);
@@ -421,10 +421,12 @@ void Table::BeginContact(b2Contact* contact) {
                 // Push the pinball. This has to be queued here and applied in udpate because we're in BeginContact right now.
                 b2Vec2 vec = (pinball->getBody()->GetWorldCenter() - (bumper->getBody()->GetWorldCenter()));
                 vec.Normalize();
-                // Counteract the pinballs current direction, this makes the bumper have more of a "push" effect
-                b2Vec2 current = pinball->getBody()->GetLinearVelocity();
-                current.Normalize();
-                vec = vec - (1.0 * current);
+                if (! bumper->isKicker()) {
+                    // Counteract the pinballs current direction, this makes the bumper have more of a "push" effect
+                    b2Vec2 current = pinball->getBody()->GetLinearVelocity();
+                    current.Normalize();
+                    vec = vec - current;
+                }
                 vec.Normalize();
                 float multiply = bumper->getBumpForce();
                 pinball->setBumpVelocity(vec.x * multiply, vec.y * multiply);

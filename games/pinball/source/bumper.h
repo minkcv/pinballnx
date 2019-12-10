@@ -14,14 +14,16 @@ using namespace std;
 class Bumper {
     public:
         // -1 for shapeID creates circle
-        Bumper(C2DRenderer* renderer, b2World& world, int layerID, int shapeID, float x = 0, float y = 0, OptWall* optwall = nullptr);
+        Bumper(C2DRenderer* renderer, b2World& world, int layerID, int shapeID, float x = 0, float y = 0, OptWall* optwall = nullptr, int isKicker = 0);
         b2Fixture* getFixture();
         b2Body* getBody();
         void update();
         void setHit();
         float getBumpForce();
+        int isKicker();
     private:
         int m_layerID;
+        int m_isKicker;
         b2Fixture* m_fixture;
         b2Body* m_body;
         C2DTexture* m_texture1;

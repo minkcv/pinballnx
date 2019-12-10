@@ -1,7 +1,8 @@
 #include "bumper.h"
 
-Bumper::Bumper(C2DRenderer* renderer, b2World& world, int layerID, int shapeID, float x, float y, OptWall* optwall) {
+Bumper::Bumper(C2DRenderer* renderer, b2World& world, int layerID, int shapeID, float x, float y, OptWall* optwall, int isKicker) {
     m_layerID = layerID;
+    m_isKicker = isKicker;
     string inactiveTextureName;
     string activeTextureName;
     m_bumpForce = 10.0 * g_displayFrameRate / 60;
@@ -29,7 +30,7 @@ Bumper::Bumper(C2DRenderer* renderer, b2World& world, int layerID, int shapeID, 
         float startY = m_centers.at(shapeID).at(1);
         m_bumpForce = 15.0 * g_displayFrameRate / 60;
         if (layerID == 0)
-            m_bumpForce = 20.0 * g_displayFrameRate / 60;
+            m_bumpForce = 30.0 * g_displayFrameRate / 60;
         inactiveTextureName = "pinballnx/bumpershape" + std::to_string(shapeID) + "off.png";
         activeTextureName = "pinballnx/bumpershape" + std::to_string(shapeID) + "on.png";
         vector<float> points = m_shapes.at(shapeID);
@@ -130,4 +131,8 @@ void Bumper::setHit() {
 
 float Bumper::getBumpForce() {
     return m_bumpForce;
+}
+
+int Bumper::isKicker() {
+    return m_isKicker;
 }
