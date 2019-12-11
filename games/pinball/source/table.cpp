@@ -102,7 +102,7 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     BallLock* upperMiddleLock = new BallLock(renderer, world, 2, 3, 2);
     m_ballLocks.push_back(upperMiddleLock);
 
-    BallLock* underBallLock1 = new BallLock(renderer, world, 0, 4, 2);
+    BallLock* underBallLock1 = new BallLock(renderer, world, 0, 4, 4, 1);
     m_ballLocks.push_back(underBallLock1);
 
     BallLock* underBallLock2 = new BallLock(renderer, world, 0, 5, 2);
@@ -376,6 +376,13 @@ void Table::BeginContact(b2Contact* contact) {
                     m_lockBallTimers.push_back(m_lockBallDelay);
                     m_lockBallLocations.push_back(1);
                     m_lockBallLocations.push_back(4);
+                }
+                else if (b == 4) {
+                    // Underlayer return uses the 2 alternating releases
+                    BallLock* upperRightLock = m_ballLocks.at(0);
+                    upperRightLock->trigger();
+                    m_lockBallTimers.push_back(m_lockBallDelay);
+                    m_lockBallLocations.push_back(upperRightLock->getLocation());
                 }
                 else {
                     m_lockBallTimers.push_back(m_lockBallDelay);
