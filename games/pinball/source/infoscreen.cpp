@@ -1,19 +1,22 @@
 #include "infoscreen.h"
 
 InfoScreen::InfoScreen(C2DRenderer* renderer) {
-    m_shape = new C2DRectangle(Vector2f(500, 380));
-    m_shape->setPosition(440, 180);
+    m_shape = new C2DRectangle(Vector2f(600, 600));
+    m_shape->setPosition(440, 60);
     m_shape->setLayer(-99);
-    m_shape->setFillColor(Color::Black);
+    m_shape->setFillColor(Color(25, 25, 25));
     renderer->add(m_shape);
+    m_controlsImage = new C2DTexture(renderer->getIo()->getDataReadPath() + "pinballnx/controls.png");
+    m_controlsImage->setPosition(500, 80);
+    m_controlsImage->setLayer(-99);
+    renderer->add(m_controlsImage);
     vector<string> infoText = {
-        "PINBALLNX","BY MINKCV", "", "CONTROLS:", 
-        "- START / PAUSE", "+ QUIT", "B: NEW GAME", "L / R: FLIPPERS", "STICK DOWN: PLUNGER", "STICK LEFT / RIGHT: TILT", "",
+        "PINBALLNX","BY MINKCV",
         "VERSION: 0.7"};
     for (size_t t = 0; t < infoText.size(); t++) {
         C2DText* m_text = new C2DText(infoText.at(t));
         m_text->setCharacterSize(30);
-        m_text->setPosition(900 - t * 35, 220);
+        m_text->setPosition(1020 - t * 35, 260);
         m_text->setRotation(90);
         renderer->add(m_text);
         m_text->setLayer(-100);
@@ -25,6 +28,7 @@ void InfoScreen::show() {
     for (size_t t = 0; t < m_textLines.size(); t++) {
         m_textLines.at(t)->setLayer(100);
     }
+    m_controlsImage->setLayer(99);
     m_shape->setLayer(99);
 }
 
@@ -33,4 +37,5 @@ void InfoScreen::hide() {
         m_textLines.at(t)->setLayer(-100);
     }
     m_shape->setLayer(-99);
+    m_controlsImage->setLayer(-99);
 }

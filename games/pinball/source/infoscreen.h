@@ -15,5 +15,6 @@ class InfoScreen {
     private:
         vector<C2DText*> m_textLines;
         C2DRectangle* m_shape;
+        C2DTexture* m_controlsImage;
 };
 #endif
