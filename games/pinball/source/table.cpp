@@ -132,13 +132,17 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     topLeftLock->enable();
     m_optWalls.push_back(topLeftLock);
 
+    OptWall* leftRailWall2 = new OptWall(renderer, world, 7, 3);
+    leftRailWall2->enable();
+    m_optWalls.push_back(leftRailWall2);
+
     Trigger* leftTrigger = new Trigger(renderer, world, 0, 2, 0, underLayerLock1, leftKickerLock, rightKickerLock);
     m_triggers.push_back(leftTrigger);
 
     Trigger* topRightTrigger = new Trigger(renderer, world, 1, 2, 0, rightLock, leftKickerLock, rightKickerLock);
     m_triggers.push_back(topRightTrigger);
 
-    Trigger* topLeftTrigger = new Trigger(renderer, world, 2, 2, 2, leftRailWall, topLeftLock);
+    Trigger* topLeftTrigger = new Trigger(renderer, world, 2, 2, 2, leftRailWall, topLeftLock, leftRailWall2);
     m_triggers.push_back(topLeftTrigger);
 
     // Circle bumpers at the top left
@@ -248,6 +252,7 @@ void Table::update(unsigned int keys) {
             m_optWalls.at(4)->disable();
             m_optWalls.at(5)->enable(); // Close the right ball lock.
             m_optWalls.at(6)->enable(); // Close the top left ball lock.
+            m_optWalls.at(7)->enable(); // Enable the left rail switch 2
         }
     }
     for (size_t i = 0; i < m_pinballs.size(); i++) {
@@ -467,6 +472,7 @@ void Table::newGame() {
     m_optWalls.at(1)->enable(); // Close the under layer ramp.
     m_optWalls.at(5)->enable(); // Close the right ball lock.
     m_optWalls.at(6)->enable(); // Close the top left ball lock.
+    m_optWalls.at(7)->enable(); // Enable the left rail switch 2
     for (size_t b = 0; b < m_ballLocks.size(); b++) {
         m_ballLocks.at(b)->resetLocation();
     }
