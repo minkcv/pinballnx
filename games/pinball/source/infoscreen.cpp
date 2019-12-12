@@ -11,7 +11,7 @@ InfoScreen::InfoScreen(C2DRenderer* renderer) {
     m_controlsImage->setLayer(-99);
     renderer->add(m_controlsImage);
     vector<string> infoText = {
-        "PINBALLNX BY MINKCV - VERSION 0.7"};
+        "PINBALLNX BY MINKCV - VERSION 0.8"};
     for (size_t t = 0; t < infoText.size(); t++) {
         C2DText* m_text = new C2DText(infoText.at(t));
         m_text->setCharacterSize(30);
