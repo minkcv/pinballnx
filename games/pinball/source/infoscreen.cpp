@@ -36,5 +36,5 @@ void InfoScreen::hide() {
         m_textLines.at(t)->setLayer(-100);
     }
     m_shape->setLayer(-99);
-    m_controlsImage->setLayer(-99);
+    m_controlsImage->setLayer(-100);
 }
