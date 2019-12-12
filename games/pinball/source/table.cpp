@@ -4,6 +4,7 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     m_layers(),
     m_ramps(),
     m_bumpers(),
+    m_spinners(),
     m_pinballs(),
     m_scoreboard(renderer),
     m_leftFlipper(renderer, world, 0),
@@ -194,6 +195,9 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     Bumper* bumperRightKicker = new Bumper(renderer, world, 2, 5, 0, 0, rightKickerLock, 1);
     m_bumpers.push_back(bumperRightKicker);
 
+    Spinner* topLeftSpinner = new Spinner(renderer, world, 2, 0);
+    m_spinners.push_back(topLeftSpinner);
+
     Pinball* firstPinball = new Pinball(renderer, &world);
     m_pinballs.push_back(firstPinball);
 
@@ -321,6 +325,11 @@ void Table::update(unsigned int keys) {
         Bumper* bumper = m_bumpers.at(i);
         bumper->update();
     }
+    for (size_t s = 0; s < m_spinners.size(); s++) {
+        Spinner* spinner = m_spinners.at(s);
+        spinner->update();
+        m_score += (abs(spinner->getPush()) / 100) * 100;
+    }
     for (size_t t = 0; t < m_triggers.size(); t++) {
         Trigger* trigger = m_triggers.at(t);
         trigger->update();
@@ -394,7 +403,7 @@ void Table::BeginContact(b2Contact* contact) {
                     ballLock->trigger();
                     m_lockBallLocations.push_back(ballLock->getLocation());
                 }
-                m_score += 1000;
+                m_score += 20000;
                 if (b == 5) {
                     m_optWalls.at(2)->disable();
                 }
@@ -427,7 +436,7 @@ void Table::BeginContact(b2Contact* contact) {
             b2Fixture* bumperFixture = bumper->getFixture();
             if ((fixtureA == bumperFixture && fixtureB == pinball->getFixture()) ||
                 (fixtureA == pinball->getFixture() && fixtureB == bumperFixture)) {
-                m_score += 200;
+                m_score += 10000;
                 bumper->setHit();
 
                 // Push the pinball. This has to be queued here and applied in udpate because we're in BeginContact right now.
@@ -442,6 +451,15 @@ void Table::BeginContact(b2Contact* contact) {
                 vec.Normalize();
                 float multiply = bumper->getBumpForce();
                 pinball->setBumpVelocity(vec.x * multiply, vec.y * multiply);
+            }
+        }
+
+        for (size_t s = 0; s < m_spinners.size(); s++) {
+            Spinner* spinner = m_spinners.at(s);
+            b2Fixture* spinnerFixture = spinner->getFixture();
+            if ((fixtureA == spinnerFixture && fixtureB == pinball->getFixture()) ||
+                (fixtureA == pinball->getFixture() && fixtureB == spinnerFixture)) {
+                    spinner->push(pinball->getBody()->GetLinearVelocity());
             }
         }
     }
@@ -508,5 +526,9 @@ void Table::cleanup() {
     for (size_t b = 0; b < m_ballLocks.size(); b++) {
         BallLock* ballLock = m_ballLocks.at(b);
         delete ballLock;
+    }
+    for (size_t s = 0; s < m_spinners.size(); s++) {
+        Spinner* spinner = m_spinners.at(s);
+        delete spinner;
     }
 }

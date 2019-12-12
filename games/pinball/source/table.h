@@ -12,6 +12,7 @@
 #include "scoreboard.h"
 #include "ramp.h"
 #include "bumper.h"
+#include "spinner.h"
 #include "optwall.h"
 #include "trigger.h"
 #include "balllock.h"
@@ -41,6 +42,7 @@ class Table : public b2ContactListener {
         vector<OptWall*> m_optWalls;
         vector<Trigger*> m_triggers;
         vector<Bumper*> m_bumpers;
+        vector<Spinner*> m_spinners;
         vector<Pinball*> m_pinballs;
         vector<int> m_lockBallTimers;
         vector<int> m_lockBallLocations;
