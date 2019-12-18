@@ -6,6 +6,7 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     m_bumpers(),
     m_spinners(),
     m_pinballs(),
+    m_gtargets(),
     m_scoreboard(renderer),
     m_leftFlipper(renderer, world, 0),
     m_rightFlipper(renderer, world, 1),
@@ -198,6 +199,9 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     Spinner* topLeftSpinner = new Spinner(renderer, world, 2, 0);
     m_spinners.push_back(topLeftSpinner);
 
+    GTarget* rightTargets = new GTarget(renderer, world, 0, 2);
+    m_gtargets.push_back(rightTargets);
+
     Pinball* firstPinball = new Pinball(renderer, &world);
     m_pinballs.push_back(firstPinball);
 
@@ -242,6 +246,10 @@ void Table::update(unsigned int keys) {
             if (m_currentBall < m_maxBalls + 1) {
                 Pinball* nextPinball = new Pinball(m_renderer, m_b2world);
                 m_pinballs.push_back(nextPinball);
+            }
+            // Reset targets
+            for(size_t g = 0; g < m_gtargets.size(); g++) {
+                m_gtargets.at(g)->reset();
             }
             if (m_lockedBalls == -1) {
                 m_lockedBalls = 0; // End previous multiball
@@ -333,6 +341,10 @@ void Table::update(unsigned int keys) {
     for (size_t t = 0; t < m_triggers.size(); t++) {
         Trigger* trigger = m_triggers.at(t);
         trigger->update();
+    }
+    for(size_t g = 0; g < m_gtargets.size(); g++) {
+        GTarget* gtarget = m_gtargets.at(g);
+        gtarget->update();
     }
     if (m_tiltTimer == m_tiltCooldown || DEBUG) {
         if (Input::Key::Left & keys || Input::Key::Right & keys) {
@@ -462,6 +474,23 @@ void Table::BeginContact(b2Contact* contact) {
                     spinner->push(pinball->getBody()->GetLinearVelocity());
             }
         }
+
+        for(size_t g = 0; g < m_gtargets.size(); g++) {
+            GTarget* gtarget = m_gtargets.at(g);
+            bool gtargetCompleted = false;
+            vector<b2Fixture*> fixtures = gtarget->getFixtures();
+            for (size_t t = 0; t < fixtures.size(); t++) {
+                b2Fixture* targetFixture = fixtures.at(t);
+                if ((fixtureA == targetFixture && fixtureB == pinball->getFixture()) ||
+                    (fixtureA == pinball->getFixture() && fixtureB == targetFixture)) {
+                        m_score += 5000;
+                        if (gtarget->press(t))
+                            gtargetCompleted = true;
+                }
+            }
+            if (gtargetCompleted)
+                m_score += 50000;
+        }
     }
 }
 
@@ -493,6 +522,9 @@ void Table::newGame() {
     m_optWalls.at(7)->enable(); // Enable the left rail switch 2
     for (size_t b = 0; b < m_ballLocks.size(); b++) {
         m_ballLocks.at(b)->resetLocation();
+    }
+    for(size_t g = 0; g < m_gtargets.size(); g++) {
+        m_gtargets.at(g)->reset();
     }
 }
 

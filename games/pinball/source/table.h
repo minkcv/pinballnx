@@ -16,6 +16,7 @@
 #include "optwall.h"
 #include "trigger.h"
 #include "balllock.h"
+#include "gtarget.h"
 
 using namespace c2d;
 using namespace std;
@@ -47,6 +48,7 @@ class Table : public b2ContactListener {
         vector<int> m_lockBallTimers;
         vector<int> m_lockBallLocations;
         vector<BallLock*> m_ballLocks;
+        vector<GTarget*> m_gtargets;
         Scoreboard m_scoreboard;
         Flipper m_leftFlipper;
         Flipper m_rightFlipper;
