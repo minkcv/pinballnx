@@ -21,7 +21,7 @@ class Spinner {
         int m_push = 0;
         b2Fixture* m_fixture;
         b2Body* m_body;
-        static const int m_frames = 5;
+        static const int m_frames = 10;
         int m_currentFrame = 0;
         int m_frameDuration = 30 / g_displayFrameRate;
         int m_frameTimer = 0;
