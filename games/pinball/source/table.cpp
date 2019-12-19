@@ -68,28 +68,25 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     Ramp ramp3up2(renderer, world, 10, 2, 3);
     m_ramps.push_back(ramp3up2);
 
-    Ramp ramp1DownMid(renderer, world, 11, 3, 2);
-    m_ramps.push_back(ramp1DownMid);
-
-    Ramp backdoorDown(renderer, world, 12, 1, 2);
+    Ramp backdoorDown(renderer, world, 11, 1, 2);
     m_ramps.push_back(backdoorDown);
 
-    Ramp tunnelDown(renderer, world, 13, 2, 0);
+    Ramp tunnelDown(renderer, world, 12, 2, 0);
     m_ramps.push_back(tunnelDown);
 
-    Ramp newballEntrance1(renderer, world, 14, 1, 2);
+    Ramp newballEntrance1(renderer, world, 13, 1, 2);
     m_ramps.push_back(newballEntrance1);
 
-    Ramp newballEntrance2(renderer, world, 15, 1, 2);
+    Ramp newballEntrance2(renderer, world, 14, 1, 2);
     m_ramps.push_back(newballEntrance2);
 
-    Ramp newballEntrance3(renderer, world, 16, 1, 2);
+    Ramp newballEntrance3(renderer, world, 15, 1, 2);
     m_ramps.push_back(newballEntrance3);
 
-    Ramp newballEntrance4(renderer, world, 17, 1, 2);
+    Ramp newballEntrance4(renderer, world, 16, 1, 2);
     m_ramps.push_back(newballEntrance4);
 
-    Ramp underLayerUp(renderer, world, 18, 0, 2);
+    Ramp underLayerUp(renderer, world, 17, 0, 2);
     m_ramps.push_back(underLayerUp);
 
     BallLock* ballLock = new BallLock(renderer, world, 2, 0, 4, 1);
@@ -109,6 +106,9 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
 
     BallLock* underBallLock2 = new BallLock(renderer, world, 0, 5, 2);
     m_ballLocks.push_back(underBallLock2);
+
+    BallLock* railLock = new BallLock(renderer, world, 3, 6, 2);
+    m_ballLocks.push_back(railLock);
 
     OptWall* leftRailWall = new OptWall(renderer, world, 0, 3);
     m_optWalls.push_back(leftRailWall);
