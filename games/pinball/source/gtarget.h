@@ -15,6 +15,7 @@ class GTarget {
         vector<b2Fixture*> getFixtures();
         void update();
         bool press(size_t targetID); // Returns true if all targets are pressed
+        bool isPressed(size_t targetID);
         void reset();
     private:
         int m_layerID;

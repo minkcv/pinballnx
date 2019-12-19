@@ -489,9 +489,11 @@ void Table::BeginContact(b2Contact* contact) {
                 b2Fixture* targetFixture = fixtures.at(t);
                 if ((fixtureA == targetFixture && fixtureB == pinball->getFixture()) ||
                     (fixtureA == pinball->getFixture() && fixtureB == targetFixture)) {
-                        m_score += 5000;
-                        if (gtarget->press(t))
-                            gtargetCompleted = true;
+                        if (!gtarget->isPressed(t)) {
+                            m_score += 5000;
+                            if (gtarget->press(t))
+                                gtargetCompleted = true;
+                        }
                 }
             }
             if (gtargetCompleted)

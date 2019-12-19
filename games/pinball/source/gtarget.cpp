@@ -83,7 +83,10 @@ bool GTarget::press(size_t targetID) {
         return true;
     }
     return false;
+}
 
+bool GTarget::isPressed(size_t targetID) {
+    return m_isPressed.at(targetID);
 }
 
 void GTarget::reset() {
