@@ -36,7 +36,7 @@ GTarget::GTarget(C2DRenderer* renderer, b2World& world, int targetGroupID, int l
             textureEnabled = new C2DTexture(renderer->getIo()->getDataReadPath() + "pinballnx/gtarget" + to_string(targetGroupID) + "-0" + "enabled.png");
         else
             textureEnabled = new C2DTexture(renderer->getIo()->getDataReadPath() + "pinballnx/gtarget" + to_string(targetGroupID) + "-" + to_string(s) + "enabled.png");
-        textureEnabled->setLayer(layerID * 2 + 1);
+        textureEnabled->setLayer(layerID * 2);
         textureEnabled->setPosition(m_positions.at(targetGroupID).at(s * 2), m_positions.at(targetGroupID).at(s * 2 + 1));
         renderer->add(textureEnabled);
         m_texturesEnabled.push_back(textureEnabled);
@@ -71,7 +71,7 @@ bool GTarget::press(size_t targetID) {
     m_isPressed[targetID] = true;
 #if !DEBUG
     m_texturesEnabled.at(targetID)->setLayer(-99);
-    m_texturesDisabled.at(targetID)->setLayer(m_layerID * 2 + 1);
+    m_texturesDisabled.at(targetID)->setLayer(m_layerID * 2);
 #endif
     size_t numPressed = 0;
     for (size_t i = 0; i < m_isPressed.size(); i++) {
@@ -90,7 +90,7 @@ void GTarget::reset() {
     for (size_t i = 0; i < m_isPressed.size(); i++) {
         m_isPressed[i] = false;
 #if !DEBUG
-        m_texturesEnabled.at(i)->setLayer(m_layerID * 2 + 1);
+        m_texturesEnabled.at(i)->setLayer(m_layerID * 2);
         m_texturesDisabled.at(i)->setLayer(-99);
 #endif
     }
