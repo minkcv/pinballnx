@@ -202,6 +202,12 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     GTarget* rightTargets = new GTarget(renderer, world, 0, 2);
     m_gtargets.push_back(rightTargets);
 
+    GTarget* rightReturnTargets = new GTarget(renderer, world, 1, 2, true);
+    m_gtargets.push_back(rightReturnTargets);
+
+    GTarget* leftReturnTargets = new GTarget(renderer, world, 2, 2, true);
+    m_gtargets.push_back(leftReturnTargets);
+
     Pinball* firstPinball = new Pinball(renderer, &world);
     m_pinballs.push_back(firstPinball);
 
