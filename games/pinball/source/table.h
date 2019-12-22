@@ -2,6 +2,7 @@
 #define TABLE_H_
 
 #include <list>
+#include <string.h>
 #include "cross2d/c2d.h"
 #include "Box2D/Box2D.h"
 #include "util.h"
@@ -65,12 +66,13 @@ class Table : public b2ContactListener {
         b2Fixture* m_ballOutSensor;
         int m_currentBall;
         int m_maxBalls = 4;
-        int m_score;
+        uint64_t m_score;
         int m_lockedBalls;
         int m_lockBallDelay = 3840 / g_displayFrameRate;
         int m_lockBallLocation = 1;
         int m_tiltCooldown = 6000  / g_displayFrameRate;
         int m_tiltTimer = m_tiltCooldown;
+        string m_announce;
 };
 
 #endif

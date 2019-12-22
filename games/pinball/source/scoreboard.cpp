@@ -10,53 +10,57 @@ Scoreboard::Scoreboard(C2DRenderer* renderer) {
 
     m_font = new Font();
     m_font->loadFromFile("data/pinballnx/advanced_dot_digital-7.ttf");
-    m_ballsLeftText = new C2DText("BALL 1/4");
+    m_ballsLeftText = new C2DText("BALL 1");
     m_ballsLeftText->setFont(*m_font);
     m_ballsLeftText->setCharacterSize(40);
-    m_ballsLeftText->setPosition(1200, 10);
+    m_ballsLeftText->setPosition(1268, 0);
     m_ballsLeftText->setRotation(90);
     renderer->add(m_ballsLeftText);
 
-    m_scoreText = new C2DText("SCORE");
+    m_scoreText = new C2DText("");
     m_scoreText->setFont(*m_font);
     m_scoreText->setCharacterSize(40);
-    m_scoreText->setPosition(1268, 10);
+    m_scoreText->setPosition(1268, 0);
     m_scoreText->setRotation(90);
     renderer->add(m_scoreText);
 
-    m_multiBallText = new C2DText("LOCKED 0/3");
-    m_multiBallText->setFont(*m_font);
-    m_multiBallText->setCharacterSize(40);
-    m_multiBallText->setPosition(1200, 350);
-    m_multiBallText->setRotation(90);
-    renderer->add(m_multiBallText);
-    m_multiBallText->setLayer(-100);
+    m_announce = new C2DText("");
+    m_announce->setFont(*m_font);
+    m_announce->setCharacterSize(40);
+    m_announce->setPosition(1200, 350);
+    m_announce->setRotation(90);
+    renderer->add(m_announce);
+    m_announce->setLayer(-100);
 }
 
-void Scoreboard::update(int currentBall, int maxBalls, int score, int lockedBalls, bool paused) {
-    if (lockedBalls == 0) {
-        m_multiBallText->setLayer(-100);
-    }
-    else if (lockedBalls < 0) {
-        m_multiBallText->setLayer(0);
-        m_multiBallText->setString("MULTIBALL");
+void Scoreboard::update(int currentBall, int maxBalls, uint64_t score, bool paused, string announce) {
+    int announceWidth = 0;
+    m_announce->setString(announce);
+    if (announce.length() > 0) {
+        int oneWidth = 0;
+        for (size_t c = 0; c < announce.length(); c++) {
+            if (oneWidth == 0)
+                oneWidth = m_font->getGlyph(announce.at(c), 40, 0).advance;
+            announceWidth += m_font->getGlyph(announce.at(c), 40, 0).advance;
+        }
+        int leftMargin = 768 / 2 - announceWidth / 2;
+        // Align the characters with the above ones for the ball text
+        leftMargin -= leftMargin % oneWidth;
+        m_announce->setLayer(0);
+        m_announce->setPosition(1200, leftMargin);
     }
     else {
-        m_multiBallText->setLayer(0);
-        m_multiBallText->setString("LOCKED " + std::to_string(lockedBalls) + "/3");
+        m_announce->setLayer(-100);
     }
 
     if (paused) {
-        m_ballsLeftText->setString("PAUSED");
-        m_multiBallText->setLayer(-100);
+        m_announce->setLayer(0);
     }
+    
+    if (currentBall < maxBalls + 1)
+        m_ballsLeftText->setString("BALL " + std::to_string(currentBall));
     else {
-        if (currentBall < maxBalls + 1)
-            m_ballsLeftText->setString("BALL " + std::to_string(currentBall) + "/" + std::to_string(maxBalls));
-        else {
-            m_ballsLeftText->setString("GAME OVER");
-            m_multiBallText->setLayer(-100);
-        }
+        m_ballsLeftText->setString("");
     }
 
     // Format score as "123,456,789" or "      1,234"
@@ -68,12 +72,17 @@ void Scoreboard::update(int currentBall, int maxBalls, int score, int lockedBall
         insertPosition-=3;
         numCommas++;
     }
-    size_t lengthWithPadding = 12;
-    size_t spacesToAdd = lengthWithPadding - numWithCommas.length();
-    for (size_t i = 0; i < spacesToAdd; i++) {
-        numWithCommas.insert(0, " ");
+    int totalKerning = 0;
+    for (size_t c = 0; c < numWithCommas.length() - 1; c++) {
+        totalKerning += m_font->getKerning((Uint32)numWithCommas.at(c), numWithCommas.at(c + 1), 40);
     }
-    m_scoreText->setString("SCORE " + numWithCommas);
+    int characterWidths = 0;
+    for (size_t c = 0; c < numWithCommas.length(); c++) {
+        characterWidths += m_font->getGlyph(numWithCommas.at(c), 40, 0).advance;
+    }
+    int width = totalKerning + characterWidths;
+    m_scoreText->setPosition(1268, 720 - width - 0); // balls left text has same margin
+    m_scoreText->setString(numWithCommas);
 }
 
 Scoreboard::~Scoreboard() {

@@ -12,7 +12,8 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     m_rightFlipper(renderer, world, 1),
     m_leftFlipper2(renderer, world, 2),
     m_rightFlipper2(renderer, world, 3),
-    m_plunger(renderer, world)
+    m_plunger(renderer, world),
+    m_announce()
 {
     m_b2world = &world;
     m_renderer = renderer;
@@ -342,7 +343,7 @@ void Table::update(unsigned int keys) {
     for (size_t s = 0; s < m_spinners.size(); s++) {
         Spinner* spinner = m_spinners.at(s);
         spinner->update();
-        m_score += (abs(spinner->getPush()) / 100) * 100;
+        m_score += (abs(spinner->getPush()) / 100) * 1000;
     }
     for (size_t t = 0; t < m_triggers.size(); t++) {
         Trigger* trigger = m_triggers.at(t);
@@ -537,7 +538,16 @@ void Table::newGame() {
 }
 
 void Table::updateScoreboard(bool paused) {
-    m_scoreboard.update(m_currentBall, m_maxBalls, m_score, m_lockedBalls, paused);
+    // This is here because table update isn't called when paused.
+    if (paused) {
+        m_scoreboard.update(m_currentBall, m_maxBalls, m_score, paused, "PAUSED");
+    }
+    else {
+        if (m_currentBall > m_maxBalls)
+            m_scoreboard.update(m_currentBall, m_maxBalls, m_score, paused, "GAME OVER");
+        else
+            m_scoreboard.update(m_currentBall, m_maxBalls, m_score, paused, m_announce);
+    }
 }
 
 void Table::cleanup() {
