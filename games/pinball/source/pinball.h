@@ -45,7 +45,7 @@ class Pinball {
             -10.0f, 0.0f,
             -10.0f, -8.5f,
             -10.0f, 0.0f,
-            -10.0f, -6.0f
+            -10.0f, -10.0f
         };
         bool m_ballOut = false;
         bool m_removed = false;
