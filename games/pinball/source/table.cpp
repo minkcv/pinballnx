@@ -90,7 +90,7 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     Ramp underLayerUp(renderer, world, 17, 0, 2);
     m_ramps.push_back(underLayerUp);
 
-    BallLock* ballLock = new BallLock(renderer, world, 2, 0, 4, 1);
+    BallLock* ballLock = new BallLock(renderer, world, 2, 0, 0);
     m_ballLocks.push_back(ballLock);
 
     BallLock* leftLock = new BallLock(renderer, world, 2, 1, 3);
@@ -149,13 +149,13 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     m_triggers.push_back(topLeftTrigger);
 
     // Circle bumpers at the top left
-    Bumper* bumper1 = new Bumper(renderer, world, 2, -1, 8.8, 2.7);
+    Bumper* bumper1 = new Bumper(renderer, world, 2, -1, 8.8, 2.2);
     m_bumpers.push_back(bumper1);
 
-    Bumper* bumper2 = new Bumper(renderer, world, 2, -1, 9.6, 1.9);
+    Bumper* bumper2 = new Bumper(renderer, world, 2, -1, 9.9, 1.9);
     m_bumpers.push_back(bumper2);
 
-    Bumper* bumper3 = new Bumper(renderer, world, 2, -1, 9.9, 3.0);
+    Bumper* bumper3 = new Bumper(renderer, world, 2, -1, 9.6, 3.0);
     m_bumpers.push_back(bumper3);
 
     // Under layer bumpers
@@ -409,13 +409,6 @@ void Table::BeginContact(b2Contact* contact) {
                     m_lockBallTimers.push_back(m_lockBallDelay);
                     m_lockBallLocations.push_back(1);
                     m_lockBallLocations.push_back(4);
-                }
-                else if (b == 4) {
-                    // Underlayer return uses the 2 alternating releases
-                    BallLock* upperRightLock = m_ballLocks.at(0);
-                    upperRightLock->trigger();
-                    m_lockBallTimers.push_back(m_lockBallDelay);
-                    m_lockBallLocations.push_back(upperRightLock->getLocation());
                 }
                 else {
                     m_lockBallTimers.push_back(m_lockBallDelay);
