@@ -139,6 +139,10 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     leftRailWall2->enable();
     m_optWalls.push_back(leftRailWall2);
 
+    OptWall* rightLockLower = new OptWall(renderer, world, 8, 2);
+    rightLockLower->enable();
+    m_optWalls.push_back(rightLockLower);
+
     Trigger* leftTrigger = new Trigger(renderer, world, 0, 2, 0, underLayerLock1, leftKickerLock, rightKickerLock);
     m_triggers.push_back(leftTrigger);
 
@@ -243,6 +247,12 @@ void Table::update(unsigned int keys) {
     //    body = body->GetNext();
     //}
     //printf("# of bodies %d\n", numBodies);
+
+    if (m_announceTime > 0) {
+        m_announceTime--;
+        if (m_announceTime == 0)
+            m_announce = "";
+    }
     
     if (m_lockBallTimers.size() == 0) {
         // We don't want to increment the current ball and put a new one 
@@ -272,6 +282,7 @@ void Table::update(unsigned int keys) {
             m_optWalls.at(5)->enable(); // Close the right ball lock.
             m_optWalls.at(6)->enable(); // Close the top left ball lock.
             m_optWalls.at(7)->enable(); // Enable the left rail switch 2
+            m_optWalls.at(8)->enable();
         }
     }
     for (size_t i = 0; i < m_pinballs.size(); i++) {
@@ -311,23 +322,6 @@ void Table::update(unsigned int keys) {
             }
         }
     }
-    // Trigger multiball
-    /*
-    if (m_lockBallTimers.size() > 0 && m_lockedBalls == 3) {
-        // Open the secret.
-        m_optWalls.at(1)->disable();
-        m_score += 10000;
-        m_lockedBalls = -1;
-        m_lockBallTimers.clear();
-        m_lockBallLocations.clear();
-        for (int i = 0; i < 2; i++) {
-            Pinball* multiBall = new Pinball(m_renderer, m_b2world, i + 1);
-            m_pinballs.push_back(multiBall);
-            b2Vec2 vec = multiBall->getStartVelocity(iSpawnPos);
-            multiBall->getBody()->ApplyForce(vec, multiBall->getBody()->GetWorldVector(b2Vec2(0, 0)), true);
-        }
-    }
-    */
     
     m_leftFlipper.update(keys);
     m_rightFlipper.update(keys);
@@ -422,6 +416,12 @@ void Table::BeginContact(b2Contact* contact) {
                 if (b == 4) {
                     // Close the underlayer ramp
                     m_optWalls.at(1)->enable();
+                }
+                if (b == 0) {
+                    m_announce = "BALL LOCKED";
+                    m_announceTime = 200;
+                    m_optWalls.at(5)->enable();
+                    m_optWalls.at(8)->disable();
                 }
             }
         }
@@ -522,6 +522,7 @@ void Table::newGame() {
     m_optWalls.at(5)->enable(); // Close the right ball lock.
     m_optWalls.at(6)->enable(); // Close the top left ball lock.
     m_optWalls.at(7)->enable(); // Enable the left rail switch 2
+    m_optWalls.at(8)->enable();
     for (size_t b = 0; b < m_ballLocks.size(); b++) {
         m_ballLocks.at(b)->resetLocation();
     }

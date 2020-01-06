@@ -73,6 +73,7 @@ class Table : public b2ContactListener {
         int m_tiltCooldown = 6000  / g_displayFrameRate;
         int m_tiltTimer = m_tiltCooldown;
         string m_announce;
+        int m_announceTime;
 };
 
 #endif
