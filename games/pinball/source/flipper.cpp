@@ -57,6 +57,7 @@ Flipper::Flipper(C2DRenderer* renderer, b2World& world, int flipperID) {
     shape.Set(vs, 8);
     fd.shape = &shape;
     m_body->CreateFixture(&fd);
+    free(vs);
 
     b2RevoluteJointDef jd;
     jd.bodyA = m_pivot;

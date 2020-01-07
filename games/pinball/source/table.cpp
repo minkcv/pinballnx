@@ -7,6 +7,7 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     m_spinners(),
     m_pinballs(),
     m_gtargets(),
+    m_wheels(),
     m_scoreboard(renderer),
     m_leftFlipper(renderer, world, 0),
     m_rightFlipper(renderer, world, 1),
@@ -213,6 +214,9 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     GTarget* leftReturnTargets = new GTarget(renderer, world, 2, 2, true);
     m_gtargets.push_back(leftReturnTargets);
 
+    Wheel* wheel1 = new Wheel(renderer, world, 0);
+    m_wheels.push_back(wheel1);
+
     Pinball* firstPinball = new Pinball(renderer, &world);
     m_pinballs.push_back(firstPinball);
 
@@ -337,7 +341,8 @@ void Table::update(unsigned int keys) {
     for (size_t s = 0; s < m_spinners.size(); s++) {
         Spinner* spinner = m_spinners.at(s);
         spinner->update();
-        m_score += (abs(spinner->getPush()) / 100) * 1000;
+        if (!isGameOver())
+            m_score += (abs(spinner->getPush()) / 100) * 1000;
     }
     for (size_t t = 0; t < m_triggers.size(); t++) {
         Trigger* trigger = m_triggers.at(t);
@@ -346,6 +351,15 @@ void Table::update(unsigned int keys) {
     for(size_t g = 0; g < m_gtargets.size(); g++) {
         GTarget* gtarget = m_gtargets.at(g);
         gtarget->update();
+    }
+    for (size_t w = 0; w < m_wheels.size(); w++) {
+        Wheel* wheel = m_wheels.at(w);
+        if (!isGameOver()) {
+            if (wheel->changedSection()) {
+                m_score += 1000;
+            }
+        }
+        wheel->update();
     }
     if (m_tiltTimer == m_tiltCooldown || DEBUG) {
         if (Input::Key::Left & keys || Input::Key::Right & keys) {
@@ -501,7 +515,7 @@ void Table::EndContact(b2Contact* contact) {
 }
 
 bool Table::isGameOver() {
-    return m_currentBall > 4;
+    return m_currentBall > m_maxBalls;
 }
 
 void Table::newGame() {
@@ -526,8 +540,11 @@ void Table::newGame() {
     for (size_t b = 0; b < m_ballLocks.size(); b++) {
         m_ballLocks.at(b)->resetLocation();
     }
-    for(size_t g = 0; g < m_gtargets.size(); g++) {
+    for (size_t g = 0; g < m_gtargets.size(); g++) {
         m_gtargets.at(g)->reset();
+    }
+    for (size_t w = 0; w < m_wheels.size(); w++) {
+        m_wheels.at(w)->stop();
     }
 }
 
@@ -574,5 +591,13 @@ void Table::cleanup() {
     for (size_t s = 0; s < m_spinners.size(); s++) {
         Spinner* spinner = m_spinners.at(s);
         delete spinner;
+    }
+    for(size_t g = 0; g < m_gtargets.size(); g++) {
+        GTarget* gtarget = m_gtargets.at(g);
+        delete gtarget;
+    }
+    for (size_t w = 0; w < m_wheels.size(); w++) {
+        Wheel* wheel = m_wheels.at(w);
+        delete wheel;
     }
 }

@@ -38,7 +38,7 @@ class Pinball {
             7.1f, 6.03f, // Right most lock ball ejector
             7.67f, 3.67f, // Middle lock ball ejector
             10.9f, 0.28f, // Left lock ball ejector
-            7.10f, 4.60f // Second to right lock ball ejector
+            7.25f, 4.77f // Second to right lock ball ejector
         };
         vector<float> m_startVelocities = {
             0.0f, 0.0f,

@@ -42,7 +42,7 @@ Spinner::Spinner(C2DRenderer* renderer, b2World& world, int layerID, int spinner
 
 void Spinner::update() {
     if (m_push > 0) {
-        m_push -= ceil(m_push + 1) / 5;
+        m_push -= ceil(m_push + 1) / 10;
         m_frameDuration = 2 * g_displayFrameRate / (m_push);
         if (m_frameTimer < m_frameDuration) {
             m_frameTimer++;
@@ -53,7 +53,7 @@ void Spinner::update() {
         }
     }
     else if (m_push < 0) {
-        m_push -= floor(m_push - 1) / 5;
+        m_push -= floor(m_push - 1) / 10;
         m_frameDuration = 2 * g_displayFrameRate / (-m_push);
         if (m_frameTimer < m_frameDuration) {
             m_frameTimer++;
@@ -80,7 +80,7 @@ int Spinner::getPush() {
 }
 
 void Spinner::push(b2Vec2 ballVelocity) {
-    m_push = 200 * ballVelocity.x;
+    m_push = 1600 * ballVelocity.x;
     m_frameDuration = 2 * g_displayFrameRate / (m_push);
 }
 

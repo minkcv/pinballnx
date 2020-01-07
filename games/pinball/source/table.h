@@ -18,6 +18,7 @@
 #include "trigger.h"
 #include "balllock.h"
 #include "gtarget.h"
+#include "wheel.h"
 
 using namespace c2d;
 using namespace std;
@@ -50,6 +51,7 @@ class Table : public b2ContactListener {
         vector<int> m_lockBallLocations;
         vector<BallLock*> m_ballLocks;
         vector<GTarget*> m_gtargets;
+        vector<Wheel*> m_wheels;
         Scoreboard m_scoreboard;
         Flipper m_leftFlipper;
         Flipper m_rightFlipper;
