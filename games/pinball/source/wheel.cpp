@@ -37,7 +37,7 @@ Wheel::Wheel(C2DRenderer* renderer, b2World& world, int wheelID) {
     b2ChainShape shape;
     shape.CreateChain(vs, m_shapes.at(wheelID).size() / 2);
     fd.shape = &shape;
-    m_body->CreateFixture(&fd);
+    m_fixture = m_body->CreateFixture(&fd);
     free(vs);
 
     // Chain shape has no mass so create
@@ -80,8 +80,9 @@ void Wheel::update() {
     b2Vec2 position = m_body->GetPosition();
     float32 angle = m_body->GetAngle();
 
-    // Slow the wheel down, factor of 1000 keeps the ball from getting stuck on top
-    m_body->ApplyTorque(- m_body->GetAngularVelocity() / 1000, true);
+    // Only apply a slow to the wheel when no pinballs are on it.
+    if (m_pinballsTouching == 0)
+        m_body->ApplyTorque(- m_body->GetAngularVelocity() / 1000, true);
 #if DEBUG
     m_cshape->setPosition(position.x * g_graphicsScale, position.y * g_graphicsScale);
     m_cshape->setRotation(angle * 180 / M_PI);
@@ -108,3 +109,14 @@ void Wheel::stop() {
     m_body->SetAngularVelocity(0);
 }
 
+b2Fixture* Wheel::getFixture() {
+    return m_fixture;
+}
+
+void Wheel::pinballContact() {
+    m_pinballsTouching++;
+}
+
+void Wheel::pinballEndContact() {
+    m_pinballsTouching--;
+}

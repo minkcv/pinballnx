@@ -80,7 +80,7 @@ int Spinner::getPush() {
 }
 
 void Spinner::push(b2Vec2 ballVelocity) {
-    m_push = 1600 * ballVelocity.x;
+    m_push = 400 * ballVelocity.x;
     m_frameDuration = 2 * g_displayFrameRate / (m_push);
 }
 

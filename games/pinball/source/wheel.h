@@ -14,6 +14,9 @@ class Wheel {
         void update();
         bool changedSection();
         void stop();
+        b2Fixture* getFixture();
+        void pinballContact();
+        void pinballEndContact();
     private:
         float m_x;
         float m_y;
@@ -33,10 +36,12 @@ class Wheel {
         C2DTexture* m_texture;
         b2Body* m_body;
         b2Body* m_pivot;
+        b2Fixture* m_fixture;
         CircleShape* m_pivotShape;
         float m_anglePrev;
         int m_angleSection = 30;
         bool m_sectionChanged;
+        int m_pinballsTouching = 0;
 };
 
 #endif

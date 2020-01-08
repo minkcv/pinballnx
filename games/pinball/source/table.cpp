@@ -342,7 +342,7 @@ void Table::update(unsigned int keys) {
         Spinner* spinner = m_spinners.at(s);
         spinner->update();
         if (!isGameOver())
-            m_score += (abs(spinner->getPush()) / 100) * 1000;
+            m_score += (abs(spinner->getPush()) / 400) * 1000;
     }
     for (size_t t = 0; t < m_triggers.size(); t++) {
         Trigger* trigger = m_triggers.at(t);
@@ -393,7 +393,7 @@ void Table::BeginContact(b2Contact* contact) {
 
     for (size_t i = 0; i < m_pinballs.size(); i++) {
         // If the ball has gone out of bounds and been deleted or locked, then don't
-        // Try to check collisions with it with anything.
+        // try to check collisions with it with anything.
         Pinball* pinball = m_pinballs.at(i);
         if (pinball == NULL)
             continue;
@@ -489,7 +489,7 @@ void Table::BeginContact(b2Contact* contact) {
             }
         }
 
-        for(size_t g = 0; g < m_gtargets.size(); g++) {
+        for (size_t g = 0; g < m_gtargets.size(); g++) {
             GTarget* gtarget = m_gtargets.at(g);
             bool gtargetCompleted = false;
             vector<b2Fixture*> fixtures = gtarget->getFixtures();
@@ -507,11 +507,33 @@ void Table::BeginContact(b2Contact* contact) {
             if (gtargetCompleted)
                 m_score += 50000;
         }
+        for (size_t w = 0; w < m_wheels.size(); w++) {
+            Wheel* wheel = m_wheels.at(w);
+            b2Fixture* wheelFixture = wheel->getFixture();
+            if ((fixtureA == wheelFixture && fixtureB == pinball->getFixture()) ||
+                (fixtureA == pinball->getFixture() && fixtureB == wheelFixture)) {
+                    wheel->pinballContact();
+            }
+        }
     }
 }
 
 void Table::EndContact(b2Contact* contact) {
-
+    b2Fixture* fixtureA = contact->GetFixtureA();
+    b2Fixture* fixtureB = contact->GetFixtureB();
+    for (size_t i = 0; i < m_pinballs.size(); i++) {
+        Pinball* pinball = m_pinballs.at(i);
+        if (pinball == NULL)
+            continue;
+        for (size_t w = 0; w < m_wheels.size(); w++) {
+            Wheel* wheel = m_wheels.at(w);
+            b2Fixture* wheelFixture = wheel->getFixture();
+            if ((fixtureA == wheelFixture && fixtureB == pinball->getFixture()) ||
+                (fixtureA == pinball->getFixture() && fixtureB == wheelFixture)) {
+                    wheel->pinballEndContact();
+            }
+        }
+    }
 }
 
 bool Table::isGameOver() {
