@@ -11,7 +11,7 @@ using namespace std;
 
 class GTarget {
     public:
-        GTarget(C2DRenderer* renderer, b2World& world, int targetGroupID, int layerID, bool sameSprites = false);
+        GTarget(C2DRenderer* renderer, b2World& world, int targetGroupID, int layerID, bool sameSprites = false, bool collide = false);
         vector<b2Fixture*> getFixtures();
         void update();
         bool press(size_t targetID); // Returns true if all targets are pressed
@@ -19,6 +19,7 @@ class GTarget {
         void reset();
     private:
         int m_layerID;
+        bool m_collide;
         vector<b2Fixture*> m_fixtures;
         vector<bool> m_isPressed;
         vector<C2DTexture*> m_texturesEnabled;

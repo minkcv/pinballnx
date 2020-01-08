@@ -205,7 +205,7 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     Spinner* topLeftSpinner = new Spinner(renderer, world, 2, 0);
     m_spinners.push_back(topLeftSpinner);
 
-    GTarget* rightTargets = new GTarget(renderer, world, 0, 2);
+    GTarget* rightTargets = new GTarget(renderer, world, 0, 2, false, true);
     m_gtargets.push_back(rightTargets);
 
     GTarget* rightReturnTargets = new GTarget(renderer, world, 1, 2, true);

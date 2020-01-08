@@ -1,8 +1,8 @@
 #include "gtarget.h"
 
-GTarget::GTarget(C2DRenderer* renderer, b2World& world, int targetGroupID, int layerID, bool sameSprites) {
+GTarget::GTarget(C2DRenderer* renderer, b2World& world, int targetGroupID, int layerID, bool sameSprites, bool collide) {
     m_layerID = layerID;
-
+    m_collide = collide;
     vector<vector<float>> shapes = m_targetGroups.at(targetGroupID);
     for (size_t s = 0; s < shapes.size(); s++) {
         vector<float> points = shapes.at(s);
@@ -18,7 +18,7 @@ GTarget::GTarget(C2DRenderer* renderer, b2World& world, int targetGroupID, int l
         fixtureDef.shape = &chain;
         fixtureDef.density = 0.0f;
         fixtureDef.friction = 0.3f;
-        fixtureDef.isSensor = true;
+        fixtureDef.isSensor = !collide;
         fixtureDef.filter.maskBits = 1 << layerID;
         fixtureDef.filter.categoryBits = 1 << layerID;
         b2Fixture* fixture = body->CreateFixture(&fixtureDef);
@@ -69,6 +69,12 @@ vector<b2Fixture*> GTarget::getFixtures() {
 
 bool GTarget::press(size_t targetID) {
     m_isPressed[targetID] = true;
+    if (m_collide) {
+        b2Filter fd;
+        fd.maskBits = 0;
+        fd.categoryBits = 0;
+        m_fixtures.at(targetID)->SetFilterData(fd);
+    }
 #if !DEBUG
     m_texturesEnabled.at(targetID)->setLayer(-99);
     m_texturesDisabled.at(targetID)->setLayer(m_layerID * 2);
@@ -92,6 +98,12 @@ bool GTarget::isPressed(size_t targetID) {
 void GTarget::reset() {
     for (size_t i = 0; i < m_isPressed.size(); i++) {
         m_isPressed[i] = false;
+        if (m_collide) {
+            b2Filter fd;
+            fd.maskBits = 1 << m_layerID;
+            fd.categoryBits = 1 << m_layerID;
+            m_fixtures.at(i)->SetFilterData(fd);
+        }
 #if !DEBUG
         m_texturesEnabled.at(i)->setLayer(m_layerID * 2);
         m_texturesDisabled.at(i)->setLayer(-99);
