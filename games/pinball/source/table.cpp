@@ -20,7 +20,6 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     m_renderer = renderer;
     m_currentBall = 1;
     m_score = 0;
-    m_lockedBalls = 0;
     world.SetContactListener(this);
 
     Layer underLayer(renderer, world, 0);
@@ -91,7 +90,7 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     Ramp underLayerUp(renderer, world, 17, 0, 2);
     m_ramps.push_back(underLayerUp);
 
-    BallLock* ballLock = new BallLock(renderer, world, 2, 0, 0);
+    BallLock* ballLock = new BallLock(renderer, world, 2, 0, 0, true);
     m_ballLocks.push_back(ballLock);
 
     BallLock* leftLock = new BallLock(renderer, world, 2, 1, 3);
@@ -103,7 +102,7 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     BallLock* upperMiddleLock = new BallLock(renderer, world, 2, 3, 2);
     m_ballLocks.push_back(upperMiddleLock);
 
-    BallLock* underBallLock1 = new BallLock(renderer, world, 0, 4, 4, 1);
+    BallLock* underBallLock1 = new BallLock(renderer, world, 0, 4, 1);
     m_ballLocks.push_back(underBallLock1);
 
     BallLock* underBallLock2 = new BallLock(renderer, world, 0, 5, 2);
@@ -152,6 +151,9 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
 
     Trigger* topLeftTrigger = new Trigger(renderer, world, 2, 2, 2, leftRailWall, topLeftLock, leftRailWall2);
     m_triggers.push_back(topLeftTrigger);
+
+    Trigger* lockReleaseTrigger = new Trigger(renderer, world, 3, 2, 0);
+    m_triggers.push_back(lockReleaseTrigger);
 
     // Circle bumpers at the top left
     Bumper* bumper1 = new Bumper(renderer, world, 2, -1, 8.8, 2.2);
@@ -275,8 +277,8 @@ void Table::update(unsigned int keys) {
             for(size_t g = 0; g < m_gtargets.size(); g++) {
                 m_gtargets.at(g)->reset();
             }
-            if (m_lockedBalls == -1) {
-                m_lockedBalls = 0; // End previous multiball
+            for (size_t b = 0; b < m_ballLocks.size(); b++) {
+                m_ballLocks.at(b)->reset();
             }
             m_optWalls.at(0)->disable(); // Disable the left rail switch
             m_optWalls.at(1)->enable(); // Close the underlayer ramp.
@@ -311,8 +313,7 @@ void Table::update(unsigned int keys) {
         }
     }
 
-    // If triggering multiball, don't create the replacement ball, multiball will make the 3 balls
-    if (m_lockBallTimers.size() > 0 && m_lockedBalls != 3) {
+    if (m_lockBallTimers.size() > 0) {
         for (size_t i = 0; i < m_lockBallTimers.size(); i++) {
             int timer = m_lockBallTimers.at(i);
             timer--;
@@ -350,6 +351,9 @@ void Table::update(unsigned int keys) {
     for (size_t t = 0; t < m_triggers.size(); t++) {
         Trigger* trigger = m_triggers.at(t);
         trigger->update();
+    }
+    for (size_t b = 0; b < m_ballLocks.size(); b++) {
+        m_ballLocks.at(b)->update();
     }
     for(size_t g = 0; g < m_gtargets.size(); g++) {
         GTarget* gtarget = m_gtargets.at(g);
@@ -415,11 +419,12 @@ void Table::BeginContact(b2Contact* contact) {
                 // The table makes sure to check this value before ending the game
                 // or loading the next ball.
                 if (b == 5) {
-                    // Underlayer right lock triggers duo ball
-                    m_lockBallTimers.push_back(m_lockBallDelay);
+                    // Underlayer right lock triggers extra ball
                     m_lockBallTimers.push_back(m_lockBallDelay);
                     m_lockBallLocations.push_back(1);
-                    m_lockBallLocations.push_back(4);
+                    m_maxBalls++;
+                    m_announce = "EXTRA BALL";
+                    m_announceTime = 200;
                 }
                 else {
                     m_lockBallTimers.push_back(m_lockBallDelay);
@@ -456,6 +461,14 @@ void Table::BeginContact(b2Contact* contact) {
             b2Fixture* triggerFixture = m_triggers.at(t)->getFixture();
             if ((fixtureA == triggerFixture && fixtureB == pinball->getFixture()) ||
                 (fixtureA == pinball->getFixture() && fixtureB == triggerFixture)) {
+                if (t == 3 && !m_triggers.at(t)->isPressed()) {
+                    bool released = m_ballLocks.at(0)->release();
+                    if (released) {
+                        // Release immediately
+                        m_lockBallTimers.push_back(1);
+                        m_lockBallLocations.push_back(4);
+                    }
+                }
                 m_triggers.at(t)->press();
             }
         }
@@ -546,11 +559,9 @@ bool Table::isGameOver() {
 void Table::newGame() {
     m_currentBall = 1;
     m_maxBalls = 4;
-    m_lockBallLocation = 1;
     Pinball* nextPinball = new Pinball(m_renderer, m_b2world);
     m_pinballs.push_back(nextPinball);
     m_score = 0;
-    m_lockedBalls = 0;
     for (size_t t = 0; t < m_triggers.size(); t++) {
         m_triggers.at(t)->reset();
     }
@@ -563,7 +574,7 @@ void Table::newGame() {
     m_optWalls.at(7)->enable(); // Enable the left rail switch 2
     m_optWalls.at(8)->enable();
     for (size_t b = 0; b < m_ballLocks.size(); b++) {
-        m_ballLocks.at(b)->resetLocation();
+        m_ballLocks.at(b)->reset();
     }
     for (size_t g = 0; g < m_gtargets.size(); g++) {
         m_gtargets.at(g)->reset();

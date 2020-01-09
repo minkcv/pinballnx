@@ -93,6 +93,10 @@ void Trigger::press() {
 #endif
 }
 
+bool Trigger::isPressed() {
+    return m_isPressed;
+}
+
 void Trigger::reset() {
     m_isPressed = false;
 #if !DEBUG

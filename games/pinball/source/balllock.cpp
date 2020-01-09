@@ -1,10 +1,20 @@
 #include "balllock.h"
 
-BallLock::BallLock(C2DRenderer* renderer, b2World& world, int layerID, int shapeID, int releaseLocation, int releaseLocation2) {
+BallLock::BallLock(C2DRenderer* renderer, b2World& world, int layerID, int shapeID, int releaseLocation, bool multi) {
     m_layerID = layerID;
     m_releaseLocation = releaseLocation;
-    m_defaultLocation = m_releaseLocation;
-    m_releaseLocation2 = releaseLocation2;
+    m_multi = multi;
+    m_move = 0;
+    m_locked = 0;
+    if (m_multi) {
+        for (int i = 0; i < m_capacity; i++) {
+            C2DTexture* texture = new C2DTexture(renderer->getIo()->getDataReadPath() + "pinballnx/pinball.png");
+            texture->setPosition(740 + i * m_xOffset, 490 + i * m_yOffset);
+            texture->setLayer(-99);
+            renderer->add(texture);
+            m_textures.push_back(texture);
+        }
+    }
 
     vector<float> points = m_points.at(shapeID);
     b2Vec2* vs = getVertexArray(points);
@@ -14,7 +24,7 @@ BallLock::BallLock(C2DRenderer* renderer, b2World& world, int layerID, int shape
     vs = NULL;
 
     b2BodyDef bodyDef;
-    b2Body* body = world.CreateBody(&bodyDef);
+    m_body = world.CreateBody(&bodyDef);
     b2FixtureDef fixtureDef;
     fixtureDef.shape = &chain;
     fixtureDef.density = 0.0f;
@@ -22,16 +32,33 @@ BallLock::BallLock(C2DRenderer* renderer, b2World& world, int layerID, int shape
     fixtureDef.isSensor = true;
     fixtureDef.filter.maskBits = 1 << m_layerID;
     fixtureDef.filter.categoryBits = 1 << m_layerID;
-    m_fixture = body->CreateFixture(&fixtureDef);
+    m_fixture = m_body->CreateFixture(&fixtureDef);
 
 #if DEBUG
     // Debug graphics
-    ConvexShape* cshape = new ConvexShape();
-    addPointsToShape(cshape, points);
-    cshape->getVertexArray()->setPrimitiveType(PrimitiveType::LineStrip);
-    cshape->setFillColor(Color::Blue);
-    renderer->add(cshape);
+    m_cshape = new ConvexShape();
+    addPointsToShape(m_cshape, points);
+    m_cshape->getVertexArray()->setPrimitiveType(PrimitiveType::LineStrip);
+    m_cshape->setFillColor(Color::Blue);
+    renderer->add(m_cshape);
 #endif
+}
+
+void BallLock::update() {
+    if (m_move != 0) {
+        m_body->SetTransform(b2Vec2(m_move * m_xOffset / g_graphicsScale, m_move * m_yOffset / g_graphicsScale) + m_body->GetPosition(), m_body->GetAngle());
+#if DEBUG
+        m_cshape->setPosition(m_body->GetPosition().x * g_graphicsScale, m_body->GetPosition().y * g_graphicsScale);
+#endif
+
+        if (m_move > 0 && m_locked < m_capacity) {
+#if !DEBUG
+            m_textures.at(m_locked)->setLayer(m_layerID * 2);
+#endif
+            m_locked++;
+        }
+        m_move = 0;
+    }
 }
 
 b2Fixture* BallLock::getFixture() {
@@ -39,21 +66,31 @@ b2Fixture* BallLock::getFixture() {
 }
 
 void BallLock::trigger() {
-    if (m_releaseLocation2 != -1) {
-        int temp = m_releaseLocation;
-        m_releaseLocation = m_releaseLocation2;
-        m_releaseLocation2 = temp;
+    if (m_multi) {
+        m_move = 1;
     }
+}
+
+bool BallLock::release() {
+    bool released = m_locked > 0;
+    if (m_multi && released) {
+        m_textures.at(m_locked - 1)->setLayer(-99);
+        m_move = -1;
+        m_locked--;
+    }
+    return released;
 }
 
 int BallLock::getLocation() {
     return m_releaseLocation;
 }
 
-void BallLock::resetLocation() {
-    if (m_defaultLocation != m_releaseLocation) {
-        int temp = m_releaseLocation;
-        m_releaseLocation = m_releaseLocation2;
-        m_releaseLocation2 = temp;
+void BallLock::reset() {
+    if (m_multi) {
+        for (int i = 0; i < m_capacity; i++) {
+            m_textures.at(i)->setLayer(-99);
+        }
+        m_locked = 0;
     }
 }
+

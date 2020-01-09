@@ -10,18 +10,27 @@ using namespace std;
 
 class BallLock {
     public:
-        BallLock(C2DRenderer* renderer, b2World& world, int layerID, int shapeID, int releaseLocation, int releaseLocation2 = -1);
+        BallLock(C2DRenderer* renderer, b2World& world, int layerID, int shapeID, int releaseLocation, bool multi = false);
+        void update();
         b2Fixture* getFixture();
         void trigger();
+        bool release();
         int getLocation();
-        void resetLocation();
+        void reset();
     private:
         int m_layerID;
         int m_releaseLocation;
-        int m_releaseLocation2;
-        int m_defaultLocation;
+        bool m_multi;
+        int m_move;
+        int m_locked;
+        int m_capacity = 4;
+        float m_xOffset = 16.5;
+        float m_yOffset = 16;
+        vector<C2DTexture*> m_textures;
         b2Fixture* m_fixture;
-        vector<float> m_upperLock = {843.5, 532.5, 835.8, 540.9, 834.4, 543.6, 833.0, 546.2, 833.0, 548.1, 833.0, 549.9, 850.2, 564.0, 867.4, 578.0, 869.5, 578.0, 871.5, 578.0, 881.8, 567.7, 892.0, 557.5, 892.0, 555.2, 892.0, 553.0, 873.8, 538.5, 855.5, 524.0, 853.3, 524.0, 851.2, 524.0, 843.5, 532.5};
+        b2Body* m_body;
+        ConvexShape* m_cshape;
+        vector<float> m_upperLock = {744.2, 494.2, 743.0, 495.4, 743.0, 497.5, 743.0, 499.6, 744.2, 500.8, 745.4, 502.0, 747.5, 502.0, 749.6, 502.0, 750.8, 500.8, 752.0, 499.6, 752.0, 497.5, 752.0, 495.4, 750.8, 494.2, 749.6, 493.0, 747.5, 493.0, 745.4, 493.0, 744.2, 494.2};
         vector<float> m_leftLock = {1086.2, 23.2, 1085.0, 24.4, 1085.0, 27.5, 1085.0, 30.6, 1086.2, 31.8, 1087.4, 33.0, 1090.5, 33.0, 1093.6, 33.0, 1094.8, 31.8, 1096.0, 30.6, 1096.0, 27.5, 1096.0, 24.4, 1094.8, 23.2, 1093.6, 22.0, 1090.5, 22.0, 1087.4, 22.0, 1086.2, 23.2};
         vector<float> m_middleLock = {772.5, 364.9, 770.5, 365.8, 768.0, 368.5, 765.5, 371.2, 765.5, 376.6, 765.5, 382.0, 768.7, 385.1, 771.9, 388.3, 777.4, 388.8, 782.9, 389.2, 785.9, 385.9, 788.9, 382.6, 789.6, 379.7, 790.2, 376.8, 789.6, 373.6, 789.0, 370.4, 786.1, 367.6, 783.2, 364.8, 778.8, 364.4, 774.5, 364.0, 772.5, 364.9};
         vector<float> m_upperMiddleLock = {787.0, 402.4, 787.0, 415.0, 790.1, 415.0, 793.1, 415.0, 796.0, 411.8, 798.9, 408.6, 799.6, 405.7, 800.2, 402.8, 799.6, 399.6, 799.0, 396.4, 796.2, 393.7, 793.4, 391.0, 790.2, 390.4, 787.0, 389.7, 787.0, 402.4};
