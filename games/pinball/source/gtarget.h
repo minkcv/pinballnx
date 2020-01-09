@@ -22,6 +22,8 @@ class GTarget {
         bool m_collide;
         vector<b2Fixture*> m_fixtures;
         vector<bool> m_isPressed;
+        vector<int> m_dropTimers;
+        int m_dropTime = 10;
         vector<C2DTexture*> m_texturesEnabled;
         vector<C2DTexture*> m_texturesDisabled;
         int m_hitFrames = 1920 / g_displayFrameRate;
@@ -35,6 +37,10 @@ class GTarget {
         vector<float> m_leftReturn0 = {207.9, 97.6, 206.6, 99.2, 207.7, 100.8, 208.7, 102.5, 227.0, 102.5, 245.3, 102.5, 246.3, 100.8, 247.4, 99.2, 246.1, 97.6, 244.8, 96.0, 227.0, 96.0, 209.2, 96.0, 207.9, 97.6};
         vector<float> m_leftReturn1 = {207.9, 62.6, 206.6, 64.2, 207.7, 65.8, 208.7, 67.5, 227.0, 67.5, 245.3, 67.5, 246.3, 65.8, 247.4, 64.2, 246.1, 62.6, 244.8, 61.0, 227.0, 61.0, 209.2, 61.0, 207.9, 62.6};
         vector<float> m_leftReturn2 = {207.9, 28.6, 206.6, 30.2, 207.7, 31.8, 208.7, 33.5, 227.0, 33.5, 245.3, 33.5, 246.3, 31.8, 247.4, 30.2, 246.1, 28.6, 244.8, 27.0, 227.0, 27.0, 209.2, 27.0, 207.9, 28.6};
+        vector<float> m_middleTarget0 = {732.4, 296.5, 731.8, 298.0, 734.0, 307.3, 736.3, 316.5, 737.2, 318.2, 738.1, 320.0, 739.5, 320.0, 740.9, 320.0, 741.5, 319.1, 742.0, 318.1, 740.1, 310.8, 738.1, 303.5, 737.0, 299.2, 735.9, 295.0, 734.4, 295.0, 732.9, 295.0, 732.4, 296.5};
+        vector<float> m_middleTarget1 = {724.4, 268.4, 723.9, 269.7, 726.0, 278.1, 728.1, 286.5, 729.1, 289.7, 730.2, 293.0, 731.6, 293.0, 733.1, 293.0, 733.6, 291.5, 734.2, 289.9, 732.0, 280.2, 729.8, 270.5, 728.8, 268.7, 727.9, 267.0, 726.4, 267.0, 724.9, 267.0, 724.4, 268.4};
+        vector<float> m_middleTarget2 = {716.4, 240.4, 715.8, 242.0, 718.5, 253.1, 721.3, 264.2, 722.7, 264.7, 724.1, 265.3, 725.3, 264.1, 726.4, 263.0, 723.5, 251.2, 720.5, 239.5, 718.7, 239.2, 717.0, 238.9, 716.4, 240.4};
+
         vector<vector<float>> m_rightGroup = {
             m_rightTarget0, m_rightTarget1, m_rightTarget2
         };
@@ -44,8 +50,11 @@ class GTarget {
         vector<vector<float>> m_leftReturn = {
             m_leftReturn0, m_leftReturn1, m_leftReturn2
         };
+        vector<vector<float>> m_middleTargets = {
+            m_middleTarget0, m_middleTarget1, m_middleTarget2
+        };
         vector<vector<vector<float>>> m_targetGroups = {
-            m_rightGroup, m_rightReturn, m_leftReturn
+            m_rightGroup, m_rightReturn, m_leftReturn, m_middleTargets
         };
         vector<vector<float>> m_positions = {
             {
@@ -62,6 +71,11 @@ class GTarget {
                 207, 95,
                 207, 60,
                 207, 26
+            },
+            {
+                722, 295,
+                714, 267,
+                706, 239
             }
         };
 };

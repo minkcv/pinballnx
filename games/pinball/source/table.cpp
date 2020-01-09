@@ -214,6 +214,9 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     GTarget* leftReturnTargets = new GTarget(renderer, world, 2, 2, true);
     m_gtargets.push_back(leftReturnTargets);
 
+    GTarget* middleTargets = new GTarget(renderer, world, 3, 2, false, true);
+    m_gtargets.push_back(middleTargets);
+
     Wheel* wheel1 = new Wheel(renderer, world, 0);
     m_wheels.push_back(wheel1);
 

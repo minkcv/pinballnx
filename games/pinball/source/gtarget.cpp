@@ -24,6 +24,7 @@ GTarget::GTarget(C2DRenderer* renderer, b2World& world, int targetGroupID, int l
         b2Fixture* fixture = body->CreateFixture(&fixtureDef);
         m_fixtures.push_back(fixture);
         m_isPressed.push_back(false);
+        m_dropTimers.push_back(0);
     #if DEBUG
         // Debug graphics
         ConvexShape* cshape = new ConvexShape();
@@ -61,6 +62,17 @@ void GTarget::update() {
         reset();
         m_frameCurrent++;
     }
+    for (size_t i = 0; i < m_dropTimers.size(); i++) {
+        if (m_dropTimers.at(i) > 0) {
+            m_dropTimers[i] = m_dropTimers[i] - 1;
+            if (m_dropTimers.at(i) == 0) {
+                b2Filter fd;
+                fd.maskBits = 0;
+                fd.categoryBits = 0;
+                m_fixtures.at(i)->SetFilterData(fd);
+            }
+        }
+    }
 }
 
 vector<b2Fixture*> GTarget::getFixtures() {
@@ -69,12 +81,8 @@ vector<b2Fixture*> GTarget::getFixtures() {
 
 bool GTarget::press(size_t targetID) {
     m_isPressed[targetID] = true;
-    if (m_collide) {
-        b2Filter fd;
-        fd.maskBits = 0;
-        fd.categoryBits = 0;
-        m_fixtures.at(targetID)->SetFilterData(fd);
-    }
+    if (m_collide)
+        m_dropTimers[targetID] = m_dropTime;
 #if !DEBUG
     m_texturesEnabled.at(targetID)->setLayer(-99);
     m_texturesDisabled.at(targetID)->setLayer(m_layerID * 2);
