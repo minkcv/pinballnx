@@ -13,7 +13,7 @@ class Wheel {
         Wheel(C2DRenderer* renderer, b2World& world, int wheelID);
         void update();
         bool changedSection();
-        void stop();
+        void reset();
         b2Fixture* getFixture();
         void pinballContact();
         void pinballEndContact();

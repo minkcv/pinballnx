@@ -107,8 +107,9 @@ bool Wheel::changedSection() {
     return m_sectionChanged;
 }
 
-void Wheel::stop() {
+void Wheel::reset() {
     m_body->SetAngularVelocity(0);
+    m_body->SetTransform(m_body->GetPosition(), 0);
 }
 
 b2Fixture* Wheel::getFixture() {

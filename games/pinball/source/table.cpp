@@ -580,7 +580,7 @@ void Table::newGame() {
         m_gtargets.at(g)->reset();
     }
     for (size_t w = 0; w < m_wheels.size(); w++) {
-        m_wheels.at(w)->stop();
+        m_wheels.at(w)->reset();
     }
 }
 
