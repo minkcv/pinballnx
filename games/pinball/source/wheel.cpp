@@ -83,8 +83,12 @@ void Wheel::update() {
     // Only apply a slow to the wheel when no pinballs are on it.
     if (m_pinballsTouching == 0)
         m_body->ApplyTorque(- m_body->GetAngularVelocity() / 1000, true);
-    else
-        m_body->ApplyTorque(m_body->GetAngularVelocity() / 1000, true);
+    else {
+        float vel = m_body->GetAngularVelocity();
+        if (abs(vel) < 1)
+            vel *= 50;
+        m_body->ApplyTorque(vel / 200, true);
+    }
 #if DEBUG
     m_cshape->setPosition(position.x * g_graphicsScale, position.y * g_graphicsScale);
     m_cshape->setRotation(angle * 180 / M_PI);
@@ -110,6 +114,7 @@ bool Wheel::changedSection() {
 void Wheel::reset() {
     m_body->SetAngularVelocity(0);
     m_body->SetTransform(m_body->GetPosition(), 0);
+    m_anglePrev = 0;
 }
 
 b2Fixture* Wheel::getFixture() {
