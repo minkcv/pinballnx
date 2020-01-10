@@ -82,7 +82,7 @@ void Wheel::update() {
 
     // Only apply a slow to the wheel when no pinballs are on it.
     if (m_pinballsTouching == 0)
-        m_body->ApplyTorque(- m_body->GetAngularVelocity() / 1000, true);
+        m_body->ApplyTorque(- m_body->GetAngularVelocity() / 200, true);
     else {
         float vel = m_body->GetAngularVelocity();
         if (abs(vel) < 1)
