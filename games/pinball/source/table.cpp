@@ -377,7 +377,7 @@ void Table::update(unsigned int keys) {
         }
         wheel->update();
     }
-    if (m_tiltTimer == m_tiltCooldown || 1) {
+    if (m_tiltTimer == m_tiltCooldown || DEBUG) {
         if (Input::Key::Left & keys || Input::Key::Right & keys) {
             double leftOrRight = Input::Key::Left & keys ? -0.9 : 0.9;
             m_tiltTimer = 0;
