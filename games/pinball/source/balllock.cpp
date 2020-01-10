@@ -87,6 +87,7 @@ int BallLock::getLocation() {
 
 void BallLock::reset() {
     if (m_multi) {
+        m_body->SetTransform(b2Vec2(), m_body->GetAngle());
         for (int i = 0; i < m_capacity; i++) {
             m_textures.at(i)->setLayer(-99);
         }
