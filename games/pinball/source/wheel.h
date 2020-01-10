@@ -42,6 +42,8 @@ class Wheel {
         int m_angleSection = 30;
         bool m_sectionChanged;
         int m_pinballsTouching = 0;
+        int m_pushTimer;
+        int m_pushTime = 10;
 };
 
 #endif

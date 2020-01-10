@@ -81,12 +81,16 @@ void Wheel::update() {
     float32 angle = m_body->GetAngle();
 
     // Only apply a slow to the wheel when no pinballs are on it.
-    if (m_pinballsTouching == 0)
+    if (m_pinballsTouching > 0)
+        m_pushTimer = m_pushTime; // Keep pushing
+
+    if (m_pushTimer == 0)
         m_body->ApplyTorque(- m_body->GetAngularVelocity() / 200, true);
     else {
+        m_pushTimer--;
         float vel = m_body->GetAngularVelocity();
-        if (abs(vel) < 1)
-            vel *= 50;
+        if (abs(vel) < 3)
+            vel *= 20;
         m_body->ApplyTorque(vel / 200, true);
     }
 #if DEBUG
@@ -115,6 +119,7 @@ void Wheel::reset() {
     m_body->SetAngularVelocity(0);
     m_body->SetTransform(m_body->GetPosition(), 0);
     m_anglePrev = 0;
+    m_pushTimer = 0;
 }
 
 b2Fixture* Wheel::getFixture() {
@@ -123,8 +128,10 @@ b2Fixture* Wheel::getFixture() {
 
 void Wheel::pinballContact() {
     m_pinballsTouching++;
+    m_pushTimer = m_pushTime;
 }
 
 void Wheel::pinballEndContact() {
     m_pinballsTouching--;
 }
+
