@@ -85,6 +85,10 @@ int BallLock::getLocation() {
     return m_releaseLocation;
 }
 
+int BallLock::getNumLocked() {
+    return m_locked;
+}
+
 void BallLock::reset() {
     if (m_multi) {
         m_body->SetTransform(b2Vec2(), m_body->GetAngle());

@@ -329,6 +329,12 @@ void Table::update(unsigned int keys) {
                 m_lockBallLocations.erase(m_lockBallLocations.begin() + i);
                 b2Vec2 vec = lockBallRelease->getStartVelocity(iSpawnPos);
                 lockBallRelease->getBody()->ApplyForce(vec, lockBallRelease->getBody()->GetWorldVector(b2Vec2(0, 0)), true);
+
+                // If this is the ball lock with capacity and there are no balls locked anymore
+                // then close the cover for the release trigger
+                if (iSpawnPos == 4 && m_ballLocks.at(0)->getNumLocked() == 0)
+                    m_optWalls.at(8)->enable();
+
                 break;
             }
         }
@@ -371,7 +377,7 @@ void Table::update(unsigned int keys) {
         }
         wheel->update();
     }
-    if (m_tiltTimer == m_tiltCooldown || DEBUG) {
+    if (m_tiltTimer == m_tiltCooldown || 1) {
         if (Input::Key::Left & keys || Input::Key::Right & keys) {
             double leftOrRight = Input::Key::Left & keys ? -0.9 : 0.9;
             m_tiltTimer = 0;
@@ -467,8 +473,9 @@ void Table::BeginContact(b2Contact* contact) {
                 if (t == 3 && !m_triggers.at(t)->isPressed()) {
                     bool released = m_ballLocks.at(0)->release();
                     if (released) {
-                        // Release immediately
-                        m_lockBallTimers.push_back(1);
+                        // Release lock ball sooner than others
+                        // This also enables the release trigger lock if there are no other locked balls
+                        m_lockBallTimers.push_back(20);
                         m_lockBallLocations.push_back(4);
                     }
                 }

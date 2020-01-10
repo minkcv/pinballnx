@@ -16,6 +16,7 @@ class BallLock {
         void trigger();
         bool release();
         int getLocation();
+        int getNumLocked();
         void reset();
     private:
         int m_layerID;
