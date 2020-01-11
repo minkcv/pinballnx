@@ -45,11 +45,11 @@ BallLock::BallLock(C2DRenderer* renderer, b2World& world, int layerID, int shape
 }
 
 void BallLock::update() {
-    if (m_move != 0) {
-        m_body->SetTransform(b2Vec2(m_move * m_xOffset / g_graphicsScale, m_move * m_yOffset / g_graphicsScale) + m_body->GetPosition(), m_body->GetAngle());
 #if DEBUG
         m_cshape->setPosition(m_body->GetPosition().x * g_graphicsScale, m_body->GetPosition().y * g_graphicsScale);
 #endif
+    if (m_move != 0) {
+        m_body->SetTransform(b2Vec2(m_move * m_xOffset / g_graphicsScale, m_move * m_yOffset / g_graphicsScale) + m_body->GetPosition(), m_body->GetAngle());
 
         if (m_move > 0 && m_locked < m_capacity) {
 #if !DEBUG
@@ -91,7 +91,8 @@ int BallLock::getNumLocked() {
 
 void BallLock::reset() {
     if (m_multi) {
-        m_body->SetTransform(b2Vec2(), m_body->GetAngle());
+        m_move = 0;
+        m_body->SetTransform(b2Vec2(-m_locked * m_xOffset / g_graphicsScale, -m_locked * m_yOffset / g_graphicsScale) + m_body->GetPosition(), m_body->GetAngle());
         for (int i = 0; i < m_capacity; i++) {
             m_textures.at(i)->setLayer(-99);
         }
