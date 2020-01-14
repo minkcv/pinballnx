@@ -1,8 +1,10 @@
 #include "trigger.h"
 
-Trigger::Trigger(C2DRenderer* renderer, b2World& world, int triggerID, int layerID, int behavior, OptWall* wallToChange, OptWall* wall2, OptWall* wall3, OptWall* wall4) {
+Trigger::Trigger(C2DRenderer* renderer, b2World& world, int triggerID, int layerID, int behavior, int delay, OptWall* wallToChange, OptWall* wall2, OptWall* wall3, OptWall* wall4) {
     m_layerID = layerID;
     m_behavior = behavior;
+    m_delay = delay;
+    m_timer = -1;
     m_isPressed = false;
     m_wallsToChange.push_back(wallToChange);
     m_wallsToChange.push_back(wall2);
@@ -51,16 +53,34 @@ b2Fixture* Trigger::getFixture() {
 }
 
 void Trigger::update() {
+    if (m_timer == 0) {
+        m_timer = -1;
+            // Re enable and change graphics
+            // Change the optwalls
+            for (size_t i = 0; i < m_wallsToChange.size(); i++) {
+                OptWall* wall = m_wallsToChange.at(i);
+                if (wall != nullptr) {
+                    if (m_behavior == 2)
+                        wall->toggle();
+                    else if (m_behavior == 1)
+                        wall->enable();
+                    else if (m_behavior == 0)
+                        wall->disable();
+                }
+            }
+    }
+    else
+        m_timer--;
+
     if (m_hitFrameCurrent < m_hitFrames) {
         m_hitFrameCurrent++;
     }
     else if (m_isPressed) {
         m_isPressed = false;
-        // Re enable and change graphics
-
+        
 #if !DEBUG
-        m_textureEnabled->setLayer(m_layerID * 2 + 1);
-        m_textureDisabled->setLayer(-99);
+            m_textureEnabled->setLayer(m_layerID * 2 + 1);
+            m_textureDisabled->setLayer(-99);
 #endif
     }
 }
@@ -70,21 +90,8 @@ void Trigger::press() {
         return;
     // Start a cooldown before we can be pressed again
     m_hitFrameCurrent = 0;
+    m_timer = m_delay;
     m_isPressed = true;
-
-    // Change the optwalls
-    for (size_t i = 0; i < m_wallsToChange.size(); i++) {
-        OptWall* wall = m_wallsToChange.at(i);
-        if (wall != nullptr) {
-            if (m_behavior == 2)
-                wall->toggle();
-            else if (m_behavior == 1)
-                wall->enable();
-            else if (m_behavior == 0)
-                wall->disable();
-        }
-    }
-    
     
 #if !DEBUG
     // Change graphics.

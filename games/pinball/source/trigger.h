@@ -8,7 +8,7 @@
 
 class Trigger {
     public:
-        Trigger(C2DRenderer* renderer, b2World& world, int triggerID, int layerID, int behavior, OptWall* wallToChange = nullptr, OptWall* wall2 = nullptr, OptWall* wall3 = nullptr, OptWall* wall4 = nullptr);
+        Trigger(C2DRenderer* renderer, b2World& world, int triggerID, int layerID, int behavior, int delay, OptWall* wallToChange = nullptr, OptWall* wall2 = nullptr, OptWall* wall3 = nullptr, OptWall* wall4 = nullptr);
         b2Fixture* getFixture();
         void update();
         void press();
@@ -16,6 +16,8 @@ class Trigger {
         void reset();
     private:
         int m_layerID;
+        int m_delay;
+        int m_timer;
         b2Fixture* m_fixture;
         bool m_isPressed;
         vector<OptWall*> m_wallsToChange;

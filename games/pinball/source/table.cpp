@@ -140,20 +140,19 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     m_optWalls.push_back(leftRailWall2);
 
     OptWall* rightLockLower = new OptWall(renderer, world, 8, 2);
-    rightLockLower->enable();
     m_optWalls.push_back(rightLockLower);
 
-    Trigger* leftTrigger = new Trigger(renderer, world, 0, 2, 0, underLayerLock1, leftKickerLock, rightKickerLock);
+    Trigger* leftTrigger = new Trigger(renderer, world, 0, 2, 0, 0, underLayerLock1, leftKickerLock, rightKickerLock);
     m_triggers.push_back(leftTrigger);
 
-    Trigger* topRightTrigger = new Trigger(renderer, world, 1, 2, 0, rightLock, leftKickerLock, rightKickerLock);
+    Trigger* topRightTrigger = new Trigger(renderer, world, 1, 2, 0, 0, nullptr, leftKickerLock, rightKickerLock);
     m_triggers.push_back(topRightTrigger);
 
-    Trigger* topLeftTrigger = new Trigger(renderer, world, 2, 2, 2, leftRailWall, topLeftLock, leftRailWall2);
+    Trigger* topLeftTrigger = new Trigger(renderer, world, 2, 2, 2, 0, leftRailWall, topLeftLock, leftRailWall2);
     m_triggers.push_back(topLeftTrigger);
 
-    Trigger* lockReleaseTrigger = new Trigger(renderer, world, 3, 2, 0);
-    m_triggers.push_back(lockReleaseTrigger);
+    Trigger* lowerRightTrigger = new Trigger(renderer, world, 3, 2, 2, 15, rightLock, rightLockLower);
+    m_triggers.push_back(lowerRightTrigger);
 
     // Circle bumpers at the top left
     Bumper* bumper1 = new Bumper(renderer, world, 2, -1, 8.8, 2.2);
@@ -294,7 +293,7 @@ void Table::update(unsigned int keys) {
             m_optWalls.at(5)->enable(); // Close the right ball lock.
             m_optWalls.at(6)->enable(); // Close the top left ball lock.
             m_optWalls.at(7)->enable(); // Enable the left rail switch 2
-            m_optWalls.at(8)->enable();
+            m_optWalls.at(8)->disable();
         }
     }
     for (size_t i = 0; i < m_pinballs.size(); i++) {
@@ -329,12 +328,6 @@ void Table::update(unsigned int keys) {
                 m_lockBallLocations.erase(m_lockBallLocations.begin() + i);
                 b2Vec2 vec = lockBallRelease->getStartVelocity(iSpawnPos);
                 lockBallRelease->getBody()->ApplyForce(vec, lockBallRelease->getBody()->GetWorldVector(b2Vec2(0, 0)), true);
-
-                // If this is the ball lock with capacity and there are no balls locked anymore
-                // then close the cover for the release trigger
-                if (iSpawnPos == 4 && m_ballLocks.at(0)->getNumLocked() == 0)
-                    m_optWalls.at(8)->enable();
-
                 break;
             }
         }
@@ -470,7 +463,7 @@ void Table::BeginContact(b2Contact* contact) {
             b2Fixture* triggerFixture = m_triggers.at(t)->getFixture();
             if ((fixtureA == triggerFixture && fixtureB == pinball->getFixture()) ||
                 (fixtureA == pinball->getFixture() && fixtureB == triggerFixture)) {
-                if (t == 3 && !m_triggers.at(t)->isPressed()) {
+                if (t == 1 && !m_triggers.at(t)->isPressed()) {
                     bool released = m_ballLocks.at(0)->release();
                     if (released) {
                         // Release lock ball sooner than others
@@ -582,7 +575,6 @@ void Table::newGame() {
     m_optWalls.at(5)->enable(); // Close the right ball lock.
     m_optWalls.at(6)->enable(); // Close the top left ball lock.
     m_optWalls.at(7)->enable(); // Enable the left rail switch 2
-    m_optWalls.at(8)->enable();
     for (size_t b = 0; b < m_ballLocks.size(); b++) {
         m_ballLocks.at(b)->reset();
     }
