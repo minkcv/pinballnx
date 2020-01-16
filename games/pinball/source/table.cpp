@@ -372,12 +372,16 @@ void Table::update(unsigned int keys) {
     }
     if (m_tiltTimer == m_tiltCooldown || DEBUG) {
         if (Input::Key::Left & keys || Input::Key::Right & keys) {
-            double leftOrRight = Input::Key::Left & keys ? -0.9 : 0.9;
+            double leftOrRight = Input::Key::Left & keys ? -4.0 : 4.0;
             m_tiltTimer = 0;
             for (size_t p = 0; p < m_pinballs.size(); p++) {
                 Pinball* pinball = m_pinballs.at(p);
                 if (pinball != nullptr) {
-                    b2Vec2 vec(1.0, leftOrRight);
+#if DEBUG
+                    b2Vec2 vec(1.0, leftOrRight / 4.0);
+#else
+                    b2Vec2 vec(8.0, leftOrRight);
+#endif
                     pinball->getBody()->ApplyForce(vec, pinball->getBody()->GetWorldVector(b2Vec2(0, 0)), true);
                 }
             }
