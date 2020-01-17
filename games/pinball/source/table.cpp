@@ -472,7 +472,7 @@ void Table::BeginContact(b2Contact* contact) {
                     if (released) {
                         // Release lock ball sooner than others
                         // This also enables the release trigger lock if there are no other locked balls
-                        m_lockBallTimers.push_back(20);
+                        m_lockBallTimers.push_back(1);
                         m_lockBallLocations.push_back(4);
                     }
                 }
