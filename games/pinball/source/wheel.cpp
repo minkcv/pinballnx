@@ -21,10 +21,8 @@ Wheel::Wheel(C2DRenderer* renderer, b2World& world, int wheelID) {
     fd.friction = 1.0f;
     fd.density = 1.0f;
     fd.shape = &circleShape;
-    //fd.filter.maskBits = 1 << 2;
-    //fd.filter.categoryBits = 1 << 2;
-    fd.filter.maskBits = 1 << 3 | 1 << 2;
-    fd.filter.categoryBits = 1 << 3 | 1 << 2;
+    fd.filter.maskBits = 1 << 2;
+    fd.filter.categoryBits = 1 << 2;
     m_pivot->CreateFixture(&fd);
 
     bd.type = b2_dynamicBody;
@@ -64,7 +62,7 @@ Wheel::Wheel(C2DRenderer* renderer, b2World& world, int wheelID) {
     renderer->add(m_cshape);
 #else
     m_texture = new C2DTexture(renderer->getIo()->getDataReadPath() + "pinballnx/wheel" + to_string(wheelID) + ".png");
-    m_texture->setLayer(6);
+    m_texture->setLayer(4);
     m_texture->setOriginVector(m_radius, m_radius);
     m_texture->setPosition(m_x * g_graphicsScale, m_y * g_graphicsScale);
     renderer->add(m_texture);
