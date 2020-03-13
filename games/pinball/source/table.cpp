@@ -7,6 +7,7 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     m_spinners(),
     m_pinballs(),
     m_gtargets(),
+    m_ptargets(),
     m_wheels(),
     m_scoreboard(renderer),
     m_leftFlipper(renderer, world, 0),
@@ -221,6 +222,9 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     GTarget* launchTargets = new GTarget(renderer, world, 4, 2, true);
     m_gtargets.push_back(launchTargets);
 
+    PTarget* rampTargets = new PTarget(renderer, world, 0, 2);
+    m_ptargets.push_back(rampTargets);
+
     Wheel* wheel1 = new Wheel(renderer, world, 0);
     m_wheels.push_back(wheel1);
 
@@ -276,8 +280,11 @@ void Table::update(unsigned int keys) {
                 m_pinballs.push_back(nextPinball);
             }
             // Reset targets
-            for(size_t g = 0; g < m_gtargets.size(); g++) {
+            for (size_t g = 0; g < m_gtargets.size(); g++) {
                 m_gtargets.at(g)->reset();
+            }
+            for (size_t p = 0; p < m_ptargets.size(); p++) {
+                m_ptargets.at(p)->reset();
             }
             for (size_t b = 0; b < m_ballLocks.size(); b++) {
                 m_ballLocks.at(b)->reset();
@@ -360,6 +367,10 @@ void Table::update(unsigned int keys) {
     for(size_t g = 0; g < m_gtargets.size(); g++) {
         GTarget* gtarget = m_gtargets.at(g);
         gtarget->update();
+    }
+    for (size_t p = 0; p < m_ptargets.size(); p++) {
+        PTarget* ptarget = m_ptargets.at(p);
+        ptarget->update();
     }
     for (size_t w = 0; w < m_wheels.size(); w++) {
         Wheel* wheel = m_wheels.at(w);
@@ -528,6 +539,24 @@ void Table::BeginContact(b2Contact* contact) {
                 }
             }
             if (gtargetCompleted)
+                m_score += 50000;
+        }
+        for (size_t p = 0; p < m_ptargets.size(); p++) {
+            PTarget* ptarget = m_ptargets.at(p);
+            bool ptargetCompleted = false;
+            vector<b2Fixture*> fixtures = ptarget->getFixtures();
+            for (size_t t = 0; t < fixtures.size(); t++) {
+                b2Fixture* targetFixture = fixtures.at(t);
+                if ((fixtureA == targetFixture && fixtureB == pinball->getFixture()) ||
+                    (fixtureA == pinball->getFixture() && fixtureB == targetFixture)) {
+                        if (ptarget->isCurrent(t)) {
+                            m_score += 5000;
+                            if (ptarget->press(t))
+                                ptargetCompleted = true;
+                        }
+                }
+            }
+            if (ptargetCompleted)
                 m_score += 50000;
         }
         for (size_t w = 0; w < m_wheels.size(); w++) {
