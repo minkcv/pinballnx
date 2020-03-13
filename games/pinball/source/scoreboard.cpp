@@ -13,7 +13,7 @@ Scoreboard::Scoreboard(C2DRenderer* renderer) {
     m_ballsLeftText = new C2DText("BALL 1");
     m_ballsLeftText->setFont(*m_font);
     m_ballsLeftText->setCharacterSize(40);
-    m_ballsLeftText->setPosition(1268, 0);
+    m_ballsLeftText->setPosition(1268, 5);
     m_ballsLeftText->setRotation(90);
     renderer->add(m_ballsLeftText);
 
@@ -81,7 +81,7 @@ void Scoreboard::update(int currentBall, int maxBalls, uint64_t score, bool paus
         characterWidths += m_font->getGlyph(numWithCommas.at(c), 40, 0).advance;
     }
     int width = totalKerning + characterWidths;
-    m_scoreText->setPosition(1268, 720 - width - 0); // balls left text has same margin
+    m_scoreText->setPosition(1268, 720 - width);
     m_scoreText->setString(numWithCommas);
 }
 

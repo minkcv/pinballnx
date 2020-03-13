@@ -550,14 +550,14 @@ void Table::BeginContact(b2Contact* contact) {
                 if ((fixtureA == targetFixture && fixtureB == pinball->getFixture()) ||
                     (fixtureA == pinball->getFixture() && fixtureB == targetFixture)) {
                         if (ptarget->isCurrent(t)) {
-                            m_score += 10000;
+                            m_score += 100000;
                             if (ptarget->press(t))
                                 ptargetCompleted = true;
                         }
                 }
             }
             if (ptargetCompleted)
-                m_score += 100000;
+                m_score += 500000;
         }
         for (size_t w = 0; w < m_wheels.size(); w++) {
             Wheel* wheel = m_wheels.at(w);
