@@ -225,6 +225,9 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     PTarget* rampTargets = new PTarget(renderer, world, 0, 2);
     m_ptargets.push_back(rampTargets);
 
+    PTarget* holeTargets = new PTarget(renderer, world, 1, 2);
+    m_ptargets.push_back(holeTargets);
+
     Wheel* wheel1 = new Wheel(renderer, world, 0);
     m_wheels.push_back(wheel1);
 
