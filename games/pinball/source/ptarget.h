@@ -41,7 +41,7 @@ class PTarget {
 
         vector<vector<float>> m_positions = {
             {
-                705, 525,
+                723, 545,
                 768, 111,
                 1020, 581
             }
