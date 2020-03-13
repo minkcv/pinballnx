@@ -283,9 +283,6 @@ void Table::update(unsigned int keys) {
             for (size_t g = 0; g < m_gtargets.size(); g++) {
                 m_gtargets.at(g)->reset();
             }
-            for (size_t p = 0; p < m_ptargets.size(); p++) {
-                m_ptargets.at(p)->reset();
-            }
             for (size_t b = 0; b < m_ballLocks.size(); b++) {
                 m_ballLocks.at(b)->reset();
             }
@@ -550,14 +547,14 @@ void Table::BeginContact(b2Contact* contact) {
                 if ((fixtureA == targetFixture && fixtureB == pinball->getFixture()) ||
                     (fixtureA == pinball->getFixture() && fixtureB == targetFixture)) {
                         if (ptarget->isCurrent(t)) {
-                            m_score += 5000;
+                            m_score += 10000;
                             if (ptarget->press(t))
                                 ptargetCompleted = true;
                         }
                 }
             }
             if (ptargetCompleted)
-                m_score += 50000;
+                m_score += 100000;
         }
         for (size_t w = 0; w < m_wheels.size(); w++) {
             Wheel* wheel = m_wheels.at(w);
@@ -614,6 +611,9 @@ void Table::newGame() {
     for (size_t g = 0; g < m_gtargets.size(); g++) {
         m_gtargets.at(g)->reset();
     }
+    for (size_t p = 0; p < m_ptargets.size(); p++) {
+        m_ptargets.at(p)->reset();
+    }
     for (size_t w = 0; w < m_wheels.size(); w++) {
         m_wheels.at(w)->reset();
     }
@@ -666,6 +666,10 @@ void Table::cleanup() {
     for(size_t g = 0; g < m_gtargets.size(); g++) {
         GTarget* gtarget = m_gtargets.at(g);
         delete gtarget;
+    }
+    for (size_t p = 0; p < m_ptargets.size(); p++) {
+        PTarget* ptarget = m_ptargets.at(p);
+        delete ptarget;
     }
     for (size_t w = 0; w < m_wheels.size(); w++) {
         Wheel* wheel = m_wheels.at(w);
