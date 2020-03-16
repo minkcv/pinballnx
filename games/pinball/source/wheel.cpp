@@ -88,7 +88,7 @@ void Wheel::update() {
         m_pushTimer--;
         float vel = m_body->GetAngularVelocity();
         if (abs(vel) < 3)
-            vel *= 20;
+            vel *= 10;
         m_body->ApplyTorque(vel / 200, true);
     }
 #if DEBUG
