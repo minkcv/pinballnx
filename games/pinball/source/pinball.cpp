@@ -50,6 +50,9 @@ void Pinball::update(C2DRenderer* renderer, b2World* world) {
         return;
     }
     b2Vec2 position = m_body->GetPosition();
+    if (position.x < -5) {
+        m_ballOut = true;
+    }
 #if DEBUG
     m_shape->setPosition(position.x * g_graphicsScale, position.y * g_graphicsScale);
 #else

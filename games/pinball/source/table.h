@@ -66,8 +66,6 @@ class Table : public b2ContactListener {
         // The height of the table, which is the width of the screen.
         float m_height = 1280;
         b2World* m_b2world;
-        b2Body* m_ballOutArea;
-        b2Fixture* m_ballOutSensor;
         int m_currentBall;
         int m_maxBalls = 4;
         uint64_t m_score;

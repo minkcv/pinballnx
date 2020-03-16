@@ -233,27 +233,6 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
 
     Pinball* firstPinball = new Pinball(renderer, &world);
     m_pinballs.push_back(firstPinball);
-
-    // Create a box in box2d to detect when the ball falls out.
-    // The sensor box is positioned with a gap in between it and 
-    // the bottom of the pinball table so that there is a delay before
-    // the ball is reset. The sensor box is very tall to avoid missing balls.
-    b2BodyDef bd;
-    bd.position.Set(-6, 2 * m_width / g_graphicsScale);
-    bd.type = b2_staticBody;
-    m_ballOutArea = world.CreateBody(&bd);
-
-    b2PolygonShape box;
-    box.SetAsBox(5, 2 * m_width / g_graphicsScale);
-
-    b2FixtureDef fd;
-    fd.isSensor = true;
-    fd.shape = &box;
-    fd.density = 1.0;
-    fd.filter.maskBits = 0xFFFF;
-    fd.filter.categoryBits = 0xFFFF;
-
-    m_ballOutSensor = m_ballOutArea->CreateFixture(&fd);
 }
 
 void Table::update(unsigned int keys) {
@@ -305,8 +284,7 @@ void Table::update(unsigned int keys) {
     }
     for (size_t i = 0; i < m_pinballs.size(); i++) {
         Pinball* pinball = m_pinballs.at(i);
-        if (pinball != NULL)
-            pinball->update(m_renderer, m_b2world);
+        pinball->update(m_renderer, m_b2world);
 
         if (pinball->cleanupDone()) {
             // Remove this ball from the list.
@@ -421,11 +399,6 @@ void Table::BeginContact(b2Contact* contact) {
         Pinball* pinball = m_pinballs.at(i);
         if (pinball == NULL)
             continue;
-            
-        if ((fixtureA == m_ballOutSensor && fixtureB == pinball->getFixture()) ||
-            (fixtureA == pinball->getFixture() && fixtureB == m_ballOutSensor)) {
-            pinball->removeFromWorld();
-        }
 
         for (size_t b = 0; b < m_ballLocks.size(); b++) {
             BallLock* ballLock = m_ballLocks.at(b);
