@@ -362,7 +362,9 @@ void Table::update(unsigned int keys) {
     if (m_tiltTimer == m_tiltCooldown || DEBUG) {
         if (Input::Key::Left & keys || Input::Key::Right & keys) {
             double leftOrRight = Input::Key::Left & keys ? -4.0 : 4.0;
+#if !DEBUG
             m_tiltPosition = leftOrRight * 2;
+#endif
 #ifdef __SWITCH__
             m_renderer->move(0, m_tiltPosition);
 #else
