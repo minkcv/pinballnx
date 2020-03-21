@@ -14,8 +14,10 @@ int main(int argc, char **argv) {
 #else
     // Portrait graphics on desktop:
     auto *renderer = new C2DRenderer({C2D_SCREEN_HEIGHT, C2D_SCREEN_WIDTH});
-    renderer->setPosition(-265, 640);
-    renderer->setRotation(-45.0);
+    renderer->setPosition(0, 1280);
+    printf("%f\n", renderer->getRotation());
+    renderer->setRotation(-90.0);
+    printf("%f\n", renderer->getRotation());
 #endif
     // disable key repeat
     renderer->getInput()->setRepeatDelay(0);

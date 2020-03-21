@@ -362,6 +362,12 @@ void Table::update(unsigned int keys) {
     if (m_tiltTimer == m_tiltCooldown || DEBUG) {
         if (Input::Key::Left & keys || Input::Key::Right & keys) {
             double leftOrRight = Input::Key::Left & keys ? -4.0 : 4.0;
+            m_tiltPosition = leftOrRight * 2;
+#ifdef __SWITCH__
+            m_renderer->move(0, m_tiltPosition);
+#else
+            m_renderer->move(m_tiltPosition, 0);
+#endif
             m_tiltTimer = 0;
             for (size_t p = 0; p < m_pinballs.size(); p++) {
                 Pinball* pinball = m_pinballs.at(p);
@@ -378,6 +384,12 @@ void Table::update(unsigned int keys) {
     }
     else {
         m_tiltTimer++;
+#ifdef __SWITCH__
+        m_renderer->move(0, -m_tiltPosition);
+#else
+        m_renderer->move(-m_tiltPosition, 0);
+#endif
+        m_tiltPosition = 0;
     }
 
     // Multi ball in debug mode at the press of a key
