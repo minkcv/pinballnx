@@ -1,8 +1,9 @@
 #include "gtarget.h"
 
-GTarget::GTarget(C2DRenderer* renderer, b2World& world, int targetGroupID, int layerID, bool sameSprites, bool collide) {
+GTarget::GTarget(C2DRenderer* renderer, b2World& world, int targetGroupID, int layerID, bool sameSprites, bool collide, bool dontReset) {
     m_layerID = layerID;
     m_collide = collide;
+    m_dontReset = dontReset;
     vector<vector<float>> shapes = m_targetGroups.at(targetGroupID);
     for (size_t s = 0; s < shapes.size(); s++) {
         vector<float> points = shapes.at(s);
@@ -93,7 +94,8 @@ bool GTarget::press(size_t targetID) {
             numPressed++;
     }
     if (numPressed == m_isPressed.size()) {
-        m_frameCurrent = 0;
+        if (!m_dontReset)
+            m_frameCurrent = 0;
         return true;
     }
     return false;

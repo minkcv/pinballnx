@@ -33,15 +33,29 @@ Scoreboard::Scoreboard(C2DRenderer* renderer) {
     m_announce->setLayer(-100);
 }
 
-void Scoreboard::update(int currentBall, int maxBalls, uint64_t score, bool paused, string announce) {
+void Scoreboard::update(int currentBall, int maxBalls, uint64_t score, bool paused, string announce, string announceFlash) {
     int announceWidth = 0;
-    m_announce->setString(announce);
-    if (announce.length() > 0) {
+    if (announceFlash.length() < 1) {
+        m_announceStr = announce;
+    }
+    else {
+        if (m_flashTimer < 0) {
+            if (m_announceStr.compare(announce) == 0)
+                m_announceStr = announceFlash;
+            else
+                m_announceStr = announce;
+            m_flashTimer = m_flashDelay;
+        }
+        else
+            m_flashTimer--;
+    }
+    m_announce->setString(m_announceStr);
+    if (m_announceStr.length() > 0) {
         int oneWidth = 0;
         for (size_t c = 0; c < announce.length(); c++) {
             if (oneWidth == 0)
-                oneWidth = m_font->getGlyph(announce.at(c), 40, 0).advance;
-            announceWidth += m_font->getGlyph(announce.at(c), 40, 0).advance;
+                oneWidth = m_font->getGlyph(m_announceStr.at(c), 40, 0).advance;
+            announceWidth += m_font->getGlyph(m_announceStr.at(c), 40, 0).advance;
         }
         int leftMargin = 768 / 2 - announceWidth / 2;
         // Align the characters with the above ones for the ball text

@@ -74,7 +74,12 @@ class Table : public b2ContactListener {
         int m_tiltTimer = m_tiltCooldown;
         float m_tiltPosition = 0;
         string m_announce;
+        string m_announceFlash;
         int m_announceTime;
+        bool m_multiTriggered;
+        int m_multiCreate;
+        int m_multiDelay = 3840 / g_displayFrameRate;
+        int m_multiTimer;
 };
 
 #endif
