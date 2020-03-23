@@ -52,7 +52,7 @@ void Scoreboard::update(int currentBall, int maxBalls, uint64_t score, bool paus
     m_announce->setString(m_announceStr);
     if (m_announceStr.length() > 0) {
         int oneWidth = 0;
-        for (size_t c = 0; c < announce.length(); c++) {
+        for (size_t c = 0; c < m_announceStr.length(); c++) {
             if (oneWidth == 0)
                 oneWidth = m_font->getGlyph(m_announceStr.at(c), 40, 0).advance;
             announceWidth += m_font->getGlyph(m_announceStr.at(c), 40, 0).advance;
