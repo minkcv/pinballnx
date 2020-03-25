@@ -21,6 +21,9 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     m_renderer = renderer;
     m_currentBall = 1;
     m_score = 0;
+    m_multiTriggered = false;
+    m_multiCreate = 0;
+    m_multiTimer = 0;
     world.SetContactListener(this);
 
     Layer underLayer(renderer, world, 0);
@@ -76,40 +79,40 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     Ramp tunnelDown(renderer, world, 12, 2, 0);
     m_ramps.push_back(tunnelDown);
 
-    Ramp newballEntrance1(renderer, world, 13, 1, 2);
-    m_ramps.push_back(newballEntrance1);
-
-    Ramp newballEntrance2(renderer, world, 14, 1, 2);
+    Ramp newballEntrance2(renderer, world, 13, 1, 2);
     m_ramps.push_back(newballEntrance2);
 
-    Ramp newballEntrance3(renderer, world, 15, 1, 2);
+    Ramp newballEntrance3(renderer, world, 14, 1, 2);
     m_ramps.push_back(newballEntrance3);
 
-    Ramp newballEntrance4(renderer, world, 16, 1, 2);
+    Ramp newballEntrance4(renderer, world, 15, 1, 2);
     m_ramps.push_back(newballEntrance4);
 
-    Ramp underLayerUp(renderer, world, 17, 0, 2);
+    Ramp underLayerUp(renderer, world, 16, 0, 2);
     m_ramps.push_back(underLayerUp);
 
-    BallLock* ballLock = new BallLock(renderer, world, 2, 0, 0, true);
+    Ramp topRailEntrance(renderer, world, 17, 3, 2);
+    m_ramps.push_back(topRailEntrance);
+
+    BallLock* ballLock = new BallLock(renderer, world, 2, 0, 4, true);
     m_ballLocks.push_back(ballLock);
 
-    BallLock* leftLock = new BallLock(renderer, world, 2, 1, 3);
+    BallLock* leftLock = new BallLock(renderer, world, 2, 1, 2);
     m_ballLocks.push_back(leftLock);
 
-    BallLock* middleLock = new BallLock(renderer, world, 2, 2, 2);
+    BallLock* middleLock = new BallLock(renderer, world, 2, 2, 1);
     m_ballLocks.push_back(middleLock);
 
-    BallLock* upperMiddleLock = new BallLock(renderer, world, 2, 3, 2);
+    BallLock* upperMiddleLock = new BallLock(renderer, world, 2, 3, 1);
     m_ballLocks.push_back(upperMiddleLock);
 
-    BallLock* underBallLock1 = new BallLock(renderer, world, 0, 4, 1);
+    BallLock* underBallLock1 = new BallLock(renderer, world, 0, 4, 4);
     m_ballLocks.push_back(underBallLock1);
 
-    BallLock* underBallLock2 = new BallLock(renderer, world, 0, 5, 2);
+    BallLock* underBallLock2 = new BallLock(renderer, world, 0, 5, 4);
     m_ballLocks.push_back(underBallLock2);
 
-    BallLock* railLock = new BallLock(renderer, world, 3, 6, 2);
+    BallLock* railLock = new BallLock(renderer, world, 3, 6, 1);
     m_ballLocks.push_back(railLock);
 
     OptWall* leftRailWall = new OptWall(renderer, world, 0, 3);
@@ -222,6 +225,9 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     GTarget* launchTargets = new GTarget(renderer, world, 4, 2, true);
     m_gtargets.push_back(launchTargets);
 
+    GTarget* multiTargets = new GTarget(renderer, world, 5, 2, false, false, true);
+    m_gtargets.push_back(multiTargets);
+
     PTarget* rampTargets = new PTarget(renderer, world, 0, 2);
     m_ptargets.push_back(rampTargets);
 
@@ -247,16 +253,28 @@ void Table::update(unsigned int keys) {
 
     if (m_announceTime > 0) {
         m_announceTime--;
-        if (m_announceTime == 0)
+        if (m_announceTime == 0) {
             m_announce = "";
+            m_announceFlash = "";
+        }
+    }
+
+    if (m_pinballs.size() == 1 && m_lockBallTimers.size() == 0 && m_multiTriggered && m_multiCreate == 0) {
+        // Down to 1 ball, can do multi ball again
+        m_multiTriggered = false;
+        m_gtargets.at(5)->reset();
     }
     
-    if (m_lockBallTimers.size() == 0) {
+    if (m_lockBallTimers.size() == 0 && m_multiCreate == 0) {
         // We don't want to increment the current ball and put a new one 
         // in the launch tube if we're in the process of spawning a ball from the 
-        // lock ball mechanism, so only do this if we don't have any lock ball timers.
+        // lock ball mechanism, so only do this if we don't have any lock ball timers
+        // or queued multiballs.
         if (m_pinballs.size() < 1) {
             m_currentBall++;
+            m_announce = "";
+            m_announceFlash = "";
+            m_announceTime = 0;
             if (m_currentBall < m_maxBalls + 1) {
                 Pinball* nextPinball = new Pinball(m_renderer, m_b2world);
                 m_pinballs.push_back(nextPinball);
@@ -280,6 +298,9 @@ void Table::update(unsigned int keys) {
             m_optWalls.at(6)->enable(); // Close the top left ball lock.
             m_optWalls.at(7)->enable(); // Enable the left rail switch 2
             m_optWalls.at(8)->disable();
+            m_multiTriggered = false;
+            m_multiCreate = 0;
+            m_multiTimer = 0;
         }
     }
     for (size_t i = 0; i < m_pinballs.size(); i++) {
@@ -308,6 +329,8 @@ void Table::update(unsigned int keys) {
             if (timer < 0) {
                 int iSpawnPos = m_lockBallLocations.at(i);
                 Pinball* lockBallRelease = new Pinball(m_renderer, m_b2world, iSpawnPos);
+                if (iSpawnPos == 4)
+                    lockBallRelease->setLayerID(3);
                 m_pinballs.push_back(lockBallRelease);
                 m_lockBallTimers.erase(m_lockBallTimers.begin() + i);
                 m_lockBallLocations.erase(m_lockBallLocations.begin() + i);
@@ -315,6 +338,21 @@ void Table::update(unsigned int keys) {
                 lockBallRelease->getBody()->ApplyForce(vec, lockBallRelease->getBody()->GetWorldVector(b2Vec2(0, 0)), true);
                 break;
             }
+        }
+    }
+
+    if (m_multiCreate > 0) {
+        if (m_multiTimer < 0) {
+            Pinball* multiBall = new Pinball(m_renderer, m_b2world, 4);
+            multiBall->setLayerID(3);
+            m_pinballs.push_back(multiBall);
+            b2Vec2 vec = multiBall->getStartVelocity(4);
+            multiBall->getBody()->ApplyForce(vec, multiBall->getBody()->GetWorldVector(b2Vec2(0, 0)), true);
+            m_multiCreate--;
+            m_multiTimer = m_multiDelay;
+        }
+        else {
+            m_multiTimer--;
         }
     }
     
@@ -422,18 +460,19 @@ void Table::BeginContact(b2Contact* contact) {
                 // This queues a ball to be created in table update.
                 // The table makes sure to check this value before ending the game
                 // or loading the next ball.
+                m_lockBallTimers.push_back(m_lockBallDelay);
+                m_lockBallLocations.push_back(ballLock->getLocation());
                 if (b == 5) {
                     // Underlayer right lock triggers extra ball
-                    m_lockBallTimers.push_back(m_lockBallDelay);
-                    m_lockBallLocations.push_back(1);
                     m_maxBalls++;
                     m_announce = "EXTRA BALL";
+                    m_announceFlash = "";
                     m_announceTime = 200;
+                    // Close the underlayer ramp
+                    m_optWalls.at(1)->enable();
                 }
                 else {
-                    m_lockBallTimers.push_back(m_lockBallDelay);
                     ballLock->trigger();
-                    m_lockBallLocations.push_back(ballLock->getLocation());
                 }
                 m_score += 20000;
                 if (b == 5) {
@@ -445,6 +484,7 @@ void Table::BeginContact(b2Contact* contact) {
                 }
                 if (b == 0) {
                     m_announce = "BALL LOCKED";
+                    m_announceFlash = "";
                     m_announceTime = 200;
                     m_optWalls.at(5)->enable();
                     m_optWalls.at(8)->disable();
@@ -471,7 +511,7 @@ void Table::BeginContact(b2Contact* contact) {
                         // Release lock ball sooner than others
                         // This also enables the release trigger lock if there are no other locked balls
                         m_lockBallTimers.push_back(1);
-                        m_lockBallLocations.push_back(4);
+                        m_lockBallLocations.push_back(3);
                     }
                 }
                 m_triggers.at(t)->press();
@@ -518,11 +558,35 @@ void Table::BeginContact(b2Contact* contact) {
                 b2Fixture* targetFixture = fixtures.at(t);
                 if ((fixtureA == targetFixture && fixtureB == pinball->getFixture()) ||
                     (fixtureA == pinball->getFixture() && fixtureB == targetFixture)) {
-                        if (!gtarget->isPressed(t)) {
-                            m_score += 5000;
-                            if (gtarget->press(t))
-                                gtargetCompleted = true;
+                    if (!gtarget->isPressed(t)) {
+                        m_score += 5000;
+                        if (g == 5 && !m_multiTriggered) {
+                            m_announce = "MULTI";
+                            m_announceTime = 200;
+                            if (t == 0)
+                                m_announceFlash = " ULTI";
+                            else if (t == 1)
+                                m_announceFlash = "M LTI";
+                            else if (t == 2)
+                                m_announceFlash = "MU TI";
+                            else if (t == 3)
+                                m_announceFlash = "MUL I";
+                            else if (t == 4)
+                                m_announceFlash = "MULT ";
                         }
+                        if (gtarget->press(t)) {
+                            gtargetCompleted = true;
+                            if (g == 5) {
+                                m_announce = "MULTI BALL";
+                                m_announceFlash = "";
+                                m_announceTime = 200;
+                                
+                                m_multiTriggered = true;
+                                m_multiCreate = 3;
+                                m_multiTimer = 0; // Create one right away
+                            }
+                        }
+                    }
                 }
             }
             if (gtargetCompleted)
@@ -582,6 +646,8 @@ bool Table::isGameOver() {
 void Table::newGame() {
     m_currentBall = 1;
     m_maxBalls = 4;
+    m_multiTriggered = false;
+    m_multiTimer = 0;
     Pinball* nextPinball = new Pinball(m_renderer, m_b2world);
     m_pinballs.push_back(nextPinball);
     m_score = 0;
@@ -612,13 +678,13 @@ void Table::newGame() {
 void Table::updateScoreboard(bool paused) {
     // This is here because table update isn't called when paused.
     if (paused) {
-        m_scoreboard.update(m_currentBall, m_maxBalls, m_score, paused, "PAUSED");
+        m_scoreboard.update(m_currentBall, m_maxBalls, m_score, paused, "PAUSED", "");
     }
     else {
         if (m_currentBall > m_maxBalls)
-            m_scoreboard.update(m_currentBall, m_maxBalls, m_score, paused, "GAME OVER");
+            m_scoreboard.update(m_currentBall, m_maxBalls, m_score, paused, "GAME OVER", "");
         else
-            m_scoreboard.update(m_currentBall, m_maxBalls, m_score, paused, m_announce);
+            m_scoreboard.update(m_currentBall, m_maxBalls, m_score, paused, m_announce, m_announceFlash);
     }
 }
 
