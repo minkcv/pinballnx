@@ -258,6 +258,12 @@ void Table::update(unsigned int keys) {
             m_announceFlash = "";
         }
     }
+
+    if (m_pinballs.size() == 1 && m_lockBallTimers.size() == 0 && m_multiTriggered && m_multiCreate == 0) {
+        // Down to 1 ball, can do multi ball again
+        m_multiTriggered = false;
+        m_gtargets.at(5)->reset();
+    }
     
     if (m_lockBallTimers.size() == 0 && m_multiCreate == 0) {
         // We don't want to increment the current ball and put a new one 
