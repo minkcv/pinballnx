@@ -80,6 +80,7 @@ class Table : public b2ContactListener {
         int m_multiCreate;
         int m_multiDelay = 3840 / g_displayFrameRate;
         int m_multiTimer;
+        int m_jackpotValue;
 };
 
 #endif

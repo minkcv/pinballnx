@@ -24,6 +24,7 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
     m_multiTriggered = false;
     m_multiCreate = 0;
     m_multiTimer = 0;
+    m_jackpotValue = 1000000;
     world.SetContactListener(this);
 
     Layer underLayer(renderer, world, 0);
@@ -114,6 +115,9 @@ Table::Table(C2DRenderer* renderer, b2World& world) :
 
     BallLock* railLock = new BallLock(renderer, world, 3, 6, 1);
     m_ballLocks.push_back(railLock);
+
+    BallLock* jackpotLock = new BallLock(renderer, world, 0, 7, 4);
+    m_ballLocks.push_back(jackpotLock);
 
     OptWall* leftRailWall = new OptWall(renderer, world, 0, 3);
     m_optWalls.push_back(leftRailWall);
@@ -489,6 +493,15 @@ void Table::BeginContact(b2Contact* contact) {
                     m_optWalls.at(5)->enable();
                     m_optWalls.at(8)->disable();
                 }
+                if (b == 7) {
+                    m_announce = "JACKPOT "  + std::to_string(m_jackpotValue / 1000000) + "M";
+                    m_announceFlash = " ";
+                    m_announceTime = 100;
+                    m_score += m_jackpotValue;
+                    m_jackpotValue = 1000000;
+                    // Close the underlayer ramp
+                    m_optWalls.at(1)->enable();
+                }
             }
         }
 
@@ -602,8 +615,13 @@ void Table::BeginContact(b2Contact* contact) {
                     (fixtureA == pinball->getFixture() && fixtureB == targetFixture)) {
                         if (ptarget->isCurrent(t)) {
                             m_score += 100000;
-                            if (ptarget->press(t))
+                            if (ptarget->press(t)) {
                                 ptargetCompleted = true;
+                                m_announceTime = 200;
+                                m_announce = "JACKPOT INCREASED";
+                                m_announceFlash = "";
+                                m_jackpotValue += 1000000;
+                            }
                         }
                 }
             }
@@ -648,6 +666,7 @@ void Table::newGame() {
     m_maxBalls = 4;
     m_multiTriggered = false;
     m_multiTimer = 0;
+    m_jackpotValue = 1000000;
     Pinball* nextPinball = new Pinball(m_renderer, m_b2world);
     m_pinballs.push_back(nextPinball);
     m_score = 0;
