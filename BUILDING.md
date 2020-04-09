@@ -14,6 +14,7 @@
     cmake -DPLATFORM_SWITCH=ON -DCMAKE_BUILD_TYPE=Release ../
     make pinball.nro
 
+
 #### Finally
 Copy the pinball.nro and data folder in cmake-build/games/pinball to the switch folder on your sd card.
 
@@ -27,8 +28,8 @@ Copy the pinball.nro and data folder in cmake-build/games/pinball to the switch 
     git clone --recursive https://github.com/minkcv/pinballnx.git
     cd pinballnx
     mkdir cmake-build && cd cmake-build
-    cmake -DBUILD_LINUX=1 ../
-    make pinball.elf
+    cmake -DPLATFORM_LINUX=ON -DCMAKE_BUILD_TYPE=Release ../
+    make pinball
     cd games/pinball
     ./pinball.elf
 
@@ -58,7 +59,7 @@ Which opens an MSYS2 shell. From that new shell
 
     cd pinballnx
     mkdir cmake-build && cd cmake-build
-    cmake -G "MSYS Makefiles" -DBUILD_WINDOWS=1 ../
+    cmake -G "MSYS Makefiles" -DPLATFORM_WINDOWS=ON -DCMAKE_BUILD_TYPE=Release ../
     make pinball.elf
     cd games/pinball
     ./pinball.elf.exe
