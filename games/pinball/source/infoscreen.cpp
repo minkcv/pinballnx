@@ -8,6 +8,7 @@ InfoScreen::InfoScreen(C2DRenderer* renderer) {
     renderer->add(m_shape);
     m_controlsImage = new C2DTexture(renderer->getIo()->getRomFsPath() + "pinballnx/controls.png");
     m_controlsImage->setPosition(480, 80);
+    m_controlsImage->setFilter(C2DTexture::Filter::Point);
     m_controlsImage->setScale(3.0, 3.0);
     m_controlsImage->setLayer(-99);
     renderer->add(m_controlsImage);
