@@ -3,7 +3,7 @@
 
     wget https://github.com/devkitPro/pacman/releases/download/devkitpro-pacman-1.0.1/devkitpro-pacman.deb  
     sudo dpkg -i devkitpro-pacman.deb
-    sudo dkp-pacman -S switch-dev switch-bzip2 switch-freetype switch-glad switch-glm switch-libdrm_nouveau switch-libpng switch-mesa switch-pkg-config switch-sdl2 switch-zlib 
+    sudo dkp-pacman -S switch-dev switch-bzip2 switch-freetype switch-glad switch-glm switch-libdrm_nouveau switch-libpng switch-mesa switch-pkg-config switch-sdl2 switch-zlib switch-portlibs
 
 #### Then
 
