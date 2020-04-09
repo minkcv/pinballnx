@@ -11,7 +11,7 @@
     cd pinballnx
     mkdir cmake-build && cd cmake-build
     export DEVKITPRO=/opt/devkitpro  
-    cmake -DBUILD_SWITCH=1 ../  
+    cmake -DPLATFORM_SWITCH=ON -DCMAKE_BUILD_TYPE=Release ../
     make pinball.nro
 
 #### Finally
