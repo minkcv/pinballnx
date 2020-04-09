@@ -8,7 +8,7 @@ BallLock::BallLock(C2DRenderer* renderer, b2World& world, int layerID, int shape
     m_locked = 0;
     if (m_multi) {
         for (int i = 0; i < m_capacity; i++) {
-            C2DTexture* texture = new C2DTexture(renderer->getIo()->getDataReadPath() + "pinballnx/pinball.png");
+            C2DTexture* texture = new C2DTexture(renderer->getIo()->getRomFsPath() + "pinballnx/pinball.png");
             texture->setPosition(740 + i * m_xOffset, 490 + i * m_yOffset);
             texture->setLayer(-99);
             renderer->add(texture);

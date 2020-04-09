@@ -86,7 +86,7 @@ Flipper::Flipper(C2DRenderer* renderer, b2World& world, int flipperID) {
         m_cshape->setFillColor(Color::Cyan);
     renderer->add(m_cshape);
 #else
-    m_texture = new C2DTexture(renderer->getIo()->getDataReadPath() + "pinballnx/flipper.png");
+    m_texture = new C2DTexture(renderer->getIo()->getRomFsPath() + "pinballnx/flipper.png");
     if (flipperID > 2)
         m_texture->setLayer(2);
     else

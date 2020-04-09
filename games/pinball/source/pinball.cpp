@@ -26,7 +26,7 @@ Pinball::Pinball(C2DRenderer* renderer, b2World* world, int iStartPos) {
     m_shape->setFillColor(Color::Green);
     renderer->add(m_shape);
 #else
-    m_texture = new C2DTexture(renderer->getIo()->getDataReadPath() + "pinballnx/pinball.png");
+    m_texture = new C2DTexture(renderer->getIo()->getRomFsPath() + "pinballnx/pinball.png");
     m_texture->setOrigin(Origin::Center);
     m_texture->setLayer(m_currentLayerID * 2);
     renderer->add(m_texture);

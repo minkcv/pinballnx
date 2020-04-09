@@ -22,14 +22,14 @@ set(CUSTOM_LDFLAGS)
 #############
 # executable
 #############
-add_executable(${PROJECT_NAME}.elf ${SOURCES})
-target_include_directories(${PROJECT_NAME}.elf PRIVATE ${INCLUDES})
-target_compile_options(${PROJECT_NAME}.elf PRIVATE ${CUSTOM_CFLAGS})
-target_compile_options(${PROJECT_NAME}.elf PRIVATE $<$<COMPILE_LANGUAGE:CXX>:-std=c++14 -fexceptions>)
-target_link_libraries(${PROJECT_NAME}.elf cross2d Box2D ${CUSTOM_LDFLAGS})
+add_executable(${PROJECT_NAME} ${SOURCES})
+target_include_directories(${PROJECT_NAME} PRIVATE ${INCLUDES})
+target_compile_options(${PROJECT_NAME} PRIVATE ${CUSTOM_CFLAGS})
+target_compile_options(${PROJECT_NAME} PRIVATE $<$<COMPILE_LANGUAGE:CXX>:-std=c++14 -fexceptions>)
+target_link_libraries(${PROJECT_NAME} cross2d Box2D ${CUSTOM_LDFLAGS})
 
 
 #############
 # targets
 #############
-include(../../libcross2d/Targets.cmake)
+include(../../libcross2d/cmake/targets.cmake)

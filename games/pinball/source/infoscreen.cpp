@@ -6,7 +6,7 @@ InfoScreen::InfoScreen(C2DRenderer* renderer) {
     m_shape->setLayer(-99);
     m_shape->setFillColor(Color::Black);
     renderer->add(m_shape);
-    m_controlsImage = new C2DTexture(renderer->getIo()->getDataReadPath() + "pinballnx/controls.png");
+    m_controlsImage = new C2DTexture(renderer->getIo()->getRomFsPath() + "pinballnx/controls.png");
     m_controlsImage->setPosition(480, 80);
     m_controlsImage->setScale(3.0, 3.0);
     m_controlsImage->setLayer(-99);

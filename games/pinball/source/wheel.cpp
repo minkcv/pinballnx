@@ -61,7 +61,7 @@ Wheel::Wheel(C2DRenderer* renderer, b2World& world, int wheelID) {
     addPointsToShape(m_cshape, m_shapes.at(wheelID), m_radius, m_radius);
     renderer->add(m_cshape);
 #else
-    m_texture = new C2DTexture(renderer->getIo()->getDataReadPath() + "pinballnx/wheel" + to_string(wheelID) + ".png");
+    m_texture = new C2DTexture(renderer->getIo()->getRomFsPath() + "pinballnx/wheel" + to_string(wheelID) + ".png");
     m_texture->setLayer(4);
     m_texture->setOriginVector(m_radius, m_radius);
     m_texture->setPosition(m_x * g_graphicsScale, m_y * g_graphicsScale);

@@ -20,7 +20,7 @@ Copy the pinball.nro and data folder in cmake-build/games/pinball to the switch 
 ### Building on Linux for Linux
 #### Install dependencies
 
-    sudo apt-get install build-essential cmake git libsdl2-dev libfreetype6-dev libglm-dev  
+    sudo apt-get install build-essential cmake git libsdl2-dev libfreetype6-dev libglm-dev libconfig-dev
 
 #### Then
 

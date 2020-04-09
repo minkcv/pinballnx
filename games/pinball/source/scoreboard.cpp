@@ -9,23 +9,23 @@ Scoreboard::Scoreboard(C2DRenderer* renderer) {
     m_background->setLayer(-99);
 
     m_font = new Font();
-    m_font->loadFromFile("data/pinballnx/advanced_dot_digital-7.ttf");
+    m_font->loadFromFile(renderer->getIo()->getRomFsPath() + "/pinballnx/advanced_dot_digital-7.ttf");
     m_ballsLeftText = new C2DText("BALL 1");
-    m_ballsLeftText->setFont(*m_font);
+    m_ballsLeftText->setFont(m_font);
     m_ballsLeftText->setCharacterSize(40);
     m_ballsLeftText->setPosition(1268, 5);
     m_ballsLeftText->setRotation(90);
     renderer->add(m_ballsLeftText);
 
     m_scoreText = new C2DText("");
-    m_scoreText->setFont(*m_font);
+    m_scoreText->setFont(m_font);
     m_scoreText->setCharacterSize(40);
     m_scoreText->setPosition(1268, 0);
     m_scoreText->setRotation(90);
     renderer->add(m_scoreText);
 
     m_announce = new C2DText("");
-    m_announce->setFont(*m_font);
+    m_announce->setFont(m_font);
     m_announce->setCharacterSize(40);
     m_announce->setPosition(1200, 350);
     m_announce->setRotation(90);

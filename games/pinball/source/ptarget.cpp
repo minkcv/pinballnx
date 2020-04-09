@@ -33,13 +33,13 @@ PTarget::PTarget(C2DRenderer* renderer, b2World& world, int targetGroupID, int l
         renderer->add(cshape);
     #else
         C2DTexture* textureEnabled;
-        textureEnabled = new C2DTexture(renderer->getIo()->getDataReadPath() + "pinballnx/ptarget" + to_string(targetGroupID) + "-" + to_string(s) + "enabled.png");
+        textureEnabled = new C2DTexture(renderer->getIo()->getRomFsPath() + "pinballnx/ptarget" + to_string(targetGroupID) + "-" + to_string(s) + "enabled.png");
         textureEnabled->setLayer(-99);
         textureEnabled->setPosition(m_positions.at(targetGroupID).at(s * 2), m_positions.at(targetGroupID).at(s * 2 + 1));
         renderer->add(textureEnabled);
         m_texturesEnabled.push_back(textureEnabled);
         C2DTexture* textureDisabled;
-        textureDisabled = new C2DTexture(renderer->getIo()->getDataReadPath() + "pinballnx/ptarget" + to_string(targetGroupID) + "-" + to_string(s) + "disabled.png");
+        textureDisabled = new C2DTexture(renderer->getIo()->getRomFsPath() + "pinballnx/ptarget" + to_string(targetGroupID) + "-" + to_string(s) + "disabled.png");
         textureDisabled->setLayer(layerID * 2);
         textureDisabled->setPosition(m_positions.at(targetGroupID).at(s * 2), m_positions.at(targetGroupID).at(s * 2 + 1));
         m_texturesDisabled.push_back(textureDisabled);

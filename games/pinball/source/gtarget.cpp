@@ -35,18 +35,18 @@ GTarget::GTarget(C2DRenderer* renderer, b2World& world, int targetGroupID, int l
     #else
         C2DTexture* textureEnabled;
         if (sameSprites)
-            textureEnabled = new C2DTexture(renderer->getIo()->getDataReadPath() + "pinballnx/gtarget" + to_string(targetGroupID) + "-0" + "enabled.png");
+            textureEnabled = new C2DTexture(renderer->getIo()->getRomFsPath() + "pinballnx/gtarget" + to_string(targetGroupID) + "-0" + "enabled.png");
         else
-            textureEnabled = new C2DTexture(renderer->getIo()->getDataReadPath() + "pinballnx/gtarget" + to_string(targetGroupID) + "-" + to_string(s) + "enabled.png");
+            textureEnabled = new C2DTexture(renderer->getIo()->getRomFsPath() + "pinballnx/gtarget" + to_string(targetGroupID) + "-" + to_string(s) + "enabled.png");
         textureEnabled->setLayer(layerID * 2);
         textureEnabled->setPosition(m_positions.at(targetGroupID).at(s * 2), m_positions.at(targetGroupID).at(s * 2 + 1));
         renderer->add(textureEnabled);
         m_texturesEnabled.push_back(textureEnabled);
         C2DTexture* textureDisabled;
         if (sameSprites)
-            textureDisabled = new C2DTexture(renderer->getIo()->getDataReadPath() + "pinballnx/gtarget" + to_string(targetGroupID) + "-0" + "disabled.png");
+            textureDisabled = new C2DTexture(renderer->getIo()->getRomFsPath() + "pinballnx/gtarget" + to_string(targetGroupID) + "-0" + "disabled.png");
         else
-            textureDisabled = new C2DTexture(renderer->getIo()->getDataReadPath() + "pinballnx/gtarget" + to_string(targetGroupID) + "-" + to_string(s) + "disabled.png");
+            textureDisabled = new C2DTexture(renderer->getIo()->getRomFsPath() + "pinballnx/gtarget" + to_string(targetGroupID) + "-" + to_string(s) + "disabled.png");
         textureDisabled->setLayer(-99);
         textureDisabled->setPosition(m_positions.at(targetGroupID).at(s * 2), m_positions.at(targetGroupID).at(s * 2 + 1));
         m_texturesDisabled.push_back(textureDisabled);

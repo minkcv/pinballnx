@@ -31,7 +31,7 @@ Spinner::Spinner(C2DRenderer* renderer, b2World& world, int layerID, int spinner
         renderer->add(m_shape);
 #else
         for (int f = 0; f < m_frames; f++) {
-            m_textures[f] = new C2DTexture(renderer->getIo()->getDataReadPath() + "pinballnx/spinner" + std::to_string(spinnerID) + "-" + std::to_string(f) + ".png");
+            m_textures[f] = new C2DTexture(renderer->getIo()->getRomFsPath() + "pinballnx/spinner" + std::to_string(spinnerID) + "-" + std::to_string(f) + ".png");
             m_textures[f]->setLayer(-99);
             m_textures[f]->setPosition(startX, startY);
             renderer->add(m_textures[f]);
