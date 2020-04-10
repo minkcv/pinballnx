@@ -24,7 +24,7 @@ class PTarget {
         vector<C2DTexture*> m_texturesDisabled;
         size_t m_currentTarget = 0;
         int m_flashTimer = 0;
-        int m_flashFrames = 2048 / g_displayFrameRate;
+        int m_flashFrames = 32 * g_displayFrameRate / 60;
         int m_frame = 0;
 
         vector<float> m_rightRamp = {792.0, 588.4, 784.5, 591.6, 770.3, 597.5, 756.0, 603.4, 755.5, 605.0, 755.0, 606.7, 755.5, 608.3, 756.1, 609.8, 766.6, 616.9, 777.1, 624.0, 778.3, 624.0, 779.5, 624.0, 800.3, 616.9, 821.2, 609.7, 822.6, 608.3, 824.0, 606.9, 824.0, 605.2, 824.0, 603.6, 819.3, 599.2, 814.5, 594.7, 808.7, 589.9, 802.9, 585.0, 801.2, 585.1, 799.5, 585.1, 792.0, 588.4};

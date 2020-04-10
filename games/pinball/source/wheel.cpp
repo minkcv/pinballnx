@@ -79,17 +79,19 @@ void Wheel::update() {
     float32 angle = m_body->GetAngle();
 
     // Only apply a slow to the wheel when no pinballs are on it.
-    if (m_pinballsTouching > 0)
+    if (m_pinballsTouching > 0 && m_pushTimer == 0)
         m_pushTimer = m_pushTime; // Keep pushing
 
     if (m_pushTimer == 0)
-        m_body->ApplyTorque(- m_body->GetAngularVelocity() / 200, true);
+        m_body->ApplyTorque(-m_body->GetAngularVelocity() / 200, true);
     else {
         m_pushTimer--;
-        float vel = m_body->GetAngularVelocity();
-        if (abs(vel) < 3)
-            vel *= 10;
-        m_body->ApplyTorque(vel / 200, true);
+        if (m_pushTimer < m_pushTime / 2) {
+            float vel = m_body->GetAngularVelocity();
+            printf("%f\n", vel);
+            if (abs(vel) < 2)
+                m_body->ApplyTorque(3, true);
+        }
     }
 #if DEBUG
     m_cshape->setPosition(position.x * g_graphicsScale, position.y * g_graphicsScale);

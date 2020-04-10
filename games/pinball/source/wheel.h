@@ -43,7 +43,7 @@ class Wheel {
         bool m_sectionChanged;
         int m_pinballsTouching = 0;
         int m_pushTimer;
-        int m_pushTime = 10;
+        int m_pushTime = 20 * g_displayFrameRate / 60;
 };
 
 #endif

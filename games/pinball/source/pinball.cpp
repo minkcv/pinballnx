@@ -110,8 +110,8 @@ void Pinball::setBumpVelocity(float x, float y) {
 }
 
 b2Vec2 Pinball::getStartVelocity(int iSpawnPos) {
-    float x = m_startVelocities.at(iSpawnPos * 2);
-    float y = m_startVelocities.at(iSpawnPos * 2 + 1);
+    float x = m_startVelocities.at(iSpawnPos * 2) * g_displayFrameRate / 60;
+    float y = m_startVelocities.at(iSpawnPos * 2 + 1) * g_displayFrameRate / 60;
     b2Vec2 vec(x, y);
     return vec;
 }

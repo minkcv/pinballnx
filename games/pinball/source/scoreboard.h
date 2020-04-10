@@ -19,7 +19,7 @@ class Scoreboard {
         C2DText* m_announce;
         C2DRectangle* m_background;
         string m_announceStr;
-        int m_flashDelay = 360 / g_displayFrameRate;
+        int m_flashDelay = 6 * g_displayFrameRate / 60;
         int m_flashTimer;
         Font* m_font;
 };

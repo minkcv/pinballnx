@@ -31,7 +31,7 @@ Copy the pinball.nro and data folder in cmake-build/games/pinball to the switch 
     cmake -DPLATFORM_LINUX=ON -DCMAKE_BUILD_TYPE=Release ../
     make pinball
     cd games/pinball
-    ./pinball.elf
+    ./pinball
 
 ### Building on Windows for Windows
 #### Install devitPro
@@ -43,7 +43,7 @@ From an MSYS2 shell
 
     echo -e "[mingw64]\nInclude = /etc/pacman.d/mirrorlist.mingw64" >> /etc/pacman.conf
     pacman -Syyu
-    pacman -Sy bash git mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake mingw-w64-x86_64-SDL2 mingw-w64-x86_64-freetype mingw-w64-x86_64-glm mingw-w64-x86_64-glew mingw-w64-x86_64-mesa
+    pacman -Sy bash git mingw-w64-x86_64-toolchain mingw-w64-x86_64-cmake mingw-w64-x86_64-SDL2 mingw-w64-x86_64-freetype mingw-w64-x86_64-glm mingw-w64-x86_64-glew mingw-w64-x86_64-mesa mingw-w64-x86_64-libconfig
 
 #### Then
 From git bash
@@ -60,6 +60,6 @@ Which opens an MSYS2 shell. From that new shell
     cd pinballnx
     mkdir cmake-build && cd cmake-build
     cmake -G "MSYS Makefiles" -DPLATFORM_WINDOWS=ON -DCMAKE_BUILD_TYPE=Release ../
-    make pinball.elf
+    make pinball
     cd games/pinball
     ./pinball.elf.exe

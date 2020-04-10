@@ -23,7 +23,7 @@ class Trigger {
         vector<OptWall*> m_wallsToChange;
         C2DTexture* m_textureEnabled;
         C2DTexture* m_textureDisabled;
-        int m_hitFrames = 2100 / g_displayFrameRate;
+        int m_hitFrames = 35 * g_displayFrameRate / 60;
         int m_hitFrameCurrent = m_hitFrames;
         int m_behavior; // 0 disable, 1 enable, 2 toggle
 

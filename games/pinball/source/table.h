@@ -69,8 +69,8 @@ class Table : public b2ContactListener {
         int m_currentBall;
         int m_maxBalls = 4;
         uint64_t m_score;
-        int m_lockBallDelay = 3840 / g_displayFrameRate;
-        int m_tiltCooldown = 6000  / g_displayFrameRate;
+        int m_lockBallDelay = 64 * g_displayFrameRate / 60;
+        int m_tiltCooldown = 100  * g_displayFrameRate / 60;
         int m_tiltTimer = m_tiltCooldown;
         float m_tiltPosition = 0;
         string m_announce;
@@ -78,7 +78,7 @@ class Table : public b2ContactListener {
         int m_announceTime;
         bool m_multiTriggered;
         int m_multiCreate;
-        int m_multiDelay = 3840 / g_displayFrameRate;
+        int m_multiDelay = 64 * g_displayFrameRate / 60;
         int m_multiTimer;
         int m_jackpotValue;
 };

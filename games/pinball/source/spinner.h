@@ -23,7 +23,7 @@ class Spinner {
         b2Body* m_body;
         static const int m_frames = 10;
         int m_currentFrame = 0;
-        int m_frameDuration = 30 / g_displayFrameRate;
+        int m_frameDuration = 0;
         int m_frameTimer = 0;
         C2DTexture* m_textures[m_frames];
         ConvexShape* m_shape;

@@ -27,7 +27,7 @@ class GTarget {
         int m_dropTime = 10;
         vector<C2DTexture*> m_texturesEnabled;
         vector<C2DTexture*> m_texturesDisabled;
-        int m_hitFrames = 1920 / g_displayFrameRate;
+        int m_hitFrames = 32 * g_displayFrameRate / 60;
         int m_frameCurrent = m_hitFrames + 1;
         vector<float> m_rightTarget0 = {528.6, 567.3, 516.7, 572.5, 515.7, 574.2, 514.6, 575.8, 515.9, 577.4, 517.2, 579.0, 518.5, 579.0, 519.8, 579.0, 531.6, 574.0, 543.4, 569.0, 544.9, 567.5, 546.5, 566.0, 545.4, 564.2, 544.3, 562.5, 542.4, 562.3, 540.5, 562.1, 528.6, 567.3};
         vector<float> m_rightTarget1 = {563.6, 553.5, 552.6, 557.9, 551.2, 559.4, 549.7, 560.8, 550.3, 562.4, 551.0, 564.0, 552.4, 564.6, 553.9, 565.2, 565.9, 560.5, 577.8, 555.9, 579.1, 554.4, 580.4, 552.8, 579.3, 551.2, 578.3, 549.5, 576.4, 549.3, 574.5, 549.2, 563.6, 553.5};
