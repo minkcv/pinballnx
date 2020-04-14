@@ -90,7 +90,7 @@ void Wheel::update() {
             float vel = m_body->GetAngularVelocity();
             printf("%f\n", vel);
             if (abs(vel) < 2)
-                m_body->ApplyTorque(3, true);
+                m_body->ApplyTorque(2, true);
         }
     }
 #if DEBUG

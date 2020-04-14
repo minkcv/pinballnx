@@ -50,7 +50,6 @@ void BallLock::update() {
 #endif
     if (m_move != 0) {
         m_body->SetTransform(b2Vec2(m_move * m_xOffset / g_graphicsScale, m_move * m_yOffset / g_graphicsScale) + m_body->GetPosition(), m_body->GetAngle());
-
         if (m_move > 0 && m_locked < m_capacity) {
 #if !DEBUG
             m_textures.at(m_locked)->setLayer(m_layerID * 2);
@@ -66,7 +65,7 @@ b2Fixture* BallLock::getFixture() {
 }
 
 void BallLock::trigger() {
-    if (m_multi) {
+    if (m_multi && m_locked < m_capacity) {
         m_move = 1;
     }
 }
