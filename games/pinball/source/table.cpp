@@ -479,7 +479,7 @@ void Table::BeginContact(b2Contact* contact) {
                     ballLock->trigger();
                 }
                 m_score += 20000;
-                if (b == 2) {
+                if (b == 1) {
                     // Open the optwall that blocks this hole, so the ball doesn't get stuck up here.
                     m_optWalls.at(0)->disable();
                     m_optWalls.at(7)->enable();
