@@ -69,6 +69,7 @@ Wheel::Wheel(C2DRenderer* renderer, b2World& world, int wheelID) {
 #endif
     m_anglePrev = m_body->GetAngle();
     m_sectionChanged = false;
+    m_pushTimer = 0;
 }
 
 void Wheel::update() {
