@@ -1,0 +1,97 @@
+//
+// Created by cpasjuste on 21/11/16.
+//
+
+#ifndef _RENDERER_H_
+#define _RENDERER_H_
+
+#include <cstdint>
+#include <cstring>
+#include <cstdarg>
+#include <cstdio>
+
+#include "texture.h"
+#include "shader_list.h"
+#include "cross2d/skeleton/sfml/Sprite.hpp"
+#include "cross2d/skeleton/sfml/Rectangle.hpp"
+#include "cross2d/skeleton/sfml/Clock.hpp"
+#include "cross2d/skeleton/sfml/Font.hpp"
+#include "cross2d/skeleton/input.h"
+#include "cross2d/skeleton/io.h"
+
+#ifndef MAX_PATH
+#define MAX_PATH 512
+#endif
+
+namespace c2d {
+
+    class Renderer : public Rectangle {
+
+    public:
+
+        explicit Renderer(const Vector2f &size = Vector2f(0, 0));
+
+        ~Renderer() override;
+
+        virtual void draw(VertexArray *vertexArray, const Transform &transform,
+                          Texture *texture, Sprite *sprite = nullptr) {};
+
+        virtual void clear() {};
+
+        virtual void flip(bool draw = true, bool process_inputs = true);
+
+        virtual void delay(unsigned int ms) {};
+
+        virtual ShaderList *getShaderList();
+
+        virtual void setShaderList(ShaderList *list);
+
+        void setClearColor(const Color &color);
+
+        Color getClearColor() const;
+
+        Time getDeltaTime() const;
+
+        Time getElapsedTime() const;
+
+        float getFps() const;
+
+        virtual Io *getIo() { return io; };
+
+        virtual void setIo(Io *_io) {
+            if (io != nullptr) { delete (io); }
+            io = _io;
+        };
+
+        virtual Font *getFont() { return font; };
+
+        virtual void setFont(Font *_font) {
+            if (font != nullptr) { delete (font); }
+            font = _font;
+        };
+
+        virtual Input *getInput() { return input; };
+
+        virtual void setInput(Input *_input) {
+            if (input != nullptr) { delete (input); }
+            input = _input;
+        };
+
+    protected:
+
+        void onUpdate() override;
+
+        Color m_clearColor = Color::Black;
+        bool process_inputs = true;
+        Input *input = nullptr;
+        Io *io = nullptr;
+        Font *font = nullptr;
+        ShaderList *shaderList = nullptr;
+        Clock *deltaClock = nullptr, *elapsedClock = nullptr;
+        Time deltaTime, elapsedTime;
+        float time_now = 0, time_last = 0, fps = 0;
+        int frames = 0;
+    };
+}
+
+#endif //_RENDERER_H_
