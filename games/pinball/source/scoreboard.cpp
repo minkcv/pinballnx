@@ -9,7 +9,7 @@ Scoreboard::Scoreboard(C2DRenderer* renderer) {
     m_background->setLayer(-99);
 
     m_font = new Font();
-    m_font->loadFromFile(renderer->getIo()->getRomFsPath() + "/pinballnx/advanced_dot_digital-7.ttf");
+    m_font->loadFromFile(renderer->getIo()->getRomFsPath() + "pinballnx/advanced_dot_digital-7.ttf");
     m_ballsLeftText = new C2DText("BALL 1");
     m_ballsLeftText->setFont(m_font);
     m_ballsLeftText->setCharacterSize(40);
