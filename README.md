@@ -1,5 +1,5 @@
 # PinballNX
-A homebrew pinball game for the nintendo switch. Currently a work in progress. 
+A homebrew pinball game for the nintendo switch.
 
 Take the joycons off and turn the display to portrait.
 
